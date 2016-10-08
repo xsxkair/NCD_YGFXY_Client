@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-9-30 13:54:38 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="org.com.xsx.Domain.TestDataBean" table="TESTDATABEAN">
+        <id name="cid" type="java.lang.String">
+            <column name="CID" />
+            <generator class="assigned" />
+        </id>
+        <property name="did" type="java.lang.String">
+            <column name="DID" />
+        </property>
+        <property name="c_item" type="java.lang.String">
+            <column name="C_ITEM" />
+        </property>
+        <property name="c_n_v" type="java.lang.Float">
+            <column name="C_N_V" />
+        </property>
+        <property name="c_l_v" type="java.lang.Float">
+            <column name="C_L_V" />
+        </property>
+        <property name="c_h_v" type="java.lang.Float">
+            <column name="C_H_V" />
+        </property>
+        <property name="c_dw" type="java.lang.String">
+            <column name="C_DW" />
+        </property>
+        <property name="c_t_l" type="java.lang.Integer">
+            <column name="C_T_L" />
+        </property>
+        <property name="c_bq_n" type="java.lang.Integer">
+            <column name="C_BQ_N" />
+        </property>
+        <property name="c_fend" type="java.lang.Float">
+            <column name="C_FEND" />
+        </property>
+        <property name="c_bq1_a" type="java.lang.Float">
+            <column name="C_BQ1_A" />
+        </property>
+        <property name="c_bq1_b" type="java.lang.Float">
+            <column name="C_BQ1_B" />
+        </property>
+        <property name="c_bq1_c" type="java.lang.Float">
+            <column name="C_BQ1_C" />
+        </property>
+        <property name="c_bq2_a" type="java.lang.Float">
+            <column name="C_BQ2_A" />
+        </property>
+        <property name="c_bq2_b" type="java.lang.Float">
+            <column name="C_BQ2_B" />
+        </property>
+        <property name="c_bq2_c" type="java.lang.Float">
+            <column name="C_BQ2_C" />
+        </property>
+        <property name="c_waitt" type="java.lang.Integer">
+            <column name="C_WAITT" />
+        </property>
+        <property name="c_c_l" type="java.lang.Integer">
+            <column name="C_C_L" />
+        </property>
+        <property name="c_outt" type="java.sql.Date">
+            <column name="C_OUTT" />
+        </property>
+        <property name="testd" type="java.sql.Date">
+            <column name="TESTD" />
+        </property>
+        <property name="testt" type="java.sql.Time">
+            <column name="TESTT" />
+        </property>
+        <property name="e_t" type="java.lang.Float">
+            <column name="E_T" />
+        </property>
+        <property name="o_t" type="java.lang.Float">
+            <column name="O_T" />
+        </property>
+        <property name="outt" type="java.lang.Integer">
+            <column name="OUTT" />
+        </property>
+        <property name="c_l" type="java.lang.Integer">
+            <column name="C_L" />
+        </property>
+        <property name="t_l" type="java.lang.Integer">
+            <column name="T_L" />
+        </property>
+        <property name="b_l" type="java.lang.Integer">
+            <column name="B_L" />
+        </property>
+        <property name="serie" type="text">
+            <column name="SERIE" length="2048"/>
+        </property>
+        <property name="t_c_v" type="java.lang.Float">
+            <column name="T_C_V" />
+        </property>
+        <property name="b_v" type="java.lang.Float">
+            <column name="B_V" />
+        </property>
+        <property name="a_v" type="java.lang.Float">
+            <column name="A_V" />
+        </property>
+        <property name="sid" type="java.lang.String">
+            <column name="SID" />
+        </property>
+        <property name="r_re" type="java.lang.String">
+            <column name="R_RE" />
+        </property>
+        <property name="r_desc" type="java.lang.String">
+            <column name="R_DESC" />
+        </property>
+    </class>
+</hibernate-mapping>

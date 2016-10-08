@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-9-26 11:30:50 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="org.com.xsx.Domain.ReportManagerBean" table="REPORTMANAGERBEAN">
+        <id name="account" type="java.lang.String">
+            <column name="ACCOUNT" />
+            <generator class="assigned" />
+        </id>
+        <property name="password" type="java.lang.String">
+            <column name="PASSWORD" />
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="sex" type="java.lang.String">
+            <column name="SEX" />
+        </property>
+        <property name="age" type="java.lang.String">
+            <column name="AGE" />
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="PHONE" />
+        </property>
+        <property name="ddesc" type="java.lang.String">
+            <column name="DDESC" />
+        </property>
+        <property name="devicelist" type="text">
+            <column name="DEVICELIST" length="1024"/>
+        </property>
+    </class>
+</hibernate-mapping>
