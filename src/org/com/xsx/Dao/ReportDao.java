@@ -21,6 +21,18 @@ public class ReportDao {
 		return list;
 	}
 	
+	//读取所有测试人
+	public static List<String> QueryTesterS(){
+
+		String hql = "select distinct t.t_name from TestDataBean as t order by t.t_name";
+			
+		System.out.println(hql.toString());
+			
+		List<String> list =HibernateDao.GetInstance().query(hql.toString(), null, null, null);
+			
+		return list;
+	}
+	
 	//读取所有测试设备
 	public static List<String> QueryTestDeviceS(){
 
@@ -57,8 +69,8 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getTestitem();
 		if(tempstr != null){
-			hql.append(" AND t.c_item=:parm"+parms.size());
-			parms.add(tempstr);
+			hql.append(" AND t.c_item like :parm"+parms.size());
+			parms.add("%"+tempstr+"%");
 		}
 		
  		/*
@@ -75,9 +87,11 @@ public class ReportDao {
 		 * 测试人
 		 * 如果测试人条件为null，则搜索所有人
 		 */
-/*		if(ReportFilterData.GetInstance().getTestername() != null){
-			hql.append(" AND d.name=:mytester");
-		}*/
+		tempstr = ReportFilterData.GetInstance().getTestername();
+		if(tempstr != null){
+			hql.append(" AND t.t_name like :parm"+parms.size());
+			parms.add("%"+tempstr+"%");
+		}
 		
 		/*
 		 * 测试设备
@@ -95,8 +109,8 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getSimpleid();
 		if(tempstr != null){
-			hql.append(" AND t.sid=:parm"+parms.size());
-			parms.add(tempstr);
+			hql.append(" AND t.sid like :parm"+parms.size());
+			parms.add("%"+tempstr+"%");
 		}
 
 		/*
@@ -108,7 +122,7 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getReportresult();
 		if(tempstr != null){
-			if(tempstr.equals("未处理"))
+			if(tempstr.equals("未审核"))
 				hql.append(" AND t.r_re is null");
 			else{
 				hql.append(" AND t.r_re=:parm"+parms.size());
@@ -137,8 +151,8 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getTestitem();
 		if(tempstr != null){
-			hql.append(" AND t.c_item=:parm"+parms.size());
-			parms.add(tempstr);
+			hql.append(" AND t.c_item like :parm"+parms.size());
+			parms.add("%"+tempstr+"%");
 		}
 		
  		/*
@@ -155,9 +169,11 @@ public class ReportDao {
 		 * 测试人
 		 * 如果测试人条件为null，则搜索所有人
 		 */
-/*		if(ReportFilterData.GetInstance().getTestername() != null){
-			hql.append(" AND d.name=:mytester");
-		}*/
+		tempstr = ReportFilterData.GetInstance().getTestername();
+		if(tempstr != null){
+			hql.append(" AND t.t_name like :parm"+parms.size());
+			parms.add("%"+tempstr+"%");
+		}
 		
 		/*
 		 * 测试设备
@@ -175,8 +191,8 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getSimpleid();
 		if(tempstr != null){
-			hql.append(" AND t.sid=:parm"+parms.size());
-			parms.add(tempstr);
+			hql.append(" AND t.sid like :parm"+parms.size());
+			parms.add("%"+tempstr+"%");
 		}
 
 		/*
@@ -188,7 +204,7 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getReportresult();
 		if(tempstr != null){
-			if(tempstr.equals("未处理"))
+			if(tempstr.equals("未审核"))
 				hql.append(" AND t.r_re is null");
 			else{
 				hql.append(" AND t.r_re=:parm"+parms.size());

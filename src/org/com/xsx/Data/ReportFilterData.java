@@ -1,5 +1,7 @@
 package org.com.xsx.Data;
 
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 
 public class ReportFilterData {
 	private String testitem = null;
@@ -10,9 +12,12 @@ public class ReportFilterData {
 	private String simpleid = null;
 	private String reportresult = null;
 	
-	private long datatotalnum;												//数据总数
+	private Boolean isgettotal = true;
+	private int datatotalnum = 0;												//数据总数
 	private int pageindex;													//当前页数
 	private int pagesize = 50;
+	
+	
 	
 	private static ReportFilterData S_ReportFilterData = null;
 	
@@ -27,11 +32,11 @@ public class ReportFilterData {
 		return S_ReportFilterData;
 	}
 
-	public long getDatatotalnum() {
+	public int getDatatotalnum() {
 		return datatotalnum;
 	}
 
-	public void setDatatotalnum(long datatotalnum) {
+	public void setDatatotalnum(int datatotalnum) {
 		this.datatotalnum = datatotalnum;
 	}
 
@@ -97,6 +102,14 @@ public class ReportFilterData {
 
 	public void setReportresult(String reportresult) {
 		this.reportresult = reportresult;
+	}
+
+	public Boolean getIsgettotal() {
+		return isgettotal;
+	}
+
+	public void setIsgettotal(Boolean isgettotal) {
+		this.isgettotal = isgettotal;
 	}
 
 }

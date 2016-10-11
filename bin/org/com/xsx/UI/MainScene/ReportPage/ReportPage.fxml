@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.embed.swing.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.*?>
 <?import javafx.geometry.*?>
@@ -10,14 +11,22 @@
 
 <AnchorPane prefHeight="765.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <StackPane style="-fx-border-color: grey; -fx-border-width: 1;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="50.0">
+            <Label style="-fx-background-color: #F4F4F4;" text=" 报告筛选 " translateY="-10.0" StackPane.alignment="TOP_LEFT">
+               <StackPane.margin>
+                  <Insets left="20.0" />
+               </StackPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Label text="测试项目：" />
-                        <ComboBox fx:id="GB_TestItemFilterCombox" prefWidth="100.0" />
+                        <TextField fx:id="GB_TestItemFilterTextfield" prefWidth="110.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
@@ -29,7 +38,7 @@
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Label text="测试人员：" />
-                        <ComboBox fx:id="GB_TesterFilterCombox" prefWidth="100.0" />
+                        <TextField fx:id="GB_TesterFilterTextfield" prefWidth="110.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
@@ -38,14 +47,10 @@
                         <ComboBox fx:id="GB_TestDeviceFilterCombox" prefWidth="100.0" />
                      </children>
                   </HBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" spacing="50.0">
-               <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Label text="测试样本：" />
-                        <ComboBox fx:id="GB_TestSampleFilterCombox" prefWidth="100.0" />
+                        <TextField fx:id="GB_TestSampleFilterTextField" prefWidth="100.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
@@ -55,28 +60,37 @@
                      </children>
                   </HBox>
                </children>
+               <padding>
+                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
             </HBox>
          </children>
-      </VBox>
-      <HBox spacing="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0">
+      </StackPane>
+      <HBox alignment="CENTER_RIGHT" spacing="30.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#ClearFilterButtonActionHandle" prefHeight="60.0" prefWidth="100.0" style="-fx-base: lightblue;" text="重置筛选">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
+            <Button mnemonicParsing="false" onAction="#ClearFilterButtonActionHandle" prefWidth="100.0" text="重置筛选">
                <font>
                   <Font size="18.0" />
                </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#RefreshButtonActionHandle" prefHeight="60.0" prefWidth="100.0" style="-fx-base: salmon;" text="刷新" textAlignment="JUSTIFY">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#RefreshButtonActionHandle" prefWidth="100.0" text="刷新" textAlignment="JUSTIFY">
                <font>
                   <Font size="18.0" />
                </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Button mnemonicParsing="false" onAction="#GB_ExportReportAction" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: mediumturquoise;" text="导出报表">
+            <Button mnemonicParsing="false" onAction="#GB_ExportReportAction" prefWidth="100.0" text="导出报表">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -85,8 +99,11 @@
                </font>
             </Button>
          </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
       </HBox>
-      <TableView fx:id="GB_TableView" editable="true" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+      <TableView fx:id="GB_TableView" editable="true" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="101.0">
         <columns>
           <TableColumn fx:id="TableColumn0" prefWidth="30.0" />
           <TableColumn fx:id="TableColumn1" prefWidth="50.0" text="索引" />

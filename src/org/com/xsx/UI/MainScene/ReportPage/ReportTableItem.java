@@ -106,9 +106,13 @@ public class ReportTableItem {
 		this.testitem = this.testdatabean.getC_item();
 		this.testdate = new String(this.testdatabean.getTestd()+" "+this.getTestdatabean().getTestt()) ;
 		this.testresult = this.testdatabean.getA_v();
-		this.tester = null;//this.testdatabean.get;
+		this.tester = this.testdatabean.getT_name();
 		this.deviceid = this.testdatabean.getDid();
 		this.simpleid = this.testdatabean.getSid();
-		this.reportresult = this.testdatabean.getR_re();
+		
+		if((this.testdatabean.getR_re() == null) || (this.testdatabean.getR_re().length() == 0))
+			this.reportresult = "Î´ÉóºË";
+		else
+			this.reportresult = this.testdatabean.getR_re();
 	}
 }

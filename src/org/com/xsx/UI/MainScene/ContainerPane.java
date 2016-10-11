@@ -32,6 +32,8 @@ public class ContainerPane {
 			
 			S_ContainerPane.GB_RootPane.getChildren().clear();
 			S_ContainerPane.GB_RootPane.getChildren().add(ReportPage.GetInstance().GetReportPane());
+			
+			ReportPage.GetInstance().initdata();
 		}
 		
 		return S_ContainerPane;
@@ -59,15 +61,16 @@ public class ContainerPane {
 	}
 	
 	@FXML
-	public void ShowReportNotHandledAction(){
-		GB_RootPane.getChildren().clear();
-		GB_RootPane.getChildren().add(ReportPage.GetInstance().GetReportPane());
+	public void ReportThumbAction(){
+
 	}
 	
 	@FXML
-	public void ShowAllReportAction(){
+	public void QueryReportAction(){
 		GB_RootPane.getChildren().clear();
 		GB_RootPane.getChildren().add(ReportPage.GetInstance().GetReportPane());
+		
+		ReportPage.GetInstance().initdata();
 	}
 	
 	@FXML

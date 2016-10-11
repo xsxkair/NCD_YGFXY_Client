@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-9-30 13:54:38 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 2016-10-10 14:16:22 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="org.com.xsx.Domain.TestDataBean" table="TESTDATABEAN">
         <id name="cid" type="java.lang.String">
@@ -92,6 +92,9 @@
         <property name="t_c_v" type="java.lang.Float">
             <column name="T_C_V" />
         </property>
+        <property name="a_p" type="java.lang.Float">
+            <column name="A_P" />
+        </property>
         <property name="b_v" type="java.lang.Float">
             <column name="B_V" />
         </property>
@@ -106,6 +109,30 @@
         </property>
         <property name="r_desc" type="java.lang.String">
             <column name="R_DESC" />
+        </property>
+        <property name="t_name" type="java.lang.String">
+            <column name="T_NAME" />
+        </property>
+        <property name="t_age" type="java.lang.String">
+            <column name="T_AGE" />
+        </property>
+        <property name="t_sex" type="java.lang.String">
+            <column name="T_SEX" />
+        </property>
+        <property name="t_phone" type="java.lang.String">
+            <column name="T_PHONE" />
+        </property>
+        <property name="t_job" type="java.lang.String">
+            <column name="T_JOB" />
+        </property>
+        <property name="t_desc" type="java.lang.String">
+            <column name="T_DESC" />
+        </property>
+        <property name="r_uptime" type="java.sql.Timestamp">
+            <column name="R_UPTIME" />
+        </property>
+        <property name="r_handletime" type="java.sql.Timestamp">
+            <column name="R_HANDLETIME" />
         </property>
     </class>
 </hibernate-mapping>

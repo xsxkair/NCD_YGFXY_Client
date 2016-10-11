@@ -1,24 +1,38 @@
+
 package org.com.xsx.UI.MainScene.ReportPage;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 import org.com.xsx.Dao.ReportDao;
+import org.com.xsx.Data.LoginUser;
 import org.com.xsx.Data.ReportFilterData;
+import org.com.xsx.Service.ReadReportCountService;
 import org.com.xsx.Service.ReadReportService;
+import org.com.xsx.UI.MainScene.DevicePage.DeviceTipInfo;
 import org.hibernate.criterion.BetweenExpression;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.LongBinding;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableNumberValue;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -28,10 +42,13 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -45,15 +62,15 @@ public class ReportPage {
 	private AnchorPane reportpane;
 	
 	@FXML
-	ComboBox<String> GB_TestItemFilterCombox;
+	TextField GB_TestItemFilterTextfield;
 	@FXML
 	DatePicker GB_TestTimeFilterDateChoose;
 	@FXML
-	ComboBox<String> GB_TesterFilterCombox;
+	TextField GB_TesterFilterTextfield;
 	@FXML
 	ComboBox<String> GB_TestDeviceFilterCombox;
 	@FXML
-	ComboBox<String> GB_TestSampleFilterCombox;
+	TextField GB_TestSampleFilterTextField;
 	@FXML
 	ComboBox<String> GB_ReportResultFilterCombox;
 	
@@ -87,6 +104,7 @@ public class ReportPage {
 	Region GB_Viel;
 	@FXML
 	ProgressIndicator GB_RefreshBar;
+	
 	
 	private ReportPage(){
 		
@@ -147,29 +165,33 @@ public class ReportPage {
         GB_RefreshBar.progressProperty().bind(ReadReportService.GetInstance().progressProperty());
         GB_FreshPane.visibleProperty().bind(ReadReportService.GetInstance().runningProperty());
         
-        GB_ReportResultFilterCombox.getItems().addAll("All", "未处理", "合格", "不合格");
+        GB_ReportResultFilterCombox.getItems().addAll("All", "未审核", "合格", "不合格");
+        GB_TestDeviceFilterCombox.getItems().add("All");
+        GB_TestDeviceFilterCombox.getItems().addAll(LoginUser.GetInstance().getMy_deviceids());
+        
+        reportpane.getStylesheets().add(this.getClass().getResource("reportpage.css").toExternalForm());
         
         AnchorPane.setTopAnchor(reportpane, 0.0);
         AnchorPane.setBottomAnchor(reportpane, 0.0);
         AnchorPane.setLeftAnchor(reportpane, 0.0);
         AnchorPane.setRightAnchor(reportpane, 0.0);
+        
 	}
 	
 	private void Data_Init(){
 		
-		GB_TestItemFilterCombox.valueProperty().addListener(new ChangeListener<String>() {
+		GB_TestItemFilterTextfield.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
-				System.out.println("项目"+newValue);
-				if((newValue != null)&&(newValue.equals("All")))
+
+				if((newValue == null) || (newValue.length() == 0))
 					ReportFilterData.GetInstance().setTestitem(null);
 				else
 					ReportFilterData.GetInstance().setTestitem(newValue);
-
-				FreshPanition();
 				
+				ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
@@ -180,7 +202,7 @@ public class ReportPage {
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue,
 					LocalDate newValue) {
 				// TODO Auto-generated method stub
-				System.out.println("时间"+newValue);
+
 				java.sql.Date tempdate = null;
 				try {
 					tempdate = java.sql.Date.valueOf(newValue);
@@ -190,21 +212,24 @@ public class ReportPage {
 				}
 				
 				ReportFilterData.GetInstance().setTesttime(tempdate);
-				FreshPanition();
 				
+				ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
 		
-		GB_TesterFilterCombox.valueProperty().addListener(new ChangeListener<String>() {
+		GB_TesterFilterTextfield.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
-				System.out.println("人"+newValue);
-				ReportFilterData.GetInstance().setTestername(newValue);
-				FreshPanition();
+
+				if((newValue == null) || (newValue.length() == 0))
+					ReportFilterData.GetInstance().setTestername(null);
+				else
+					ReportFilterData.GetInstance().setTestername(newValue);
 				
+				ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
@@ -214,31 +239,28 @@ public class ReportPage {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
-				System.out.println("设备"+newValue);
+
 				if((newValue != null)&&(newValue.equals("All")))
 					ReportFilterData.GetInstance().setDeviceid(null);
 				else
 					ReportFilterData.GetInstance().setDeviceid(newValue);
-
-				FreshPanition();
 				
+				ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
 		
-		GB_TestSampleFilterCombox.valueProperty().addListener(new ChangeListener<String>() {
+		GB_TestSampleFilterTextField.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
-				System.out.println("样品"+newValue);
-				
-				if((newValue != null)&&(newValue.equals("All")))
+				if((newValue == null) || (newValue.length() == 0))
 					ReportFilterData.GetInstance().setSimpleid(null);
 				else
 					ReportFilterData.GetInstance().setSimpleid(newValue);
-				FreshPanition();
 				
+				ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
@@ -248,19 +270,32 @@ public class ReportPage {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
-				System.out.println("报告"+newValue);
 				
 				if((newValue != null)&&(newValue.equals("All")))
 					ReportFilterData.GetInstance().setReportresult(null);
 				else
 					ReportFilterData.GetInstance().setReportresult(newValue);
 				
-				FreshPanition();
-				
+				ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
-		
+
+		ReadReportCountService.GetInstance().valueProperty().addListener(new ChangeListener<Long>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Long> observable, Long oldValue, Long newValue) {
+				// TODO Auto-generated method stub
+				if(newValue != null){
+					int pagesize = ReportFilterData.GetInstance().getPagesize();
+
+					GB_Pagination.setPageCount( (int) ((newValue%pagesize == 0)?(newValue/pagesize):(newValue/pagesize+1)));
+					
+					GB_Pagination.setCurrentPageIndex(0);
+				}
+			}
+		});
+
 		GB_Pagination.currentPageIndexProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
@@ -275,89 +310,64 @@ public class ReportPage {
 	private void FilterUI_Init(){
 		
 		//测试项目
-		List<String> templist = ReportDao.QueryTestItemS();
-		GB_TestItemFilterCombox.getItems().clear();
-		GB_TestItemFilterCombox.getItems().add("All");
-		GB_TestItemFilterCombox.getItems().addAll(templist);
-		GB_TestItemFilterCombox.setValue(null);
+		GB_TestItemFilterTextfield.setText(null);
 		
 		//测试时间
 		GB_TestTimeFilterDateChoose.setValue(null);
 		
 		//测试人
-		GB_TesterFilterCombox.setValue(null);
+		GB_TesterFilterTextfield.setText(null);
 		
 		//测试设备
-		templist = ReportDao.QueryTestDeviceS();
-		GB_TestDeviceFilterCombox.getItems().clear();
-		GB_TestDeviceFilterCombox.getItems().add("All");
-		GB_TestDeviceFilterCombox.getItems().addAll(templist);
 		GB_TestDeviceFilterCombox.setValue(null);
 		
 		//测试样品
-		templist = ReportDao.QueryTestSampleS();
-		GB_TestSampleFilterCombox.getItems().clear();
-		GB_TestSampleFilterCombox.getItems().add("All");
-		GB_TestSampleFilterCombox.getItems().addAll(templist);
-		GB_TestSampleFilterCombox.setValue(null);
+		GB_TestSampleFilterTextField.setText(null);
 		
 		//测试结果
 		GB_ReportResultFilterCombox.setValue(null);
 	}
 	
-	private void FreshPanition(){
-		Long num = ReportDao.QueryTestDataNum();
-		ReportFilterData.GetInstance().setDatatotalnum(num);
-
-		if(num == 0)
-			GB_Pagination.setPageCount(1);
-		else{
-			long num1 = num;
-			int pagesize = ReportFilterData.GetInstance().getPagesize();
-			GB_Pagination.setPageCount((int) ((num1%pagesize == 0)?(num1/pagesize):(num1/pagesize+1)));
-		}
-	}
-	
-	public AnchorPane GetReportPane(){
-		FilterUI_Init();
-		FreshPanition();
+	public AnchorPane GetReportPane(){	
+		ReadReportCountService.GetInstance().restart();
 		StartReportService();
 		return reportpane;
 	}
 	
+	public void initdata(){
+//		FilterUI_Init();
+//		FreshPanition();
+//		StartReportService();
+	}
+	
 	private void StartReportService(){
-		if(!ReadReportService.GetInstance().isRunning())
-			ReadReportService.GetInstance().restart();
+		ReadReportService.GetInstance().restart();
 	}
 	
 	@FXML
 	public void ClearFilterButtonActionHandle(){
 		FilterUI_Init();
-		FreshPanition();
 		
-		if(GB_Pagination.getCurrentPageIndex() != 0)
-			GB_Pagination.setCurrentPageIndex(0);
-		else
-			StartReportService();
+		ReadReportCountService.GetInstance().restart();
+		StartReportService();
 	}
 	
 	@FXML
 	public void RefreshButtonActionHandle(){
-		
+		ReadReportCountService.GetInstance().restart();
+		StartReportService();
 	}
 	
 	@FXML
 	public void GB_ExportReportAction(){
 		
 	}
-	
+
 	class TableColumnModel<T,S> implements Callback<TableColumn<T, S>, TableCell<T, S>> {
 		
 	    @Override
 	    public TableCell<T, S> call(TableColumn<T, S> param) {
-	    	
 	    	TextFieldTableCell<T, S> cell = new TextFieldTableCell<>();
-	    	
 	    	
 	    	Tooltip tooltip = new Tooltip();
 	    	
@@ -371,9 +381,13 @@ public class ReportPage {
 					// TODO Auto-generated method stub
 					TableRow<T> row = cell.getTableRow();
 					
-					if(row.getIndex() < GB_TableView.getItems().size()){
-				        tooltip.setGraphic(new Label("xsx"));
-				        Tooltip.install(cell, tooltip);
+					if((row != null)&&(row.getIndex() < GB_TableView.getItems().size())){
+						
+						if(!row.getStyleClass().contains("tablerow"))
+							row.getStyleClass().add("tablerow");
+						
+						tooltip.setGraphic(new ReportTipInfo(GB_TableView.getItems().get(row.getIndex()).getTestdatabean()));
+						Tooltip.install(cell, tooltip);	
 					}
 					else
 						Tooltip.uninstall(cell, tooltip);

@@ -46,9 +46,10 @@ public class ReadReportService extends Service<ObservableList<ReportTableItem>>{
 		private ObservableList<ReportTableItem> ReadDeviceInfoFun(){
 			ObservableList<ReportTableItem> reportTableItems = FXCollections.observableArrayList();
 			
-			System.out.println("运行一次");
+			System.out.println("读数据");
+			
 			List<TestDataBean> testDataBeans = ReportDao.QueryTestDataS();
-
+			
 			for (TestDataBean testDataBean : testDataBeans) {
 				ReportTableItem temp = new ReportTableItem();
     			
@@ -62,15 +63,7 @@ public class ReadReportService extends Service<ObservableList<ReportTableItem>>{
     			reportTableItems.add(temp);
     			
     			updateProgress(testDataBeans.indexOf(testDataBean), testDataBeans.size());
-    			
-    			try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-			
 
 			return reportTableItems;
 		}

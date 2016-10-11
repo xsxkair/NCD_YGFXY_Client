@@ -45,6 +45,7 @@ public class AboutStage {
         s_Stage = new Stage();
         s_Stage.initModality(Modality.APPLICATION_MODAL);
         
+        s_Stage.setResizable(false);
         s_Stage.setScene(new Scene(root));
 	}
 	
