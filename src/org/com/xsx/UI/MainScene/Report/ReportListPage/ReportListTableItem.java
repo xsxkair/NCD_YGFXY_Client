@@ -1,13 +1,10 @@
-package org.com.xsx.UI.MainScene.ReportPage;
+package org.com.xsx.UI.MainScene.Report.ReportListPage;
 
 import org.com.xsx.Domain.TestDataBean;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
-public class ReportTableItem {
+public class ReportListTableItem {
 
-	private BooleanProperty isselected;
 	private Integer index;
 	private String testitem;
 	private String testdate;
@@ -18,18 +15,6 @@ public class ReportTableItem {
 	private String reportresult;
 	
 	private TestDataBean testdatabean;
-
-	public ReportTableItem(){
-		isselected = new SimpleBooleanProperty();
-	}
-	
-	public BooleanProperty getIsselected() {
-		return isselected;
-	}
-
-	public void setIsselected(Boolean isselected) {
-		this.isselected.set(isselected);
-	}
 
 	public Integer getIndex() {
 		return index;

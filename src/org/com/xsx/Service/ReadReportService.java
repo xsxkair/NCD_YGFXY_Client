@@ -6,14 +6,14 @@ import org.com.xsx.Dao.ReportDao;
 import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Data.SelectedReportList;
 import org.com.xsx.Domain.TestDataBean;
-import org.com.xsx.UI.MainScene.ReportPage.ReportTableItem;
+import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListTableItem;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-public class ReadReportService extends Service<ObservableList<ReportTableItem>>{
+public class ReadReportService extends Service<ObservableList<ReportListTableItem>>{
 	
 	private static ReadReportService GB_ReadReportService = null;
 	
@@ -30,36 +30,32 @@ public class ReadReportService extends Service<ObservableList<ReportTableItem>>{
 	}
 	
 	@Override
-	protected Task<ObservableList<ReportTableItem>> createTask() {
+	protected Task<ObservableList<ReportListTableItem>> createTask() {
 		// TODO Auto-generated method stub
 		return new ReadDeviceInfoTask();
 	}
 	
-	class ReadDeviceInfoTask extends Task<ObservableList<ReportTableItem>>{
+	class ReadDeviceInfoTask extends Task<ObservableList<ReportListTableItem>>{
 
 		@Override
-		protected ObservableList<ReportTableItem> call(){
+		protected ObservableList<ReportListTableItem> call(){
 			// TODO Auto-generated method stub
 			return ReadDeviceInfoFun();
 		}
 		
-		private ObservableList<ReportTableItem> ReadDeviceInfoFun(){
-			ObservableList<ReportTableItem> reportTableItems = FXCollections.observableArrayList();
+		private ObservableList<ReportListTableItem> ReadDeviceInfoFun(){
+			ObservableList<ReportListTableItem> reportTableItems = FXCollections.observableArrayList();
 			
 			System.out.println("¶ÁÊý¾Ý");
 			
 			List<TestDataBean> testDataBeans = ReportDao.QueryTestDataS();
 			
 			for (TestDataBean testDataBean : testDataBeans) {
-				ReportTableItem temp = new ReportTableItem();
+				ReportListTableItem temp = new ReportListTableItem();
     			
     			temp.setTestdatabean(testDataBean);
     			temp.setIndex(ReportFilterData.GetInstance().getFirstindex()+1+testDataBeans.indexOf(testDataBean));
-    			
-    			if(SelectedReportList.GetInstance().getSelectedDataMap().get(testDataBean.getCid()) == null)
-    				temp.setIsselected(false);
-    			else
-    				temp.setIsselected(true);
+
     			reportTableItems.add(temp);
     			
     			updateProgress(testDataBeans.indexOf(testDataBean), testDataBeans.size());

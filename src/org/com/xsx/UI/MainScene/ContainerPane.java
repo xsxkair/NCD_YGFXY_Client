@@ -5,7 +5,8 @@ import java.io.InputStream;
 
 import org.com.xsx.UI.AboutStage.AboutStage;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
-import org.com.xsx.UI.MainScene.ReportPage.ReportPage;
+import org.com.xsx.UI.MainScene.Report.ReportRootPage;
+import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,9 +32,7 @@ public class ContainerPane {
 			S_ContainerPane.UI_Init();
 			
 			S_ContainerPane.GB_RootPane.getChildren().clear();
-			S_ContainerPane.GB_RootPane.getChildren().add(ReportPage.GetInstance().GetReportPane());
-			
-			ReportPage.GetInstance().initdata();
+			S_ContainerPane.GB_RootPane.getChildren().add(ReportRootPage.GetInstance().GetReportRootPane());
 		}
 		
 		return S_ContainerPane;
@@ -68,9 +67,7 @@ public class ContainerPane {
 	@FXML
 	public void QueryReportAction(){
 		GB_RootPane.getChildren().clear();
-		GB_RootPane.getChildren().add(ReportPage.GetInstance().GetReportPane());
-		
-		ReportPage.GetInstance().initdata();
+		GB_RootPane.getChildren().add(ReportRootPage.GetInstance().GetReportRootPane());
 	}
 	
 	@FXML

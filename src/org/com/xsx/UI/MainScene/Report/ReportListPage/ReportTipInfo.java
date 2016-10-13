@@ -1,4 +1,4 @@
-package org.com.xsx.UI.MainScene.ReportPage;
+package org.com.xsx.UI.MainScene.Report.ReportListPage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,8 +33,6 @@ public class ReportTipInfo extends AnchorPane{
 	}
 	
 	private void UI_Init(){
-		
-		this.getStylesheets().add(this.getClass().getResource("reporttip.css").toExternalForm());
 		
 		NumberAxis xAxis = new NumberAxis();
     	NumberAxis yAxis = new NumberAxis();

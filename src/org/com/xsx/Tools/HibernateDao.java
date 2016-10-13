@@ -176,15 +176,19 @@ public class HibernateDao{
                 if(param!=null)  
                 {  
                     for(int i=0;i<param.length;i++)  
-                    {  
-                    	query.setParameter("parm"+i, param[i]);       
+                    {
+                    	if(param[i] instanceof List<?>)
+                  		  query.setParameterList("parm"+i, (List) param[i]);
+                  	  	else
+                  		  query.setParameter("parm"+i, param[i]);      
                     }  
                     
                 }  
                 object=query.uniqueResult();  
             }  
             catch (Exception e)  
-            {  
+            { 
+            	System.out.println(e);
             }  
             finally  
             {  
@@ -221,7 +225,33 @@ public class HibernateDao{
               list=query.list();  
           }  
           catch (Exception e)  
+          {
+        	  System.out.println(e);
+          }  
+          finally  
           {  
+              if(session!=null)  
+              {  
+                  session.close();  
+              }  
+          }  
+        return list;  
+    }
+    
+    public <T> List<T> querysql(String sql, Class c)  
+    {  
+        List<T> list=new ArrayList<T>();  
+        Session session=null;  
+         try  
+          {  
+              session = HibernateSessionBean.GetInstance().getSession();  
+              Query query=session.createSQLQuery(sql).addEntity(c);  
+
+              list=query.list();  
+          }  
+          catch (Exception e)  
+          {
+        	  System.out.println(e);
           }  
           finally  
           {  

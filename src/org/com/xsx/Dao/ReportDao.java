@@ -3,63 +3,16 @@ package org.com.xsx.Dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.com.xsx.Data.LoginUser;
 import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Domain.TestDataBean;
 import org.com.xsx.Tools.HibernateDao;
 
 public class ReportDao {
 	
-	//读取所有测试项目
-	public static List<String> QueryTestItemS(){
-
-		String hql = "select distinct t.c_item from TestDataBean as t order by t.c_item";
-		
-		System.out.println(hql.toString());
-		
-		List<String> list =HibernateDao.GetInstance().query(hql.toString(), null, null, null);
-		
-		return list;
-	}
-	
-	//读取所有测试人
-	public static List<String> QueryTesterS(){
-
-		String hql = "select distinct t.t_name from TestDataBean as t order by t.t_name";
-			
-		System.out.println(hql.toString());
-			
-		List<String> list =HibernateDao.GetInstance().query(hql.toString(), null, null, null);
-			
-		return list;
-	}
-	
-	//读取所有测试设备
-	public static List<String> QueryTestDeviceS(){
-
-		String hql = "select distinct t.did from TestDataBean as t order by t.did";
-			
-		System.out.println(hql.toString());
-			
-		List<String> list =HibernateDao.GetInstance().query(hql.toString(), null, null, null);
-			
-		return list;
-	}
-	
-	//读取所有测试样品id
-	public static List<String> QueryTestSampleS(){
-
-		String hql = "select distinct t.sid from TestDataBean as t order by t.sid";
-			
-		System.out.println(hql.toString());
-			
-		List<String> list =HibernateDao.GetInstance().query(hql.toString(), null, null, null);
-			
-		return list;
-	}
-	
 	public static List<TestDataBean> QueryTestDataS(){
 
-		StringBuffer hql = new StringBuffer("select t from TestDataBean as t");
+		StringBuffer hql = new StringBuffer("select t.cid from TESTDATABEAN t");
 		ArrayList<Object> parms = new ArrayList<>();
 		String tempstr;
 		java.sql.Date tempdate;
@@ -69,8 +22,9 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getTestitem();
 		if(tempstr != null){
-			hql.append(" AND t.c_item like :parm"+parms.size());
-			parms.add("%"+tempstr+"%");
+			hql.append(" AND t.c_item like '%"+tempstr+"%'");
+//			hql.append(" AND t.c_item like :parm"+parms.size());
+//			parms.add("%"+tempstr+"%");
 		}
 		
  		/*
@@ -79,8 +33,9 @@ public class ReportDao {
  		 */
 		tempdate = ReportFilterData.GetInstance().getTesttime();
 		if(tempdate != null){
-			hql.append(" AND t.testd =:parm"+parms.size());
-			parms.add(tempdate);
+			hql.append(" AND t.testd ='"+tempdate+"'");
+//			hql.append(" AND t.testd =:parm"+parms.size());
+//			parms.add(tempdate);
 		}
 		
 		/*
@@ -89,8 +44,9 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getTestername();
 		if(tempstr != null){
-			hql.append(" AND t.t_name like :parm"+parms.size());
-			parms.add("%"+tempstr+"%");
+			hql.append(" AND t.t_name like '%"+tempstr+"%'");
+//			hql.append(" AND t.t_name like :parm"+parms.size());
+//			parms.add("%"+tempstr+"%");
 		}
 		
 		/*
@@ -99,9 +55,26 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getDeviceid();
 		if(tempstr != null){
-			hql.append(" AND t.did=:parm"+parms.size());
-			parms.add(tempstr);
+			hql.append(" AND t.did='"+tempstr+"'");
+//			hql.append(" AND t.did=:parm"+parms.size());
+//			parms.add(tempstr);
 		}
+		else{
+			List<String> deviceid = LoginUser.GetInstance().getMy_deviceids();
+			if(deviceid.size() == 0)
+				return null;
+			
+			hql.append(" AND t.did in (");
+			for(int i=0; i<deviceid.size(); i++){
+				if(i == 0)
+					hql.append("'" + deviceid.get(i) + "'");
+				else
+					hql.append(", '" + deviceid.get(i) + "'");
+			}
+
+			hql.append(")");
+		}
+			
  		
 		/*
 		 * 测试样本id
@@ -109,8 +82,9 @@ public class ReportDao {
 		 */
 		tempstr = ReportFilterData.GetInstance().getSimpleid();
 		if(tempstr != null){
-			hql.append(" AND t.sid like :parm"+parms.size());
-			parms.add("%"+tempstr+"%");
+			hql.append(" AND t.sid like '%"+tempstr+"%'");
+//			hql.append(" AND t.sid like :parm"+parms.size());
+//			parms.add("%"+tempstr+"%");
 		}
 
 		/*
@@ -125,23 +99,28 @@ public class ReportDao {
 			if(tempstr.equals("未审核"))
 				hql.append(" AND t.r_re is null");
 			else{
-				hql.append(" AND t.r_re=:parm"+parms.size());
-				parms.add(tempstr);
+				hql.append(" AND t.r_re='"+tempstr+"'");
+//				hql.append(" AND t.r_re=:parm"+parms.size());
+//				parms.add(tempstr);
 			}	
 		}
 		
+		hql.append(" limit " + ReportFilterData.GetInstance().getFirstindex() + "," +ReportFilterData.GetInstance().getPagesize());
+		
 		String string = hql.toString().replaceFirst("AND", "WHERE");
 		
-		System.out.println(string);
+		StringBuffer hql1 = new StringBuffer("select * from TESTDATABEAN a INNER JOIN(");
+		hql1.append(string);
+		hql1.append(")b ON a.cid=b.cid");
 		
-		List<TestDataBean> list =HibernateDao.GetInstance().query(string, parms.toArray(), ReportFilterData.GetInstance().getFirstindex(), ReportFilterData.GetInstance().getPagesize());
+		List<TestDataBean> list = HibernateDao.GetInstance().querysql(hql1.toString(), TestDataBean.class);
 		
 		return list;
 	}
 	
 	public static Long QueryTestDataNum(){
 
-		StringBuffer hql = new StringBuffer("select count(*) from TestDataBean as t");
+		StringBuffer hql = new StringBuffer("select count(t.cid) from TestDataBean as t");
 		ArrayList<Object> parms = new ArrayList<>();
 		String tempstr;
 		java.sql.Date tempdate;
@@ -184,6 +163,10 @@ public class ReportDao {
 			hql.append(" AND t.did=:parm"+parms.size());
 			parms.add(tempstr);
 		}
+		else{
+			hql.append(" AND t.did in (:parm"+parms.size() + ")");
+			parms.add(LoginUser.GetInstance().getMy_deviceids());
+		}
  		
 		/*
 		 * 测试样本id
@@ -213,9 +196,7 @@ public class ReportDao {
 		}
 		
 		String string = hql.toString().replaceFirst("AND", "WHERE");
-		
-		System.out.println(string);
-		
+
 		return (Long) HibernateDao.GetInstance().queryOne(string, parms.toArray());
 	}
 }

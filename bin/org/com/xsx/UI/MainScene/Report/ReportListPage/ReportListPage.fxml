@@ -90,14 +90,6 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button mnemonicParsing="false" onAction="#GB_ExportReportAction" prefWidth="100.0" text="导出报表">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
          </children>
          <padding>
             <Insets left="5.0" right="5.0" />
@@ -105,7 +97,6 @@
       </HBox>
       <TableView fx:id="GB_TableView" editable="true" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="101.0">
         <columns>
-          <TableColumn fx:id="TableColumn0" prefWidth="30.0" />
           <TableColumn fx:id="TableColumn1" prefWidth="50.0" text="索引" />
             <TableColumn fx:id="TableColumn2" prefWidth="100.0" text="测试项目" />
             <TableColumn fx:id="TableColumn3" prefWidth="100.0" text="测试时间" />
@@ -119,7 +110,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Pagination fx:id="GB_Pagination" maxPageIndicatorCount="20" pageCount="1000" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Pagination fx:id="GB_Pagination" maxPageIndicatorCount="20" styleClass="bullet" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <StackPane fx:id="GB_FreshPane" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Region fx:id="GB_Viel" prefHeight="696.0" prefWidth="1200.0" style="-fx-background-color: rgba(0, 0, 0, 0.4);" />
