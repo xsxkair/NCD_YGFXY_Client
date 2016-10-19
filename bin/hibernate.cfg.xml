@@ -18,6 +18,6 @@
 		<mapping resource="org/com/xsx/Domain/DeviceInfoBean.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/ReportManagerBean.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/TestDataBean.hbm.xml"/>
-		
+		<mapping resource="org/com/xsx/Domain/SoftVersion.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

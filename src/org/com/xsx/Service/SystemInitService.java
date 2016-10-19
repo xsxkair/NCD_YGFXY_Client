@@ -1,5 +1,6 @@
 package org.com.xsx.Service;
 
+import org.com.xsx.Dao.SoftwareDao;
 import org.com.xsx.Tools.HibernateSessionBean;
 
 import javafx.concurrent.Service;
@@ -36,19 +37,44 @@ public class SystemInitService extends Service<Boolean>{
 		
 		private Boolean systeminit_fun() throws InterruptedException{
         	
+			Boolean temp;
+			int i=0;
+			
 			updateMessage("正在连接服务器，请稍候。。。"); 
     		updateProgress(1, 100);
+    		for (; i < 15; i++) {
+    			updateProgress(i, 100);
+    			Thread.sleep(300); 
+			}
     		
     		try {
     			HibernateSessionBean.GetInstance().Hibernate_Init();
 			} catch (Exception e) {
 				// TODO: handle exception
 				updateMessage("服务器连接失败，请检查网络！");
-				updateProgress(100, 100);
 	    		Thread.sleep(1000); 
 	    		
 	    		return false;
 			}
+    		
+    		
+    		updateMessage("检查更新中。。。");
+    		for (; i < 30; i++) {
+    			updateProgress(i, 100);
+    			Thread.sleep(300); 
+			}
+    		temp = SoftwareDao.CheckUpdate();
+    		if(null == temp)
+    			updateMessage("读取失败");
+    		else if (temp) {
+    			updateMessage("有更新可用");
+    			System.out.println("运行更新程序");
+    			System.exit(0);
+			}
+    		else {
+    			updateMessage("已是最新版");
+			}
+    		Thread.sleep(1000); 
     		
     		updateProgress(100, 100);
     		Thread.sleep(1000); 

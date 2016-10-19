@@ -3,6 +3,7 @@ package org.com.xsx.Domain;
 public class ReportManagerBean {
 	private String account;
 	private String password;
+	private String fatheraccout;
 	private String name;
 	private String sex;
 	private String age;
@@ -21,6 +22,12 @@ public class ReportManagerBean {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getFatheraccout() {
+		return fatheraccout;
+	}
+	public void setFatheraccout(String fatheraccout) {
+		this.fatheraccout = fatheraccout;
 	}
 	public String getName() {
 		return name;
