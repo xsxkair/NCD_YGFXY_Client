@@ -1,6 +1,9 @@
 package org.com.xsx.Service;
 
+import java.io.IOException;
+
 import org.com.xsx.Dao.SoftwareDao;
+import org.com.xsx.Data.SoftwareInfo;
 import org.com.xsx.Tools.HibernateSessionBean;
 
 import javafx.concurrent.Service;
@@ -68,7 +71,12 @@ public class SystemInitService extends Service<Boolean>{
     			updateMessage("读取失败");
     		else if (temp) {
     			updateMessage("有更新可用");
-    			System.out.println("运行更新程序");
+    			try {
+					Runtime.getRuntime().exec(".\\jre\\bin\\javaw -jar UPDATE.jar "+ SoftwareInfo.version);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     			System.exit(0);
 			}
     		else {
