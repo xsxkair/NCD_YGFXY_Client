@@ -55,7 +55,6 @@ public class LoginScene {
 	public static LoginScene GetInstance(){
 		if(S_LoginScene == null){
 			S_LoginScene = new LoginScene();
-			S_LoginScene.UI_Init();
 		}
 
 		return S_LoginScene;

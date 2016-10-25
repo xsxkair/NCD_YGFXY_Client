@@ -3,14 +3,20 @@ package org.com.xsx.UI.MainScene;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.com.xsx.Data.LoginUser;
+import org.com.xsx.Data.UIMainPage;
+import org.com.xsx.Domain.ReportManagerBean;
 import org.com.xsx.UI.AboutStage.AboutStage;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 public class ContainerPane {
 	
@@ -28,16 +34,12 @@ public class ContainerPane {
 	public static ContainerPane GetInstance(){
 		if(S_ContainerPane == null){
 			S_ContainerPane = new ContainerPane();
-			S_ContainerPane.UI_Init();
-			
-			S_ContainerPane.GB_RootPane.getChildren().clear();
-			S_ContainerPane.GB_RootPane.getChildren().add(ReportListPage.GetInstance().GetReportPane());
 		}
 		
 		return S_ContainerPane;
 	}
 	
-	private void UI_Init() {
+	public void UI_Init() {
 		AnchorPane root = null;
 		
 		FXMLLoader loader = new FXMLLoader();
@@ -51,7 +53,31 @@ public class ContainerPane {
 			e.printStackTrace();
 		}
 
-        S_Scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight()); 
+        S_Scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
+        
+        LoginUser.GetInstance().getGB_ReportManagerBean().addListener(new ChangeListener<ReportManagerBean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends ReportManagerBean> observable, ReportManagerBean oldValue,
+					ReportManagerBean newValue) {
+				// TODO Auto-generated method stub
+				if(newValue != null){
+					UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
+				}
+			}
+		});
+        
+        UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Pane> observable, Pane oldValue, Pane newValue) {
+				// TODO Auto-generated method stub
+				if(newValue != null){
+					S_ContainerPane.GB_RootPane.getChildren().clear();
+					S_ContainerPane.GB_RootPane.getChildren().add(newValue);
+				}	
+			}
+		});
 	}
 	
 	public Scene GetScene(){
@@ -65,14 +91,12 @@ public class ContainerPane {
 	
 	@FXML
 	public void QueryReportAction(){
-		GB_RootPane.getChildren().clear();
-		GB_RootPane.getChildren().add(ReportListPage.GetInstance().GetReportPane());
+		UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
 	}
 	
 	@FXML
 	public void ShowDevicesAction(){
-		GB_RootPane.getChildren().clear();
-		GB_RootPane.getChildren().add(DevicePage.GetInstance().GetPane());
+		UIMainPage.GetInstance().setGB_Page(DevicePage.GetInstance().GetPane());
 	}
 	
 	@FXML

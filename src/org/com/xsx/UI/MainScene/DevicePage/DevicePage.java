@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.com.xsx.Data.LoginUser;
+import org.com.xsx.Domain.ReportManagerBean;
 import org.com.xsx.Service.ReadDeviceInfoService;
 
 import javafx.beans.value.ChangeListener;
@@ -33,6 +35,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -64,7 +67,8 @@ public class DevicePage {
 	@FXML
 	ScrollPane DeviceICOShowRootPane;
 	@FXML
-	TilePane DeviceThumbShowPane;
+	//TilePane DeviceThumbShowPane;
+	FlowPane DeviceThumbShowPane;
 	
 	@FXML
 	ToggleButton DeviceListShowButton;
@@ -76,15 +80,12 @@ public class DevicePage {
 	public static DevicePage GetInstance() {
 		if(S_DevicePage == null){
 			S_DevicePage = new DevicePage();
-			S_DevicePage.UI_Init();
-			
-			ReadDeviceInfoService.GetInstance().start();
 		}
 		
 		return S_DevicePage;
 	}
 	
-	private void UI_Init(){
+	public void UI_Init(){
 		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("DevicePage.fxml"));
@@ -138,6 +139,18 @@ public class DevicePage {
 			        Tooltip.install(temp, tooltip);
 			        
 					DeviceThumbShowPane.getChildren().add(temp);
+				}
+			}
+		});
+        
+        LoginUser.GetInstance().getGB_ReportManagerBean().addListener(new ChangeListener<ReportManagerBean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends ReportManagerBean> observable, ReportManagerBean oldValue,
+					ReportManagerBean newValue) {
+				// TODO Auto-generated method stub
+				if(newValue != null){
+					ReadDeviceInfoService.GetInstance().start();
 				}
 			}
 		});

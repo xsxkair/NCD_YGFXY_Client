@@ -1,7 +1,5 @@
 package org.com.xsx.Data;
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
 
 public class ReportFilterData {
 	private String testitem = null;

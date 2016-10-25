@@ -12,10 +12,11 @@
    <children>
       <ScrollPane fx:id="DeviceICOShowRootPane" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
          <content>
-            <TilePane fx:id="DeviceThumbShowPane" hgap="50.0" vgap="30.0">
+            <FlowPane fx:id="DeviceThumbShowPane" hgap="30.0" prefWidth="200.0" vgap="15.0">
                <padding>
-                  <Insets bottom="30.0" left="15.0" right="15.0" top="30.0" />
-               </padding></TilePane>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </FlowPane>
          </content>
       </ScrollPane>
       <TableView fx:id="DeviceListShowPane" editable="true" styleClass="edge-to-edge" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">

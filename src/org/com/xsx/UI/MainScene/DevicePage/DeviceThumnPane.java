@@ -1,5 +1,6 @@
 package org.com.xsx.UI.MainScene.DevicePage;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -16,13 +17,16 @@ public class DeviceThumnPane extends VBox{
 	
 	public DeviceThumnPane(Image image, String id){
 		deviceimage = new ImageView(image);
-		deviceimage.setFitWidth(200);
-		deviceimage.setFitHeight(165);
+		deviceimage.setFitWidth(150);
+		deviceimage.setFitHeight(123);
 		deviceid = new Label(id);
 		deviceid.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
 		
 		this.setCursor(Cursor.HAND);
 		this.setAlignment(Pos.CENTER);
 		getChildren().addAll(deviceimage, deviceid);
+		
+		this.setPadding(new Insets(15, 15, 15, 15));
+		this.setStyle("-fx-background-color:#D8EFF2");
 	}
 }

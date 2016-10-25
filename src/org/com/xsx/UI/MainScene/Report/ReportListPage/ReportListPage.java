@@ -7,8 +7,11 @@ import java.time.LocalDate;
 
 import org.com.xsx.Data.LoginUser;
 import org.com.xsx.Data.ReportFilterData;
+import org.com.xsx.Data.UIMainPage;
+import org.com.xsx.Domain.ReportManagerBean;
 import org.com.xsx.Service.ReadReportCountService;
 import org.com.xsx.Service.ReadReportService;
+import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
 
 import com.sun.javafx.scene.control.skin.PaginationSkin;
 
@@ -108,14 +111,12 @@ public class ReportListPage {
 	public static ReportListPage GetInstance() {
 		if(S_ReportPage == null){
 			S_ReportPage = new ReportListPage();
-			S_ReportPage.UI_Init();
-			S_ReportPage.Data_Init();
 		}
 		
 		return S_ReportPage;
 	}
 	
-	private void UI_Init(){
+	public void UI_Init(){
 		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("ReportListPage.fxml"));
@@ -155,30 +156,23 @@ public class ReportListPage {
         GB_TableView.itemsProperty().bind(ReadReportService.GetInstance().valueProperty());
         
         GB_RefreshBar.progressProperty().bind(ReadReportService.GetInstance().progressProperty().add(ReadReportCountService.GetInstance().progressProperty()));
-      
         GB_ReportResultFilterCombox.getItems().addAll("All", "未审核", "合格", "不合格");
-        GB_TestDeviceFilterCombox.getItems().add("All");
-        GB_TestDeviceFilterCombox.getItems().addAll(LoginUser.GetInstance().getMy_deviceids());
         
-        reportpane.getStylesheets().add(this.getClass().getResource("reportpage.css").toExternalForm());
+        LoginUser.GetInstance().getGB_ReportManagerBean().addListener(new ChangeListener<ReportManagerBean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends ReportManagerBean> observable, ReportManagerBean oldValue,
+					ReportManagerBean newValue) {
+				// TODO Auto-generated method stub
+				if(newValue != null){
+					GB_TestDeviceFilterCombox.getItems().clear();
+					GB_TestDeviceFilterCombox.getItems().add("All");
+			        GB_TestDeviceFilterCombox.getItems().addAll(LoginUser.GetInstance().getMy_deviceids());
+				}
+			}
+		});
         
-        GB_Pagination.setSkin(new coutompanition(GB_Pagination));
-        GB_Pagination.setStyle("-fx-page-information-visible: false");
-        
-        myMenuItem1 = new MenuItem("删除");
-        myContextMenu = new ContextMenu();
-        myContextMenu.getItems().add(myMenuItem1);
-        
-        AnchorPane.setTopAnchor(reportpane, 0.0);
-        AnchorPane.setBottomAnchor(reportpane, 0.0);
-        AnchorPane.setLeftAnchor(reportpane, 0.0);
-        AnchorPane.setRightAnchor(reportpane, 0.0);
-        
-	}
-	
-	private void Data_Init(){
-		
-		GB_FreshPane.visibleProperty().bind(new BooleanBinding() {
+        GB_FreshPane.visibleProperty().bind(new BooleanBinding() {
 			
 			{
 				bind(ReadReportCountService.GetInstance().runningProperty());
@@ -319,6 +313,26 @@ public class ReportListPage {
 				StartReportService();
 			}
 		});
+		
+        reportpane.getStylesheets().add(this.getClass().getResource("reportpage.css").toExternalForm());
+        
+        GB_Pagination.setSkin(new coutompanition(GB_Pagination));
+        GB_Pagination.setStyle("-fx-page-information-visible: false");
+        
+        myMenuItem1 = new MenuItem("删除");
+        myContextMenu = new ContextMenu();
+        myContextMenu.getItems().add(myMenuItem1);
+        
+        AnchorPane.setTopAnchor(reportpane, 0.0);
+        AnchorPane.setBottomAnchor(reportpane, 0.0);
+        AnchorPane.setLeftAnchor(reportpane, 0.0);
+        AnchorPane.setRightAnchor(reportpane, 0.0);
+        
+	}
+	
+	public void Data_Init(){
+
+		
 	}
 
 	public AnchorPane GetReportPane(){	
@@ -401,7 +415,8 @@ public class ReportListPage {
 					
 					if((row != null)&&(row.getIndex() < GB_TableView.getItems().size())){
 						if(event.getClickCount() == 2){
-							System.out.println(cell.getTableRow().getIndex());
+							ReportDetailPage.GetInstance().setS_TestDataBean(GB_TableView.getItems().get(row.getIndex()).getTestdatabean());
+							UIMainPage.GetInstance().setGB_Page(ReportDetailPage.GetInstance().getPane());
 						}
 						else if(event.getButton().equals(MouseButton.SECONDARY)){
 							myContextMenu.show(cell, event.getScreenX(), event.getScreenY());
@@ -561,6 +576,6 @@ public class ReportListPage {
 	        super(pagination);
 	        patchNavigation();
 	    }
-
+	    
 	}
 }

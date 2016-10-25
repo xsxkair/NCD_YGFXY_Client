@@ -2,6 +2,6 @@ package org.com.xsx.Data;
 
 public class SoftwareInfo {
 	
-	public static int version = 200;
+	public static int version = 230;
 	
 }

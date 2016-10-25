@@ -3,13 +3,13 @@ package org.com.xsx.Domain;
 public class ReportManagerBean {
 	private String account;
 	private String password;
-	private String fatheraccout;
 	private String name;
 	private String sex;
 	private String age;
 	private String phone;
 	private String ddesc;
 	private String devicelist;
+	private String fatheraccount;
 	
 	public String getAccount() {
 		return account;
@@ -22,12 +22,6 @@ public class ReportManagerBean {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getFatheraccout() {
-		return fatheraccout;
-	}
-	public void setFatheraccout(String fatheraccout) {
-		this.fatheraccout = fatheraccout;
 	}
 	public String getName() {
 		return name;
@@ -65,6 +59,12 @@ public class ReportManagerBean {
 	}
 	public void setDevicelist(String devicelist) {
 		this.devicelist = devicelist;
+	}
+	public String getFatheraccount() {
+		return fatheraccount;
+	}
+	public void setFatheraccount(String fatheraccount) {
+		this.fatheraccount = fatheraccount;
 	}
 	
 }

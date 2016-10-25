@@ -11,9 +11,6 @@
         <property name="password" type="java.lang.String">
             <column name="PASSWORD" />
         </property>
-        <property name="fatheraccout" type="java.lang.String">
-            <column name="FATHERACCOUT" />
-        </property>
         <property name="name" type="java.lang.String">
             <column name="NAME" />
         </property>
@@ -31,6 +28,9 @@
         </property>
         <property name="devicelist" type="text">
             <column name="DEVICELIST" length="1024"/>
+        </property>
+        <property name="fatheraccount" type="java.lang.String">
+            <column name="FATHERACCOUNT" />
         </property>
     </class>
 </hibernate-mapping>

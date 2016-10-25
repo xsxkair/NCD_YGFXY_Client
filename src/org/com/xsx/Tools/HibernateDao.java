@@ -215,6 +215,7 @@ public class HibernateDao{
                 	  if(param[i] instanceof List<?>)
                 		  query.setParameterList("parm"+i, (List) param[i]);
                 	  else
+                
                 		  query.setParameter("parm"+i, param[i]);    
                   }  
               }

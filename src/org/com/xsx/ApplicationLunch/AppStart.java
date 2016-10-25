@@ -26,7 +26,7 @@ public class AppStart extends Application{
 		
 		UIScence.GetInstance().setGB_Scene(UI_SystemInit.GetInstance().getScene());
 		
-		primaryStage.setTitle("荧光分析仪");
+		primaryStage.setTitle("荧光分析仪  V2.3.0");
 
 		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/RES/logo.png")));
 		primaryStage.setResizable(true);

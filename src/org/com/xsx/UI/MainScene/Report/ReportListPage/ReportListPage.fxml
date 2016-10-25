@@ -95,7 +95,7 @@
             <Insets left="5.0" right="5.0" />
          </padding>
       </HBox>
-      <TableView fx:id="GB_TableView" editable="true" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="101.0">
+      <TableView fx:id="GB_TableView" editable="true" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="101.0">
         <columns>
           <TableColumn fx:id="TableColumn1" prefWidth="50.0" text="索引" />
             <TableColumn fx:id="TableColumn2" prefWidth="100.0" text="测试项目" />
