@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.com.xsx.Dao.DeviceInfoDao;
 import org.com.xsx.Data.LoginUser;
-import org.com.xsx.Domain.DeviceInfoBean;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceTableItem;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceThumnPane;
 

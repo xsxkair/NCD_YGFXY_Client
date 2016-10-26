@@ -5,10 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 
-import org.com.xsx.Data.LoginUser;
 import org.com.xsx.Data.ReportFilterData;
+import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
-import org.com.xsx.Domain.ReportManagerBean;
 import org.com.xsx.Service.ReadReportCountService;
 import org.com.xsx.Service.ReadReportService;
 import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
@@ -158,16 +157,17 @@ public class ReportListPage {
         GB_RefreshBar.progressProperty().bind(ReadReportService.GetInstance().progressProperty().add(ReadReportCountService.GetInstance().progressProperty()));
         GB_ReportResultFilterCombox.getItems().addAll("All", "未审核", "合格", "不合格");
         
-        LoginUser.GetInstance().getGB_ReportManagerBean().addListener(new ChangeListener<ReportManagerBean>() {
-
+        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<Object[]>() {
 			@Override
-			public void changed(ObservableValue<? extends ReportManagerBean> observable, ReportManagerBean oldValue,
-					ReportManagerBean newValue) {
+			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
 				// TODO Auto-generated method stub
+				if(newValue != null){
+					UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
+				}
 				if(newValue != null){
 					GB_TestDeviceFilterCombox.getItems().clear();
 					GB_TestDeviceFilterCombox.getItems().add("All");
-			        GB_TestDeviceFilterCombox.getItems().addAll(LoginUser.GetInstance().getMy_deviceids());
+			        GB_TestDeviceFilterCombox.getItems().addAll(SignedManager.GetInstance().GetManagerDeviceIdList());
 				}
 			}
 		});
@@ -398,7 +398,7 @@ public class ReportListPage {
 						if(!row.getStyleClass().contains("tablerow"))
 							row.getStyleClass().add("tablerow");
 						
-						tooltip.setGraphic(new ReportTipInfo(GB_TableView.getItems().get(row.getIndex()).getTestdatabean()));
+						tooltip.setGraphic(new ReportTipInfo(GB_TableView.getItems().get(row.getIndex()).getReportdata()));
 						Tooltip.install(cell, tooltip);	
 					}
 					else
@@ -415,7 +415,7 @@ public class ReportListPage {
 					
 					if((row != null)&&(row.getIndex() < GB_TableView.getItems().size())){
 						if(event.getClickCount() == 2){
-							ReportDetailPage.GetInstance().setS_TestDataBean(GB_TableView.getItems().get(row.getIndex()).getTestdatabean());
+							//ReportDetailPage.GetInstance().setS_TestDataBean(GB_TableView.getItems().get(row.getIndex()).getReportdata());
 							UIMainPage.GetInstance().setGB_Page(ReportDetailPage.GetInstance().getPane());
 						}
 						else if(event.getButton().equals(MouseButton.SECONDARY)){

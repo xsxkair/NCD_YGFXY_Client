@@ -1,15 +1,11 @@
 package org.com.xsx.Domain;
 
-public class ReportManagerBean {
+public class ManagerBean {
 	private String account;
 	private String password;
-	private String name;
-	private String sex;
-	private String age;
-	private String phone;
-	private String ddesc;
 	private String devicelist;
 	private String fatheraccount;
+	private Integer person_id;
 	
 	public String getAccount() {
 		return account;
@@ -23,37 +19,6 @@ public class ReportManagerBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getSex() {
-		return sex;
-	}
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-	public String getAge() {
-		return age;
-	}
-	public void setAge(String age) {
-		this.age = age;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getDdesc() {
-		return ddesc;
-	}
-	public void setDdesc(String ddesc) {
-		this.ddesc = ddesc;
-	}
 	public String getDevicelist() {
 		return devicelist;
 	}
@@ -66,5 +31,10 @@ public class ReportManagerBean {
 	public void setFatheraccount(String fatheraccount) {
 		this.fatheraccount = fatheraccount;
 	}
-	
+	public Integer getPerson_id() {
+		return person_id;
+	}
+	public void setPerson_id(Integer person_id) {
+		this.person_id = person_id;
+	}
 }

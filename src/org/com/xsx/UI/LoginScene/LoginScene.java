@@ -3,10 +3,10 @@ package org.com.xsx.UI.LoginScene;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.com.xsx.Dao.ReportManageDao;
-import org.com.xsx.Data.LoginUser;
+import org.com.xsx.Dao.ManagerDao;
+import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIScence;
-import org.com.xsx.Domain.ReportManagerBean;
+import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.UI.MainScene.ContainerPane;
 
 import javafx.beans.binding.BooleanBinding;
@@ -105,10 +105,10 @@ public class LoginScene {
 	@FXML
 	public void LoginAction(ActionEvent e){
 		
-		ReportManagerBean tempuser = ReportManageDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
+		Object[] tempuser = ManagerDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
 		
 		if(tempuser != null){
-			LoginUser.GetInstance().setGB_ReportManagerBean(tempuser);
+			SignedManager.GetInstance().setGB_SignedManager(tempuser);
 			UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
 		}
 		else {
@@ -126,10 +126,10 @@ public class LoginScene {
 			
 			if((UserNameText.getText().length() > 0)&&(UserPasswordText.getText().length() > 0)){
 					
-				ReportManagerBean tempuser = ReportManageDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
+				Object[] tempuser = ManagerDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
 				
 				if(tempuser != null){
-					LoginUser.GetInstance().setGB_ReportManagerBean(tempuser);
+					SignedManager.GetInstance().setGB_SignedManager(tempuser);
 					UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
 				}
 				else {

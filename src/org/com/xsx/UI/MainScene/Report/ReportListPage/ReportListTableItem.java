@@ -1,5 +1,9 @@
 package org.com.xsx.UI.MainScene.Report.ReportListPage;
 
+import org.com.xsx.Domain.CardBean;
+import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.PersonBean;
+import org.com.xsx.Domain.SampleBean;
 import org.com.xsx.Domain.TestDataBean;
 
 
@@ -12,9 +16,18 @@ public class ReportListTableItem {
 	private String tester;
 	private String deviceid;
 	private String simpleid;
+	private String managername;
 	private String reportresult;
 	
-	private TestDataBean testdatabean;
+	/*
+	 * 1 -- 测试数据
+	 * 2 -- 试剂卡数据
+	 * 3 -- 设备数据
+	 * 4 -- 操作人数据
+	 * 5 -- 样品数据
+	 * 6 -- 审核人数据
+	 */
+	private Object[] reportdata;
 
 	public Integer getIndex() {
 		return index;
@@ -73,6 +86,14 @@ public class ReportListTableItem {
 		this.simpleid = simpleid;
 	}
 
+	public String getManagername() {
+		return managername;
+	}
+
+	public void setManagername(String managername) {
+		this.managername = managername;
+	}
+
 	public String getReportresult() {
 		return reportresult;
 	}
@@ -81,23 +102,52 @@ public class ReportListTableItem {
 		this.reportresult = reportresult;
 	}
 
-	public TestDataBean getTestdatabean() {
-		return testdatabean;
+	public Object[] getReportdata() {
+		return reportdata;
 	}
 
-	public void setTestdatabean(TestDataBean testdatabean) {
-		this.testdatabean = testdatabean;
+	public void setReportdata(Object[] reportdata) {
+		this.reportdata = reportdata;
 		
-		this.testitem = this.testdatabean.getC_item();
-		this.testdate = new String(this.testdatabean.getTestd()+" "+this.getTestdatabean().getTestt()) ;
-		this.testresult = this.testdatabean.getA_v();
-		this.tester = this.testdatabean.getT_name();
-		this.deviceid = this.testdatabean.getDid();
-		this.simpleid = this.testdatabean.getSid();
+		if(reportdata[0] != null) {
+			this.testdate = ((TestDataBean)reportdata[0]).getTestd()+" "+((TestDataBean)reportdata[0]).getTestt();
+			this.testresult = ((TestDataBean)reportdata[0]).getA_v();
+			
+			if((((TestDataBean)reportdata[0]).getR_re() == null) || (((TestDataBean)reportdata[0]).getR_re().length() == 0))
+				this.reportresult = "未审核";
+			else
+				this.reportresult = ((TestDataBean)reportdata[0]).getR_re();
+		}
+		else {
+			this.testdate = null;
+			this.testresult = null;
+			this.reportresult = null;
+		}
 		
-		if((this.testdatabean.getR_re() == null) || (this.testdatabean.getR_re().length() == 0))
-			this.reportresult = "未审核";
+		if(reportdata[1] != null)
+			this.testitem = ((CardBean)reportdata[1]).getItem();
 		else
-			this.reportresult = this.testdatabean.getR_re();
+			this.testitem = null;
+		
+		if(reportdata[2] != null)
+			this.deviceid = ((DeviceBean)reportdata[2]).getId();
+		else
+			this.deviceid = null;
+		
+		if(reportdata[3] != null)
+			this.tester = ((PersonBean)reportdata[3]).getPname();
+		else
+			this.tester = null;
+		
+		if(reportdata[4] != null)
+			this.simpleid = ((SampleBean)reportdata[4]).getS_id();
+		else
+			this.simpleid = null;
+		
+		if(reportdata[5] != null)
+			this.simpleid = ((SampleBean)reportdata[5]).getS_id();
+		else
+			this.simpleid = null;
 	}
+
 }

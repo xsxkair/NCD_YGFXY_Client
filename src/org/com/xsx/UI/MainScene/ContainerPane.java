@@ -3,9 +3,8 @@ package org.com.xsx.UI.MainScene;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.com.xsx.Data.LoginUser;
+import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
-import org.com.xsx.Domain.ReportManagerBean;
 import org.com.xsx.UI.AboutStage.AboutStage;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
@@ -55,11 +54,9 @@ public class ContainerPane {
 
         S_Scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
         
-        LoginUser.GetInstance().getGB_ReportManagerBean().addListener(new ChangeListener<ReportManagerBean>() {
-
+        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<Object[]>() {
 			@Override
-			public void changed(ObservableValue<? extends ReportManagerBean> observable, ReportManagerBean oldValue,
-					ReportManagerBean newValue) {
+			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
 				// TODO Auto-generated method stub
 				if(newValue != null){
 					UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());

@@ -46,19 +46,18 @@ public class ReadReportService extends Service<ObservableList<ReportListTableIte
 		private ObservableList<ReportListTableItem> ReadDeviceInfoFun(){
 			ObservableList<ReportListTableItem> reportTableItems = FXCollections.observableArrayList();
 			
-			System.out.println("¶ÁÊý¾Ý");
+			List<Object[]> reportdatas = ReportDao.QueryTestDataS();
 			
-			List<TestDataBean> testDataBeans = ReportDao.QueryTestDataS();
-			
-			for (TestDataBean testDataBean : testDataBeans) {
+			for (Object[] objects : reportdatas) {
+				
 				ReportListTableItem temp = new ReportListTableItem();
     			
-    			temp.setTestdatabean(testDataBean);
-    			temp.setIndex(ReportFilterData.GetInstance().getFirstindex()+1+testDataBeans.indexOf(testDataBean));
+    			temp.setReportdata(objects);
+    			temp.setIndex(ReportFilterData.GetInstance().getFirstindex()+1+reportdatas.indexOf(objects));
 
     			reportTableItems.add(temp);
     			
-    			updateProgress(testDataBeans.indexOf(testDataBean), testDataBeans.size());
+    			updateProgress(reportdatas.indexOf(objects), reportdatas.size());
 			}
 
 			return reportTableItems;

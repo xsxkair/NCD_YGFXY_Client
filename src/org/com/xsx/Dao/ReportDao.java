@@ -3,7 +3,6 @@ package org.com.xsx.Dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.com.xsx.Data.LoginUser;
 import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Domain.TestDataBean;
 import org.com.xsx.Tools.HibernateDao;

@@ -2,29 +2,13 @@ package org.com.xsx.Domain;
 
 public class TestDataBean {
 	
-	private String cid;						//检测卡id
-	private String did;						//设备id
+	private String cid;						//检测卡id	-- 对应cardbean
+	private String did;						//设备id		-- 对应devicebean
+	private Integer tester_id;				//测试人id	-- 对应personbean
+	private Integer sample_id;				//被测标本id -- 对应samplebean
 	
-	private String c_item;					//测试项目
-	private Float c_n_v;					//正常值
-	private Float c_l_v;					//最低值
-	private Float c_h_v;					//最高值
-	private String c_dw;					//单位
-	private Integer c_t_l;					//t线位置
-	private Integer c_bq_n;					//曲线数目
-	private Float c_fend;					//分段峰高比
-	private Float c_bq1_a;					//曲线1--a
-	private Float c_bq1_b;					//曲线1--b
-	private Float c_bq1_c;					//曲线1--c
-	private Float c_bq2_a;					//曲线2--a
-	private Float c_bq2_b;					//曲线2--b
-	private Float c_bq2_c;					//曲线2--c
-	private Integer c_waitt;				//反应时间
-	private Integer c_c_l;					//c线位置
-	private java.sql.Date c_outt;			//过期时间
-	
-	private java.sql.Date testd;
-	private java.sql.Time testt;
+	private java.sql.Date testd;			//测试日期
+	private java.sql.Time testt;			//测试时间
 	private Float e_t;						//环境温度
 	private Float o_t;						//检测卡温度
 	private Integer outt;					//超时时间
@@ -36,19 +20,12 @@ public class TestDataBean {
 	private Float a_p;						//校准参数
 	private Float b_v;						//原始结果
 	private Float a_v;						//校准后结果
-	private String sid;						//样品id
 	private String r_re;					//报告结果
 	private String r_desc;					//报告说明
 	
-	private String t_name;					//测试人
-	private String t_age;
-	private String t_sex;
-	private String t_phone;
-	private String t_job;
-	private String t_desc;
-	
 	private java.sql.Timestamp	r_uptime;		//报告上传时间
 	private java.sql.Timestamp	r_handletime;	//报告处理时间
+	private String Manageraccount;				//审核人账号  -- 对应managerbean
 	
 	public String getCid() {
 		return cid;
@@ -62,108 +39,17 @@ public class TestDataBean {
 	public void setDid(String did) {
 		this.did = did;
 	}
-	public String getC_item() {
-		return c_item;
+	public Integer getTester_id() {
+		return tester_id;
 	}
-	public void setC_item(String c_item) {
-		this.c_item = c_item;
+	public void setTester_id(Integer tester_id) {
+		this.tester_id = tester_id;
 	}
-	public Float getC_n_v() {
-		return c_n_v;
+	public Integer getSample_id() {
+		return sample_id;
 	}
-	public void setC_n_v(Float c_n_v) {
-		this.c_n_v = c_n_v;
-	}
-	public Float getC_l_v() {
-		return c_l_v;
-	}
-	public void setC_l_v(Float c_l_v) {
-		this.c_l_v = c_l_v;
-	}
-	public Float getC_h_v() {
-		return c_h_v;
-	}
-	public void setC_h_v(Float c_h_v) {
-		this.c_h_v = c_h_v;
-	}
-	public String getC_dw() {
-		return c_dw;
-	}
-	public void setC_dw(String c_dw) {
-		this.c_dw = c_dw;
-	}
-	public Integer getC_t_l() {
-		return c_t_l;
-	}
-	public void setC_t_l(Integer c_t_l) {
-		this.c_t_l = c_t_l;
-	}
-	public Integer getC_bq_n() {
-		return c_bq_n;
-	}
-	public void setC_bq_n(Integer c_bq_n) {
-		this.c_bq_n = c_bq_n;
-	}
-	public Float getC_fend() {
-		return c_fend;
-	}
-	public void setC_fend(Float c_fend) {
-		this.c_fend = c_fend;
-	}
-	public Float getC_bq1_a() {
-		return c_bq1_a;
-	}
-	public void setC_bq1_a(Float c_bq1_a) {
-		this.c_bq1_a = c_bq1_a;
-	}
-	public Float getC_bq1_b() {
-		return c_bq1_b;
-	}
-	public void setC_bq1_b(Float c_bq1_b) {
-		this.c_bq1_b = c_bq1_b;
-	}
-	public Float getC_bq1_c() {
-		return c_bq1_c;
-	}
-	public void setC_bq1_c(Float c_bq1_c) {
-		this.c_bq1_c = c_bq1_c;
-	}
-	public Float getC_bq2_a() {
-		return c_bq2_a;
-	}
-	public void setC_bq2_a(Float c_bq2_a) {
-		this.c_bq2_a = c_bq2_a;
-	}
-	public Float getC_bq2_b() {
-		return c_bq2_b;
-	}
-	public void setC_bq2_b(Float c_bq2_b) {
-		this.c_bq2_b = c_bq2_b;
-	}
-	public Float getC_bq2_c() {
-		return c_bq2_c;
-	}
-	public void setC_bq2_c(Float c_bq2_c) {
-		this.c_bq2_c = c_bq2_c;
-	}
-	public Integer getC_waitt() {
-		return c_waitt;
-	}
-	public void setC_waitt(Integer c_waitt) {
-		this.c_waitt = c_waitt;
-	}
-	public Integer getC_c_l() {
-		return c_c_l;
-	}
-	public void setC_c_l(Integer c_c_l) {
-		this.c_c_l = c_c_l;
-	}
-
-	public java.sql.Date getC_outt() {
-		return c_outt;
-	}
-	public void setC_outt(java.sql.Date c_outt) {
-		this.c_outt = c_outt;
+	public void setSample_id(Integer sample_id) {
+		this.sample_id = sample_id;
 	}
 	public java.sql.Date getTestd() {
 		return testd;
@@ -243,12 +129,6 @@ public class TestDataBean {
 	public void setA_v(Float a_v) {
 		this.a_v = a_v;
 	}
-	public String getSid() {
-		return sid;
-	}
-	public void setSid(String sid) {
-		this.sid = sid;
-	}
 	public String getR_re() {
 		return r_re;
 	}
@@ -261,42 +141,6 @@ public class TestDataBean {
 	public void setR_desc(String r_desc) {
 		this.r_desc = r_desc;
 	}
-	public String getT_name() {
-		return t_name;
-	}
-	public void setT_name(String t_name) {
-		this.t_name = t_name;
-	}
-	public String getT_age() {
-		return t_age;
-	}
-	public void setT_age(String t_age) {
-		this.t_age = t_age;
-	}
-	public String getT_sex() {
-		return t_sex;
-	}
-	public void setT_sex(String t_sex) {
-		this.t_sex = t_sex;
-	}
-	public String getT_phone() {
-		return t_phone;
-	}
-	public void setT_phone(String t_phone) {
-		this.t_phone = t_phone;
-	}
-	public String getT_job() {
-		return t_job;
-	}
-	public void setT_job(String t_job) {
-		this.t_job = t_job;
-	}
-	public String getT_desc() {
-		return t_desc;
-	}
-	public void setT_desc(String t_desc) {
-		this.t_desc = t_desc;
-	}
 	public java.sql.Timestamp getR_uptime() {
 		return r_uptime;
 	}
@@ -308,6 +152,12 @@ public class TestDataBean {
 	}
 	public void setR_handletime(java.sql.Timestamp r_handletime) {
 		this.r_handletime = r_handletime;
+	}
+	public String getManageraccount() {
+		return Manageraccount;
+	}
+	public void setManageraccount(String manageraccount) {
+		Manageraccount = manageraccount;
 	}
 	
 

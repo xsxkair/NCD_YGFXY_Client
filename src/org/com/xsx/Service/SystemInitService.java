@@ -65,7 +65,7 @@ public class SystemInitService extends Service<Boolean>{
 	    		return false;
 			}
     		
-    		
+/*    		
     		updateMessage("检查更新中。。。");
     		for (; i < 30; i++) {
     			updateProgress(i, 100);
@@ -89,13 +89,13 @@ public class SystemInitService extends Service<Boolean>{
     			updateMessage("已是最新版");
 			}
     		Thread.sleep(1000); 
-    		
+ */   		
     		//加载UI
     		//初始化登陆界面
     		updateMessage("1");
     		LoginScene.GetInstance().UI_Init();
     		updateProgress(32, 100);
-    		
+ /*   		
     		updateMessage("2");
     		ContainerPane.GetInstance().UI_Init();
     		updateProgress(34, 100);
@@ -111,7 +111,7 @@ public class SystemInitService extends Service<Boolean>{
     		updateMessage("5");
     		DevicePage.GetInstance().UI_Init();
     		updateProgress(40, 100);
-    		
+ */   		
     		updateProgress(100, 100);
     		Thread.sleep(1000); 
 

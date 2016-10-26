@@ -22,13 +22,13 @@ import net.sf.json.JSONObject;
 
 public class ReportTipInfo extends AnchorPane{
 
-	private TestDataBean testdatabean;
+	private Object[] reportdata;
 	
 	public ReportTipInfo(){
 	}
 	
-	public ReportTipInfo(TestDataBean data){
-		this.testdatabean = data;
+	public ReportTipInfo(Object[] data){
+		this.reportdata = data;
 		this.UI_Init();
 	}
 	
@@ -39,7 +39,7 @@ public class ReportTipInfo extends AnchorPane{
     	LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
     	chart.setStyle("-fx-legend-visible:false");
     	
-    	Series<Number, Number> series = new Series<>();
+ /*   	Series<Number, Number> series = new Series<>();
 
         chart.getData().add(series);
         
@@ -138,6 +138,7 @@ public class ReportTipInfo extends AnchorPane{
 		}
 		else{
 			this.getChildren().add(new Label("´íÎó"));
-		}
+		}*/
+    	this.getChildren().addAll(chart);
 	}
 }

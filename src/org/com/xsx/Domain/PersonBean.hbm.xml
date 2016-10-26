@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-10-26 14:12:01 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="org.com.xsx.Domain.PersonBean" table="PERSONBEAN">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="pname" type="java.lang.String">
+            <column name="PNAME" />
+        </property>
+        <property name="page" type="java.lang.String">
+            <column name="PAGE" />
+        </property>
+        <property name="psex" type="java.lang.String">
+            <column name="PSEX" />
+        </property>
+        <property name="pphone" type="java.lang.String">
+            <column name="PPHONE" />
+        </property>
+        <property name="pjob" type="java.lang.String">
+            <column name="PJOB" />
+        </property>
+        <property name="pdesc" type="java.lang.String">
+            <column name="PDESC" />
+        </property>
+    </class>
+</hibernate-mapping>
