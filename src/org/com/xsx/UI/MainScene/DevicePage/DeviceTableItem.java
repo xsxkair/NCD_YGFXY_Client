@@ -1,35 +1,31 @@
 package org.com.xsx.UI.MainScene.DevicePage;
 
+import java.util.List;
+
+import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.PersonBean;
+
 import javafx.scene.image.Image;
 
 public class DeviceTableItem {
 	
 	private Image deviceico;
-	
 	private String deviceid;
-	
 	private String devicemanagername;
-	private String devicemanagersex;
-	private String devicemanagerage;
-	private String devicemanagerjob;
-	private String devicemanagerdesc;
 	private String devicemanagerphone;
-	
 	private String deviceaddr;
-	
 	private String devicestatus;
 	
 	private DeviceThumnPane devicethumn;
-
-	public DeviceTableItem(String id, String name, String sex, String age, String job, String desc,  String phone, String addr){
-		this.deviceid = id;
-		this.devicemanagername = name;
-		this.devicemanagersex = sex;
-		this.devicemanagerage = age;
-		this.devicemanagerjob = job;
-		this.devicemanagerdesc = desc;
-		this.devicemanagerphone = phone;
-		this.deviceaddr = addr;
+	
+	private DeviceBean devicebean;					//设备信息
+	private PersonBean deviceperson;				//设备责任人信息
+	private List<PersonBean> devicepersonlist;		//设备操作人列表
+	
+	public DeviceTableItem(Object[] deviceinfo){
+		this.setDevicebean((DeviceBean) deviceinfo[0]);
+		this.setDeviceperson((PersonBean) deviceinfo[1]);
+		this.setDevicepersonlist((List<PersonBean>) deviceinfo[2]);
 	}
 	
 	public Image getDeviceico() {
@@ -54,38 +50,6 @@ public class DeviceTableItem {
 
 	public void setDevicemanagername(String devicemanagername) {
 		this.devicemanagername = devicemanagername;
-	}
-
-	public String getDevicemanagersex() {
-		return devicemanagersex;
-	}
-
-	public void setDevicemanagersex(String devicemanagersex) {
-		this.devicemanagersex = devicemanagersex;
-	}
-
-	public String getDevicemanagerage() {
-		return devicemanagerage;
-	}
-
-	public void setDevicemanagerage(String devicemanagerage) {
-		this.devicemanagerage = devicemanagerage;
-	}
-
-	public String getDevicemanagerjob() {
-		return devicemanagerjob;
-	}
-
-	public void setDevicemanagerjob(String devicemanagerjob) {
-		this.devicemanagerjob = devicemanagerjob;
-	}
-
-	public String getDevicemanagerdesc() {
-		return devicemanagerdesc;
-	}
-
-	public void setDevicemanagerdesc(String devicemanagerdesc) {
-		this.devicemanagerdesc = devicemanagerdesc;
 	}
 
 	public String getDevicemanagerphone() {
@@ -118,6 +82,59 @@ public class DeviceTableItem {
 
 	public void setDevicethumn(DeviceThumnPane devicethumn) {
 		this.devicethumn = devicethumn;
+	}
+
+	public DeviceBean getDevicebean() {
+		return devicebean;
+	}
+
+	public void setDevicebean(DeviceBean devicebean) {
+		this.devicebean = devicebean;
+		
+		long currenttime = System.currentTimeMillis();
+		Long devicetime = devicebean.getDltime();
+
+		if((devicetime == null) || ((currenttime > devicetime) && (currenttime - devicetime > 120000))){
+			this.setDeviceico(new Image(this.getClass().getResourceAsStream("/RES/deviceico_off.png")));
+			this.setDevicestatus("离线");
+		}
+		else{
+			this.setDeviceico(new Image(this.getClass().getResourceAsStream("/RES/deviceico_on.png")));
+			if(devicebean.getDisok())
+				this.setDevicestatus("正常");
+			else
+				this.setDevicestatus("异常");
+		}
+		
+		this.setDeviceid(devicebean.getId());
+		this.setDeviceaddr(devicebean.getDaddr());
+		
+		this.setDevicethumn(new DeviceThumnPane(this.getDeviceico(), this.getDeviceid()));
+	}
+
+	public PersonBean getDeviceperson() {
+		return deviceperson;
+	}
+
+	public void setDeviceperson(PersonBean deviceperson) {
+		this.deviceperson = deviceperson;
+		
+		if(deviceperson != null){
+			this.setDevicemanagername(deviceperson.getPname());
+			this.setDevicemanagerphone(deviceperson.getPphone());
+		}
+		else{
+			this.setDevicemanagername(null);
+			this.setDevicemanagerphone(null);
+		}
+	}
+
+	public List<PersonBean> getDevicepersonlist() {
+		return devicepersonlist;
+	}
+
+	public void setDevicepersonlist(List<PersonBean> devicepersonlist) {
+		this.devicepersonlist = devicepersonlist;
 	}
 	
 }

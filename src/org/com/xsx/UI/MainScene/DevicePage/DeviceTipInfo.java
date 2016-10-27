@@ -1,5 +1,10 @@
 package org.com.xsx.UI.MainScene.DevicePage;
 
+import java.util.List;
+
+import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.PersonBean;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -10,15 +15,11 @@ import javafx.scene.text.Font;
 
 public class DeviceTipInfo extends VBox{
 	
-	private DeviceTableItem deviceinfo;
-	
-	public DeviceTipInfo(DeviceTableItem info){
-		deviceinfo = info;
-		
-		this.uiinit();
+	public DeviceTipInfo(DeviceTableItem deviceinfo){
+		this.uiinit(deviceinfo);
 	}
 	
-	private void uiinit(){
+	private void uiinit(DeviceTableItem deviceinfo){
 		
 		this.setAlignment(Pos.CENTER);
 		
@@ -27,7 +28,7 @@ public class DeviceTipInfo extends VBox{
 		label0.setFont(new Font("System", 16));
 		label0.setPadding(new Insets(0, 16, 0, 0));
 		
-		Label label1 = new Label(this.deviceinfo.getDeviceid());
+		Label label1 = new Label(deviceinfo.getDevicebean().getId());
 		label1.setFont(new Font("System", 14));
 		
 		HBox hBox1 = new HBox();
@@ -46,36 +47,36 @@ public class DeviceTipInfo extends VBox{
 		vBox1.setAlignment(Pos.CENTER_LEFT);
 		vBox1.setSpacing(5);
 		StringBuffer userinfo = new StringBuffer();
-		if((deviceinfo.getDevicemanagername() != null)&&(this.deviceinfo.getDevicemanagername().length() > 0))
-			userinfo.append(this.deviceinfo.getDevicemanagername()+"  ");
+		if((deviceinfo.getDeviceperson().getPname() != null)&&(deviceinfo.getDeviceperson().getPname().length() > 0))
+			userinfo.append(deviceinfo.getDeviceperson().getPname()+"  ");
 		
-		if((deviceinfo.getDevicemanagersex() != null)&&(this.deviceinfo.getDevicemanagersex().length() > 0))
-			userinfo.append(this.deviceinfo.getDevicemanagersex()+"  ");
+		if((deviceinfo.getDeviceperson().getPsex() != null)&&(deviceinfo.getDeviceperson().getPsex().length() > 0))
+			userinfo.append(deviceinfo.getDeviceperson().getPsex()+"  ");
 		
-		if((deviceinfo.getDevicemanagerage() != null)&&(this.deviceinfo.getDevicemanagerage().length() > 0))
-			userinfo.append(this.deviceinfo.getDevicemanagerage());
+		if((deviceinfo.getDeviceperson().getPage() != null)&&(deviceinfo.getDeviceperson().getPage().length() > 0))
+			userinfo.append(deviceinfo.getDeviceperson().getPage());
 		
 		Label label3 = new Label(userinfo.toString());
 		label3.setFont(new Font("System", 14));
 		
 		Label label6 = new Label();
 		label6.setFont(new Font("System", 14));
-		if((deviceinfo.getDevicemanagerjob() != null)&&(this.deviceinfo.getDevicemanagerjob().length() > 0))
-			label6.setText(this.deviceinfo.getDevicemanagerjob());
+		if((deviceinfo.getDeviceperson().getPjob() != null)&&(deviceinfo.getDeviceperson().getPjob().length() > 0))
+			label6.setText(deviceinfo.getDeviceperson().getPjob());
 		else
 			label6.setText("无");
 		
 		Label label7 = new Label();
 		label7.setFont(new Font("System", 14));
-		if((deviceinfo.getDevicemanagerphone() != null)&&(this.deviceinfo.getDevicemanagerphone().length() > 0))
-			label7.setText(this.deviceinfo.getDevicemanagerphone());
+		if((deviceinfo.getDeviceperson().getPphone() != null)&&(deviceinfo.getDeviceperson().getPphone().length() > 0))
+			label7.setText(deviceinfo.getDeviceperson().getPphone());
 		else
 			label7.setText("无");
 		
 		Label label8 = new Label();
 		label8.setFont(new Font("System", 14));
-		if((deviceinfo.getDevicemanagerdesc() != null)&&(this.deviceinfo.getDevicemanagerdesc().length() > 0))
-			label8.setText(this.deviceinfo.getDevicemanagerdesc());
+		if((deviceinfo.getDeviceperson().getPdesc() != null)&&(deviceinfo.getDeviceperson().getPdesc().length() > 0))
+			label8.setText(deviceinfo.getDeviceperson().getPdesc());
 		else
 			label8.setText("无");
 	
@@ -90,7 +91,7 @@ public class DeviceTipInfo extends VBox{
 		
 		Label label9 = new Label("设备地址: ");
 		label9.setFont(new Font("System", 16));
-		Label label10 = new Label(this.deviceinfo.getDeviceaddr());
+		Label label10 = new Label(deviceinfo.getDevicebean().getDaddr());
 		label10.setFont(new Font("System", 14));
 		
 		HBox hBox3 = new HBox();
@@ -119,12 +120,7 @@ public class DeviceTipInfo extends VBox{
 		this.getChildren().add(hBox4);
 	}
 
-	public DeviceTableItem getDeviceinfo() {
-		return deviceinfo;
-	}
-
 	public void setDeviceinfo(DeviceTableItem deviceinfo) {
-		this.deviceinfo = deviceinfo;
-		this.uiinit();
+		this.uiinit(deviceinfo);
 	}
 }

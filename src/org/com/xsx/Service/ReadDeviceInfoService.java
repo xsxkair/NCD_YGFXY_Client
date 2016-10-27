@@ -3,7 +3,8 @@ package org.com.xsx.Service;
 import java.util.List;
 
 import org.com.xsx.Dao.DeviceInfoDao;
-import org.com.xsx.Data.LoginUser;
+import org.com.xsx.Data.SignedManager;
+import org.com.xsx.Domain.DeviceBean;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceTableItem;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceThumnPane;
 
@@ -25,7 +26,7 @@ public class ReadDeviceInfoService extends ScheduledService<ObservableList<Devic
 	public static ReadDeviceInfoService GetInstance() {
 		if(GB_ReadDeviceInfoService == null){
 			GB_ReadDeviceInfoService = new ReadDeviceInfoService();
-			GB_ReadDeviceInfoService.setPeriod(Duration.minutes(1));
+			GB_ReadDeviceInfoService.setPeriod(Duration.seconds(10));
 		}
 
 		return GB_ReadDeviceInfoService;
@@ -48,40 +49,15 @@ public class ReadDeviceInfoService extends ScheduledService<ObservableList<Devic
 		private ObservableList<DeviceTableItem> ReadDeviceInfoFun(){
 			ObservableList<DeviceTableItem> deviceTableItems = FXCollections.observableArrayList();
 			
-			List<DeviceInfoBean> devices = DeviceInfoDao.QueryDeviceS(LoginUser.GetInstance().getMy_deviceids());
-			
-			long currenttime = System.currentTimeMillis();
-			long devicetime;
-			
-			Image off = null;
-			Image on = null;
-			off = new Image(this.getClass().getResourceAsStream("/RES/deviceico_off.png"));
-			on = new Image(this.getClass().getResourceAsStream("/RES/deviceico_on.png"));
-			
-			for (DeviceInfoBean deviceInfoBean : devices) {
+			List<Object[]> devices = DeviceInfoDao.QueryDeviceS(SignedManager.GetInstance().GetManagerDeviceIdList());
+
+			for (Object[] deviceinfo : devices) {
 				
-				DeviceTableItem temp = new DeviceTableItem(deviceInfoBean.getId(), deviceInfoBean.getDname(), deviceInfoBean.getDsex(), deviceInfoBean.getDage(),
-						deviceInfoBean.getDjob(), deviceInfoBean.getDdesc(), deviceInfoBean.getDphone(), deviceInfoBean.getDaddr());
-				
-				devicetime = deviceInfoBean.getDltime();
-				
-				if((currenttime > devicetime) && (currenttime - devicetime > 120000)){
-					temp.setDeviceico(off);
-					temp.setDevicestatus("离线");
-				}	
-				else{
-					temp.setDeviceico(on);
-					if(deviceInfoBean.getDisok())
-						temp.setDevicestatus("正常");
-					else
-						temp.setDevicestatus("异常");
-				}
-					
-				temp.setDevicethumn(new DeviceThumnPane(temp.getDeviceico(), temp.getDeviceid()));
-				
+				DeviceTableItem temp = new DeviceTableItem(deviceinfo);
+
 				deviceTableItems.add(temp);
 			}
-			
+
 			return deviceTableItems;
 		}
 	}

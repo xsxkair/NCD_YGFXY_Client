@@ -47,9 +47,9 @@ public class ReadReportService extends Service<ObservableList<ReportListTableIte
 			ObservableList<ReportListTableItem> reportTableItems = FXCollections.observableArrayList();
 			
 			List<Object[]> reportdatas = ReportDao.QueryTestDataS();
-			
+			System.out.println("ÊýÄ¿"+reportdatas.size());
 			for (Object[] objects : reportdatas) {
-				
+
 				ReportListTableItem temp = new ReportListTableItem();
     			
     			temp.setReportdata(objects);

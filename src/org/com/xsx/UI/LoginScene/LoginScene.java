@@ -106,7 +106,7 @@ public class LoginScene {
 	public void LoginAction(ActionEvent e){
 		
 		Object[] tempuser = ManagerDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
-		
+		System.out.println(tempuser);
 		if(tempuser != null){
 			SignedManager.GetInstance().setGB_SignedManager(tempuser);
 			UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());

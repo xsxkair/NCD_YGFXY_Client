@@ -2,6 +2,7 @@ package org.com.xsx.UI.MainScene.Report.ReportListPage;
 
 import org.com.xsx.Domain.CardBean;
 import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Domain.PersonBean;
 import org.com.xsx.Domain.SampleBean;
 import org.com.xsx.Domain.TestDataBean;
@@ -110,9 +111,10 @@ public class ReportListTableItem {
 		this.reportdata = reportdata;
 		
 		if(reportdata[0] != null) {
+
 			this.testdate = ((TestDataBean)reportdata[0]).getTestd()+" "+((TestDataBean)reportdata[0]).getTestt();
 			this.testresult = ((TestDataBean)reportdata[0]).getA_v();
-			
+
 			if((((TestDataBean)reportdata[0]).getR_re() == null) || (((TestDataBean)reportdata[0]).getR_re().length() == 0))
 				this.reportresult = "Œ¥…Û∫À";
 			else
@@ -144,10 +146,10 @@ public class ReportListTableItem {
 		else
 			this.simpleid = null;
 		
-		if(reportdata[5] != null)
-			this.simpleid = ((SampleBean)reportdata[5]).getS_id();
+/*		if(reportdata[5] != null)
+			this.simpleid = ((ManagerBean)reportdata[5]).getS_id();
 		else
-			this.simpleid = null;
+			this.simpleid = null;*/
 	}
 
 }

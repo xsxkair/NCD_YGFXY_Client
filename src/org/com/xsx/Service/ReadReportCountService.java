@@ -31,7 +31,6 @@ public class ReadReportCountService extends Service<Long>{
 		@Override
 		protected Long call() throws Exception {
 			// TODO Auto-generated method stub
-			System.out.println("¶ÁÊýÄ¿");
 			return ReportDao.QueryTestDataNum();
 		}
 	}

@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.com.xsx.Data.LoginUser;
-import org.com.xsx.Domain.ReportManagerBean;
+import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Service.ReadDeviceInfoService;
 
 import javafx.beans.value.ChangeListener;
@@ -128,7 +127,7 @@ public class DevicePage {
 					ObservableList<DeviceTableItem> oldValue, ObservableList<DeviceTableItem> newValue) {
 				// TODO Auto-generated method stub
 				DeviceThumbShowPane.getChildren().clear();
-				
+
 				for (DeviceTableItem deviceTableItem : newValue) {
 					
 					DeviceThumnPane temp = deviceTableItem.getDevicethumn();
@@ -143,11 +142,10 @@ public class DevicePage {
 			}
 		});
         
-        LoginUser.GetInstance().getGB_ReportManagerBean().addListener(new ChangeListener<ReportManagerBean>() {
+        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<Object[]>() {
 
 			@Override
-			public void changed(ObservableValue<? extends ReportManagerBean> observable, ReportManagerBean oldValue,
-					ReportManagerBean newValue) {
+			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
 				// TODO Auto-generated method stub
 				if(newValue != null){
 					ReadDeviceInfoService.GetInstance().start();
