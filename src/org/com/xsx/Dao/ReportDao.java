@@ -13,19 +13,20 @@ public class ReportDao {
 	public static List<Object[]> QueryTestDataS(){
 
 		StringBuffer hql = new StringBuffer("select t,c,d,p,s,m from TestDataBean t, CardBean c, DeviceBean d, PersonBean p, SampleBean s, ManagerBean m");
-		hql.append(" where t.cid=c.id AND t.did=d.id AND t.tester_id=p.id AND t.sample_id=s.id AND t.Manageraccount=m.account");
-/*		ArrayList<Object> parms = new ArrayList<>();
+		hql.append(" where c.id=t.cid AND d.id=t.did AND t.tester_id=p.id AND t.sample_id=s.id AND t.manageraccount=m.account");
+		ArrayList<Object> parms = new ArrayList<>();
 		String tempstr;
 		java.sql.Date tempdate;
+		
 		// 测试项目,如果过滤条件为null，则搜索所有项目
 		tempstr = ReportFilterData.GetInstance().getTestitem();
 		if(tempstr != null){
-			hql.append(" AND t.c_item like '%"+tempstr+"%'");
-//			hql.append(" AND t.c_item like :parm"+parms.size());
-//			parms.add("%"+tempstr+"%");
+//			hql.append(" AND c.item like '%"+tempstr+"%'");
+			hql.append(" AND c.item like :parm"+parms.size());
+			parms.add("%"+tempstr+"%");
 		}
 		
- 		// 测试时间, 如果时间条件为null，则搜索所有时间
+/* 		// 测试时间, 如果时间条件为null，则搜索所有时间
 		tempdate = ReportFilterData.GetInstance().getTesttime();
 		if(tempdate != null){
 			hql.append(" AND t.testd ='"+tempdate+"'");
@@ -99,7 +100,8 @@ public class ReportDao {
 		
 		List<TestDataBean> list = HibernateDao.GetInstance().querysql(hql1.toString(), TestDataBean.class);
 	*/	
-		List<Object[]> list = HibernateDao.GetInstance().query(hql.toString(), null, ReportFilterData.GetInstance().getFirstindex(), ReportFilterData.GetInstance().getPagesize());
+		
+		List<Object[]> list = HibernateDao.GetInstance().query(hql.toString(), parms.toArray(), ReportFilterData.GetInstance().getFirstindex(), ReportFilterData.GetInstance().getPagesize());
 		return list;
 	}
 	

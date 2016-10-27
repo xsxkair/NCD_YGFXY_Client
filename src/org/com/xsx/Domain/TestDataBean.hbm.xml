@@ -68,7 +68,7 @@
         <property name="r_handletime" type="java.sql.Timestamp">
             <column name="R_HANDLETIME" />
         </property>
-        <property name="Manageraccount" type="java.lang.String">
+        <property name="manageraccount" type="java.lang.String">
             <column name="MANAGERACCOUNT" />
         </property>
     </class>

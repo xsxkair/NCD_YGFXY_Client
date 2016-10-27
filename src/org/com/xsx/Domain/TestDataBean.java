@@ -25,7 +25,7 @@ public class TestDataBean {
 	
 	private java.sql.Timestamp	r_uptime;		//报告上传时间
 	private java.sql.Timestamp	r_handletime;	//报告处理时间
-	private String Manageraccount;				//审核人账号  -- 对应managerbean
+	private String manageraccount;				//审核人账号  -- 对应managerbean
 	
 	public String getCid() {
 		return cid;
@@ -154,10 +154,10 @@ public class TestDataBean {
 		this.r_handletime = r_handletime;
 	}
 	public String getManageraccount() {
-		return Manageraccount;
+		return this.manageraccount;
 	}
 	public void setManageraccount(String manageraccount) {
-		Manageraccount = manageraccount;
+		this.manageraccount = manageraccount;
 	}
 	
 

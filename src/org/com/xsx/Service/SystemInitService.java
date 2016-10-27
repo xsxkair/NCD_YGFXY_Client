@@ -52,7 +52,7 @@ public class SystemInitService extends Service<Boolean>{
     		updateProgress(1, 100);
     		for (; i < 15; i++) {
     			updateProgress(i, 100);
-    			Thread.sleep(300); 
+    			Thread.sleep(50); 
 			}
     		
     		try {

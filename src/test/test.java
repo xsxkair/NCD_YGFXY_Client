@@ -40,7 +40,7 @@ public class test {
 		session.flush();
 		session.clear();
 		
-		for(int i=startindex; i<100000+startindex; i++){
+		for(int i=startindex; i<100+startindex; i++){
 			CardBean card = new CardBean();
 			card.setId("card-"+i);
 			card.setItem(items[(int) (Math.random()*6)]);

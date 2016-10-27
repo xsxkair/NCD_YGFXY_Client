@@ -207,7 +207,8 @@ public class HibernateDao{
          try  
           {  
               session = HibernateSessionBean.GetInstance().getSession();  
-              Query query=session.createQuery(sql);  
+              Query query=session.createQuery(sql); 
+
               if(param!=null)  
               {  
                   for(int i=0;i<param.length;i++)  
