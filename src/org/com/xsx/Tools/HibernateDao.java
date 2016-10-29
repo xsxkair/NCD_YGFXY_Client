@@ -224,7 +224,7 @@ public class HibernateDao{
               	query.setFirstResult(firstnum.intValue());
               	query.setMaxResults(maxnum.intValue());
               }
-              list=query.list();  
+              list=query.list();
           }  
           catch (Exception e)  
           {
@@ -264,4 +264,5 @@ public class HibernateDao{
           }  
         return list;  
     }
+ 
 } 

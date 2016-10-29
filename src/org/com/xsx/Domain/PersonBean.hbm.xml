@@ -9,19 +9,19 @@
             <generator class="native" />
         </id>
         <property name="pname" type="java.lang.String">
-            <column name="PNAME" />
+            <column name="PNAME"  length="20"/>
         </property>
         <property name="page" type="java.lang.String">
-            <column name="PAGE" />
+            <column name="PAGE" length="10"/>
         </property>
         <property name="psex" type="java.lang.String">
-            <column name="PSEX" />
+            <column name="PSEX" length="10"/>
         </property>
         <property name="pphone" type="java.lang.String">
-            <column name="PPHONE" />
+            <column name="PPHONE" length="20"/>
         </property>
         <property name="pjob" type="java.lang.String">
-            <column name="PJOB" />
+            <column name="PJOB" length="100"/>
         </property>
         <property name="pdesc" type="java.lang.String">
             <column name="PDESC" />

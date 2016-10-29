@@ -5,11 +5,11 @@
 <hibernate-mapping>
     <class name="org.com.xsx.Domain.CardBean" table="CARDBEAN">
         <id name="id" type="java.lang.String">
-            <column name="ID" />
+            <column name="ID" length="30"/>
             <generator class="assigned" />
         </id>
         <property name="item" type="java.lang.String">
-            <column name="ITEM" />
+            <column name="ITEM"  length="30"/>
         </property>
         <property name="n_v" type="java.lang.Float">
             <column name="N_V" />
@@ -21,7 +21,7 @@
             <column name="H_V" />
         </property>
         <property name="dw" type="java.lang.String">
-            <column name="DW" />
+            <column name="DW"  length="10"/>
         </property>
         <property name="t_l" type="java.lang.Integer">
             <column name="T_L" />

@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
-import org.com.xsx.Service.ReadReportCountService;
 import org.com.xsx.Service.ReadReportService;
 import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
 
@@ -19,6 +18,7 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -152,9 +152,9 @@ public class ReportListPage {
         TableColumn8.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("reportresult"));
         TableColumn8.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
     	
-        GB_TableView.itemsProperty().bind(ReadReportService.GetInstance().valueProperty());
+        //GB_TableView.itemsProperty().bind(ReadReportService.GetInstance().valueProperty());
         
-        GB_RefreshBar.progressProperty().bind(ReadReportService.GetInstance().progressProperty().add(ReadReportCountService.GetInstance().progressProperty()));
+        GB_RefreshBar.progressProperty().bind(ReadReportService.GetInstance().progressProperty());
         GB_ReportResultFilterCombox.getItems().addAll("All", "未审核", "合格", "不合格");
         
         SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<Object[]>() {
@@ -175,13 +175,12 @@ public class ReportListPage {
         GB_FreshPane.visibleProperty().bind(new BooleanBinding() {
 			
 			{
-				bind(ReadReportCountService.GetInstance().runningProperty());
 				bind(ReadReportService.GetInstance().runningProperty());
 			}
 			@Override
 			protected boolean computeValue() {
 				// TODO Auto-generated method stub
-				if((ReadReportCountService.GetInstance().isRunning()) || (ReadReportService.GetInstance().isRunning()))
+				if(ReadReportService.GetInstance().isRunning())
 					return true;
 				else
 					return false;
@@ -199,7 +198,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setTestitem(newValue);
 				
-				ReadReportCountService.GetInstance().restart();
+				//ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
@@ -221,7 +220,7 @@ public class ReportListPage {
 				
 				ReportFilterData.GetInstance().setTesttime(tempdate);
 				
-				ReadReportCountService.GetInstance().restart();
+				//ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
@@ -237,7 +236,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setTestername(newValue);
 				
-				ReadReportCountService.GetInstance().restart();
+				//ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
@@ -253,7 +252,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setDeviceid(newValue);
 				
-				ReadReportCountService.GetInstance().restart();
+				//ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
@@ -268,7 +267,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setSimpleid(newValue);
 				
-				ReadReportCountService.GetInstance().restart();
+				//ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
@@ -284,22 +283,35 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setReportresult(newValue);
 				
-				ReadReportCountService.GetInstance().restart();
+				//ReadReportCountService.GetInstance().restart();
 				StartReportService();
 			}
 		});
-
-		ReadReportCountService.GetInstance().valueProperty().addListener(new ChangeListener<Long>() {
+		
+		ReadReportService.GetInstance().valueProperty().addListener(new ChangeListener<Object[]>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Long> observable, Long oldValue, Long newValue) {
+			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
 				// TODO Auto-generated method stub
 				if(newValue != null){
-					int pagesize = ReportFilterData.GetInstance().getPagesize();
-					System.out.println(newValue);
-					GB_Pagination.setPageCount( (int) ((newValue%pagesize == 0)?(newValue/pagesize):(newValue/pagesize+1)));
 					
-					GB_Pagination.setCurrentPageIndex(0);
+					//更新页数
+					Long totalnum = (Long) newValue[1];
+					if(totalnum == null)
+						totalnum = (long) 0;
+					
+					if(totalnum != ReportFilterData.GetInstance().getTotalnum()){
+						ReportFilterData.GetInstance().setTotalnum(totalnum);
+						int pagesize = ReportFilterData.GetInstance().getPagesize();
+
+						GB_Pagination.setPageCount((int) ((totalnum.longValue()%pagesize == 0)?(totalnum.longValue()/pagesize):(totalnum.longValue()/pagesize+1)));
+							
+						GB_Pagination.setCurrentPageIndex(0);
+					}
+
+					//更新数据
+					GB_TableView.getItems().clear();
+					GB_TableView.getItems().addAll((ObservableList<ReportListTableItem>) newValue[0]);
 				}
 			}
 		});
@@ -336,7 +348,7 @@ public class ReportListPage {
 	}
 
 	public AnchorPane GetReportPane(){	
-		ReadReportCountService.GetInstance().restart();
+		//ReadReportCountService.GetInstance().restart();
 		StartReportService();
 		return reportpane;
 	}
@@ -365,13 +377,13 @@ public class ReportListPage {
 		//测试结果
 		GB_ReportResultFilterCombox.setValue(null);
 		
-		ReadReportCountService.GetInstance().restart();
+		//ReadReportCountService.GetInstance().restart();
 		StartReportService();
 	}
 	
 	@FXML
 	public void RefreshButtonActionHandle(){
-		ReadReportCountService.GetInstance().restart();
+		//ReadReportCountService.GetInstance().restart();
 		StartReportService();
 	}
 
@@ -562,11 +574,11 @@ public class ReportListPage {
 	        if (first.getParent() == controlBox) return;
 	        controlBox.getChildren().add(0, first);
 	        controlBox.getChildren().add(last);
-	        controlBox.getChildren().add(controlBox.getChildren().size()/2, pageindexinput);
-	        controlBox.setMargin(pageindexinput, new Insets(0, 10, 0, 100));
+	        controlBox.getChildren().add(controlBox.getChildren().size()/2+1, pageindexinput);
+	        controlBox.setMargin(pageindexinput, new Insets(0, 10, 0, 30));
 	        
-	        controlBox.getChildren().add(controlBox.getChildren().size()/2 + 1, pagecountlabel);
-	        controlBox.setMargin(pagecountlabel, new Insets(0, 100, 0, 0));
+	        controlBox.getChildren().add(controlBox.getChildren().indexOf(pageindexinput)+1, pagecountlabel);
+	        controlBox.setMargin(pagecountlabel, new Insets(0, 30, 0, 0));
 	    }
 
 	    /**

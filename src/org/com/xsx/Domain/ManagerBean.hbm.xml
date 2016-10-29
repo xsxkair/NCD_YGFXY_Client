@@ -5,20 +5,20 @@
 <hibernate-mapping>
     <class name="org.com.xsx.Domain.ManagerBean" table="MANAGERBEAN">
         <id name="account" type="java.lang.String">
-            <column name="ACCOUNT" />
+            <column name="ACCOUNT"  length="30"/>
             <generator class="assigned" />
         </id>
         <property name="person_id" type="java.lang.Integer">
             <column name="PERSON_ID" />
         </property>
         <property name="password" type="java.lang.String">
-            <column name="PASSWORD" />
+            <column name="PASSWORD"  length="30"/>
         </property>
         <property name="devicelist" type="java.lang.String">
             <column name="DEVICELIST" />
         </property>
         <property name="fatheraccount" type="java.lang.String">
-            <column name="FATHERACCOUNT" />
+            <column name="FATHERACCOUNT"  length="30"/>
         </property>
     </class>
 </hibernate-mapping>

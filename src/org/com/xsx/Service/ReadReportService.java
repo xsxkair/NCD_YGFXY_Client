@@ -13,7 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-public class ReadReportService extends Service<ObservableList<ReportListTableItem>>{
+public class ReadReportService extends Service<Object[]>{
 	
 	private static ReadReportService GB_ReadReportService = null;
 	
@@ -30,37 +30,39 @@ public class ReadReportService extends Service<ObservableList<ReportListTableIte
 	}
 	
 	@Override
-	protected Task<ObservableList<ReportListTableItem>> createTask() {
+	protected Task<Object[]> createTask() {
 		// TODO Auto-generated method stub
 		return new ReadDeviceInfoTask();
 	}
 	
-	class ReadDeviceInfoTask extends Task<ObservableList<ReportListTableItem>>{
+	class ReadDeviceInfoTask extends Task<Object[]>{
 
 		@Override
-		protected ObservableList<ReportListTableItem> call(){
+		protected Object[] call(){
 			// TODO Auto-generated method stub
 			return ReadDeviceInfoFun();
 		}
 		
-		private ObservableList<ReportListTableItem> ReadDeviceInfoFun(){
+		private Object[] ReadDeviceInfoFun(){
 			ObservableList<ReportListTableItem> reportTableItems = FXCollections.observableArrayList();
 			
-			List<Object[]> reportdatas = ReportDao.QueryTestDataS();
-			System.out.println("½á¹û"+reportdatas);
-			for (Object[] objects : reportdatas) {
+			Object[] reportdatas = ReportDao.QueryTestDataS();
+			
+			List<Object[]> reportdatalist = (List<Object[]>) reportdatas[0];
+			
+			for (Object[] objects : reportdatalist) {
 
 				ReportListTableItem temp = new ReportListTableItem();
     			
     			temp.setReportdata(objects);
-    			temp.setIndex(ReportFilterData.GetInstance().getFirstindex()+1+reportdatas.indexOf(objects));
+    			temp.setIndex(ReportFilterData.GetInstance().getFirstindex()+1+reportdatalist.indexOf(objects));
 
     			reportTableItems.add(temp);
     			
-    			updateProgress(reportdatas.indexOf(objects), reportdatas.size());
+    			updateProgress(reportdatalist.indexOf(objects), reportdatalist.size());
 			}
 
-			return reportTableItems;
+			return new Object[]{reportTableItems, reportdatas[1]};
 		}
 	}
 }

@@ -9,7 +9,7 @@
             <generator class="native" />
         </id>
         <property name="s_id" type="java.lang.String">
-            <column name="S_ID" />
+            <column name="S_ID" length="30"/>
         </property>
         <property name="p_id" type="java.lang.Integer">
             <column name="P_ID" />

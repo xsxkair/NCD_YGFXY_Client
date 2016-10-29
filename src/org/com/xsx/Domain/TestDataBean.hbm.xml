@@ -5,11 +5,11 @@
 <hibernate-mapping>
     <class name="org.com.xsx.Domain.TestDataBean" table="TESTDATABEAN">
         <id name="cid" type="java.lang.String">
-            <column name="CID" />
+            <column name="CID" length="30"/>
             <generator class="assigned" />
         </id>
         <property name="did" type="java.lang.String">
-            <column name="DID" />
+            <column name="DID" length="30"/>
         </property>
         <property name="tester_id" type="java.lang.Integer">
             <column name="TESTER_ID" />
@@ -42,7 +42,7 @@
             <column name="B_L" />
         </property>
         <property name="serie" type="text">
-            <column name="SERIE" length="4096"/>
+            <column name="SERIE" length="2500"/>
         </property>
         <property name="t_c_v" type="java.lang.Float">
             <column name="T_C_V" />
@@ -57,7 +57,7 @@
             <column name="A_V" />
         </property>
         <property name="r_re" type="java.lang.String">
-            <column name="R_RE" />
+            <column name="R_RE" length="20"/>
         </property>
         <property name="r_desc" type="java.lang.String">
             <column name="R_DESC" />
@@ -69,7 +69,7 @@
             <column name="R_HANDLETIME" />
         </property>
         <property name="manageraccount" type="java.lang.String">
-            <column name="MANAGERACCOUNT" />
+            <column name="MANAGERACCOUNT" length="30"/>
         </property>
     </class>
 </hibernate-mapping>
