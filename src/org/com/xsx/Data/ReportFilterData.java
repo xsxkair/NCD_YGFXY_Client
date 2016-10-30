@@ -1,9 +1,6 @@
 package org.com.xsx.Data;
 
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
-
 public class ReportFilterData {
 	private String testitem = null;
 	private java.sql.Date testtime = null;
@@ -13,7 +10,8 @@ public class ReportFilterData {
 	private String simpleid = null;
 	private String reportresult = null;
 	
-	private long totalnum = 0;
+	private boolean filterisnew = true;
+	
 	private int pageindex;													//µ±Ç°Ò³Êý
 	private int pagesize = 50;
 	
@@ -30,14 +28,6 @@ public class ReportFilterData {
 			S_ReportFilterData = new ReportFilterData();
 		
 		return S_ReportFilterData;
-	}
-
-	public long getTotalnum() {
-		return totalnum;
-	}
-
-	public void setTotalnum(long totalnum) {
-		this.totalnum = totalnum;
 	}
 
 	public int getPageindex() {
@@ -102,6 +92,14 @@ public class ReportFilterData {
 
 	public void setReportresult(String reportresult) {
 		this.reportresult = reportresult;
+	}
+
+	public boolean isFilterisnew() {
+		return filterisnew;
+	}
+
+	public void setFilterisnew(boolean filterisnew) {
+		this.filterisnew = filterisnew;
 	}
 
 }

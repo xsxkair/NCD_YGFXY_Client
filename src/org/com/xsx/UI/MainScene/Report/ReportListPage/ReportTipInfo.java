@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.com.xsx.Domain.CardBean;
 import org.com.xsx.Domain.TestDataBean;
 
 import javafx.geometry.Pos;
@@ -23,12 +24,16 @@ import net.sf.json.JSONObject;
 public class ReportTipInfo extends AnchorPane{
 
 	private Object[] reportdata;
+	private TestDataBean testDataBean;
+	private CardBean cardBean;
 	
 	public ReportTipInfo(){
 	}
 	
 	public ReportTipInfo(Object[] data){
 		this.reportdata = data;
+		testDataBean = (TestDataBean) data[0];
+		cardBean = (CardBean) data[1];
 		this.UI_Init();
 	}
 	
@@ -39,14 +44,14 @@ public class ReportTipInfo extends AnchorPane{
     	LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
     	chart.setStyle("-fx-legend-visible:false");
     	
- /*   	Series<Number, Number> series = new Series<>();
+    	Series<Number, Number> series = new Series<>();
 
         chart.getData().add(series);
         
         Map<String, List<Integer>> typemap = new HashMap<>();
 		Map<String, List<Integer>> outmap = null;
 		
-		String datajson = testdatabean.getSerie();
+		String datajson = testDataBean.getSerie();
 
 		if(datajson != null){
 			JSONObject jsonObject = JSONObject.fromObject(datajson);	
@@ -59,9 +64,9 @@ public class ReportTipInfo extends AnchorPane{
 				seriesdata.addAll(outmap.get(key));
 			}
 			
-			Integer t = testdatabean.getT_l();
-	        Integer b = testdatabean.getB_l();
-	        Integer c = testdatabean.getC_l();
+			Integer t = testDataBean.getT_l();
+	        Integer b = testDataBean.getB_l();
+	        Integer c = testDataBean.getC_l();
 	        
 	        for(int i=0; i<seriesdata.size(); i++){
 	        	Data<Number, Number> data = new Data<Number, Number>(i, seriesdata.get(i));
@@ -97,7 +102,7 @@ public class ReportTipInfo extends AnchorPane{
 	        
 	        Label label1_1 = new Label("²âÊÔ½á¹û: ");
 	        label1_1.setFont(new Font("System", 16));
-	        Label label1_2 = new Label(testdatabean.getA_v()+" "+testdatabean.getC_dw());
+	        Label label1_2 = new Label(testDataBean.getA_v()+" "+ cardBean.getDw());
 	        label1_2.setFont(new Font("System", 16)); 
 	        hBox1.getChildren().addAll(label1_1, label1_2);
 	        
@@ -107,10 +112,10 @@ public class ReportTipInfo extends AnchorPane{
 	        Label label2_1 = new Label("±¨¸æ×´Ì¬: ");
 	        label2_1.setFont(new Font("System", 16));
 	        Label label2_2 = new Label();
-	        if(testdatabean.getR_re() == null)
+	        if(testDataBean.getR_re() == null)
 	        	label2_2.setText("Î´ÉóºË");
 	        else {
-	        	label2_2.setText(testdatabean.getR_re());
+	        	label2_2.setText(testDataBean.getR_re());
 			}
 	        label2_2.setFont(new Font("System", 16)); 
 	        hBox2.getChildren().addAll(label2_1, label2_2);
@@ -125,10 +130,10 @@ public class ReportTipInfo extends AnchorPane{
 	        label3_2.setWrapText(true);
 	        label3_2.setFont(new Font("System", 16));
 	        label3_2.setPrefWidth(165);
-	        if(testdatabean.getR_desc() == null)
+	        if(testDataBean.getR_desc() == null)
 	        	label3_2.setText("ÎÞ");
 	        else
-	        	label3_2.setText(testdatabean.getR_desc());
+	        	label3_2.setText(testDataBean.getR_desc());
 	        
 	        hBox3.getChildren().addAll(label3_1, label3_2);
 	        
@@ -138,7 +143,6 @@ public class ReportTipInfo extends AnchorPane{
 		}
 		else{
 			this.getChildren().add(new Label("´íÎó"));
-		}*/
-    	this.getChildren().addAll(chart);
+		}
 	}
 }

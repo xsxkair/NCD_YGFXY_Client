@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.com.xsx.Domain.CardBean;
+import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.ManagerBean;
+import org.com.xsx.Domain.PersonBean;
+import org.com.xsx.Domain.SampleBean;
 import org.com.xsx.Domain.TestDataBean;
 
 import javafx.beans.property.ObjectProperty;
@@ -33,7 +38,7 @@ public class ReportDetailPage {
 	
 	private AnchorPane rootpane;
 	
-	private ObjectProperty<TestDataBean> S_TestDataBean;
+	private ObjectProperty<Object[]> S_ReportData;
 	
 	
 	//设备信息
@@ -144,13 +149,18 @@ public class ReportDetailPage {
 			e.printStackTrace();
 		}
         
-        S_TestDataBean = new SimpleObjectProperty<>(null);
-        S_TestDataBean.addListener(new ChangeListener<TestDataBean>() {
+        S_ReportData = new SimpleObjectProperty<>(null);
+        S_ReportData.addListener(new ChangeListener<Object[]>() {
 
 			@Override
-			public void changed(ObservableValue<? extends TestDataBean> observable, TestDataBean oldValue,
-					TestDataBean newValue) {
+			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
 				// TODO Auto-generated method stub
+				TestDataBean testDataBean;
+				CardBean cardBean;
+				DeviceBean deviceBean;
+				PersonBean personBean;
+				SampleBean sampleBean;
+				ManagerBean managerBean;
 				if(newValue == null){
 					
 				}
@@ -264,6 +274,14 @@ public class ReportDetailPage {
         AnchorPane.setRightAnchor(rootpane, 0.0);
 	}
 	
+	public ObjectProperty<Object[]> getS_ReportData() {
+		return S_ReportData;
+	}
+
+	public void setS_ReportData(Object[] s_ReportData) {
+		S_ReportData.set(s_ReportData);
+	}
+
 	public AnchorPane getPane(){
 		if(S_TestDataBean == null)
 			return null;
@@ -271,13 +289,6 @@ public class ReportDetailPage {
 			return rootpane;
 	}
 
-	public ObjectProperty<TestDataBean> getS_TestDataBean() {
-		return S_TestDataBean;
-	}
-
-	public void setS_TestDataBean(TestDataBean s_TestDataBean) {
-		S_TestDataBean.set(s_TestDataBean);
-	}
 	
 	@FXML
 	public void S_DeleteReportAction(){

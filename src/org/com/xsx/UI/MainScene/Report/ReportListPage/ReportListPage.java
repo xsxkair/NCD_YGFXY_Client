@@ -19,6 +19,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -198,7 +199,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setTestitem(newValue);
 				
-				//ReadReportCountService.GetInstance().restart();
+				ReportFilterData.GetInstance().setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -220,7 +221,7 @@ public class ReportListPage {
 				
 				ReportFilterData.GetInstance().setTesttime(tempdate);
 				
-				//ReadReportCountService.GetInstance().restart();
+				ReportFilterData.GetInstance().setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -236,7 +237,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setTestername(newValue);
 				
-				//ReadReportCountService.GetInstance().restart();
+				ReportFilterData.GetInstance().setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -252,7 +253,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setDeviceid(newValue);
 				
-				//ReadReportCountService.GetInstance().restart();
+				ReportFilterData.GetInstance().setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -267,7 +268,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setSimpleid(newValue);
 				
-				//ReadReportCountService.GetInstance().restart();
+				ReportFilterData.GetInstance().setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -283,7 +284,7 @@ public class ReportListPage {
 				else
 					ReportFilterData.GetInstance().setReportresult(newValue);
 				
-				//ReadReportCountService.GetInstance().restart();
+				ReportFilterData.GetInstance().setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -297,11 +298,9 @@ public class ReportListPage {
 					
 					//更新页数
 					Long totalnum = (Long) newValue[1];
-					if(totalnum == null)
-						totalnum = (long) 0;
 					
-					if(totalnum != ReportFilterData.GetInstance().getTotalnum()){
-						ReportFilterData.GetInstance().setTotalnum(totalnum);
+					if(totalnum != null){
+
 						int pagesize = ReportFilterData.GetInstance().getPagesize();
 
 						GB_Pagination.setPageCount((int) ((totalnum.longValue()%pagesize == 0)?(totalnum.longValue()/pagesize):(totalnum.longValue()/pagesize+1)));
@@ -312,6 +311,8 @@ public class ReportListPage {
 					//更新数据
 					GB_TableView.getItems().clear();
 					GB_TableView.getItems().addAll((ObservableList<ReportListTableItem>) newValue[0]);
+					
+					ReportFilterData.GetInstance().setFilterisnew(false);
 				}
 			}
 		});
@@ -427,7 +428,7 @@ public class ReportListPage {
 					
 					if((row != null)&&(row.getIndex() < GB_TableView.getItems().size())){
 						if(event.getClickCount() == 2){
-							//ReportDetailPage.GetInstance().setS_TestDataBean(GB_TableView.getItems().get(row.getIndex()).getReportdata());
+							ReportDetailPage.GetInstance().setS_TestDataBean(GB_TableView.getItems().get(row.getIndex()).getReportdata());
 							UIMainPage.GetInstance().setGB_Page(ReportDetailPage.GetInstance().getPane());
 						}
 						else if(event.getButton().equals(MouseButton.SECONDARY)){

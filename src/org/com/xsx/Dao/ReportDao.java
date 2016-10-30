@@ -5,12 +5,11 @@ import java.util.List;
 
 import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Data.SignedManager;
-import org.com.xsx.Domain.TestDataBean;
 import org.com.xsx.Tools.HibernateDao;
 
 public class ReportDao {
 	
-	public static Object[] QueryTestDataS(){
+	public static Object[] QueryTestDataS(boolean isquerytotalnum){
 
 		StringBuffer hql = new StringBuffer();
 		StringBuffer hql1 = new StringBuffer("select t,c,d,p,s,m");
@@ -100,10 +99,16 @@ public class ReportDao {
 		hql.append(hql2);
 		List<Object[]> list = HibernateDao.GetInstance().query(hql.toString(), parms.toArray(), ReportFilterData.GetInstance().getFirstindex(), ReportFilterData.GetInstance().getPagesize());
 		
-		hql.setLength(0);
-		hql.append("select count(t.cid)");
-		hql.append(hql2);
-		Long totalnum = (Long) HibernateDao.GetInstance().queryOne(hql.toString(), parms.toArray());
-		return new Object[]{list, totalnum};
+		if(isquerytotalnum){
+			System.out.println("²éÑ¯ÊýÄ¿");
+			hql.setLength(0);
+			hql.append("select count(t.cid)");
+			hql.append(hql2);
+			Long totalnum = (Long) HibernateDao.GetInstance().queryOne(hql.toString(), parms.toArray());
+			return new Object[]{list, totalnum};
+		}
+		else{
+			return new Object[]{list, null};
+		}
 	}
 }

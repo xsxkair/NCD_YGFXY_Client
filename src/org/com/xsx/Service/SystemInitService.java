@@ -103,11 +103,11 @@ public class SystemInitService extends Service<Boolean>{
     		updateMessage("3");
     		ReportListPage.GetInstance().UI_Init();
     		updateProgress(36, 100);
-  /*    		
+      		
     		updateMessage("4");
     		ReportDetailPage.GetInstance().UI_Init();
     		updateProgress(38, 100);
- */    		
+     		
     		updateMessage("5");
     		DevicePage.GetInstance().UI_Init();
     		updateProgress(40, 100);

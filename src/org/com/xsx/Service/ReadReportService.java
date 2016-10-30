@@ -46,7 +46,7 @@ public class ReadReportService extends Service<Object[]>{
 		private Object[] ReadDeviceInfoFun(){
 			ObservableList<ReportListTableItem> reportTableItems = FXCollections.observableArrayList();
 			
-			Object[] reportdatas = ReportDao.QueryTestDataS();
+			Object[] reportdatas = ReportDao.QueryTestDataS(ReportFilterData.GetInstance().isFilterisnew());
 			
 			List<Object[]> reportdatalist = (List<Object[]>) reportdatas[0];
 			
