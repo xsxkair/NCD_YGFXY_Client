@@ -2,12 +2,12 @@ package org.com.xsx.Domain;
 
 public class PersonBean {
 	private Integer id;
-	private String pname;				//责任人
-	private String page;					//责任人年龄
-	private String psex;					//责任人性别
-	private String pphone;				//责任人联系方式
-	private String pjob;					//责任人职务
-	private String pdesc;				//责任人备注
+	private String name;				//责任人
+	private String age;					//责任人年龄
+	private String sex;					//责任人性别
+	private String phone;				//责任人联系方式
+	private String job;					//责任人职务
+	private String dsc;				//责任人备注
 	
 	public Integer getId() {
 		return id;
@@ -15,40 +15,41 @@ public class PersonBean {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getPname() {
-		return pname;
+	public String getName() {
+		return name;
 	}
-	public void setPname(String pname) {
-		this.pname = pname;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getPage() {
-		return page;
+	public String getAge() {
+		return age;
 	}
-	public void setPage(String page) {
-		this.page = page;
+	public void setAge(String age) {
+		this.age = age;
 	}
-	public String getPsex() {
-		return psex;
+	public String getSex() {
+		return sex;
 	}
-	public void setPsex(String psex) {
-		this.psex = psex;
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
-	public String getPphone() {
-		return pphone;
+	public String getPhone() {
+		return phone;
 	}
-	public void setPphone(String pphone) {
-		this.pphone = pphone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
-	public String getPjob() {
-		return pjob;
+	public String getJob() {
+		return job;
 	}
-	public void setPjob(String pjob) {
-		this.pjob = pjob;
+	public void setJob(String job) {
+		this.job = job;
 	}
-	public String getPdesc() {
-		return pdesc;
+	public String getDsc() {
+		return dsc;
 	}
-	public void setPdesc(String pdesc) {
-		this.pdesc = pdesc;
+	public void setDsc(String dsc) {
+		this.dsc = dsc;
 	}
+
 }

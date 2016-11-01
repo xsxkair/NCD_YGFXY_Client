@@ -19,6 +19,7 @@ public class CardBean {
 	private Integer waitt;				//反应时间
 	private Integer c_l;					//c线位置
 	private java.sql.Date outt;			//过期时间
+	
 	public String getId() {
 		return id;
 	}

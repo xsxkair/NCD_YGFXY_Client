@@ -3,12 +3,18 @@ package org.com.xsx.Domain;
 public class TestDataBean {
 	
 	private String cid;						//检测卡id	-- 对应cardbean
+	private String item;					//测试项目
 	private String did;						//设备id		-- 对应devicebean
-	private Integer tester_id;				//测试人id	-- 对应personbean
-	private Integer sample_id;				//被测标本id -- 对应samplebean
+	private Integer t_id;					//测试人id	-- 对应personbean
+	private String t_name;					//测试人姓名
+	private Integer s_id;					//被测人索引 -- 对应person id，如果未从客户处获取信息，则为null
+	private String sampleid;				//样品id -- 测试时输入
+	private Integer m_id;					//审核人索引，审核后创建personbean的id
+	private String m_name;					//审核人姓名
+	private java.sql.Timestamp	r_uptime;		//报告上传时间
+	private java.sql.Timestamp	r_handletime;	//报告处理时间
 	
-	private java.sql.Date testd;			//测试日期
-	private java.sql.Time testt;			//测试时间
+	private java.sql.Timestamp testtime;	//测试时间
 	private Float e_t;						//环境温度
 	private Float o_t;						//检测卡温度
 	private Integer outt;					//超时时间
@@ -23,15 +29,17 @@ public class TestDataBean {
 	private String r_re;					//报告结果
 	private String r_desc;					//报告说明
 	
-	private java.sql.Timestamp	r_uptime;		//报告上传时间
-	private java.sql.Timestamp	r_handletime;	//报告处理时间
-	private String manageraccount;				//审核人账号  -- 对应managerbean
-	
 	public String getCid() {
 		return cid;
 	}
 	public void setCid(String cid) {
 		this.cid = cid;
+	}
+	public String getItem() {
+		return item;
+	}
+	public void setItem(String item) {
+		this.item = item;
 	}
 	public String getDid() {
 		return did;
@@ -39,29 +47,59 @@ public class TestDataBean {
 	public void setDid(String did) {
 		this.did = did;
 	}
-	public Integer getTester_id() {
-		return tester_id;
+	public Integer getT_id() {
+		return t_id;
 	}
-	public void setTester_id(Integer tester_id) {
-		this.tester_id = tester_id;
+	public void setT_id(Integer t_id) {
+		this.t_id = t_id;
 	}
-	public Integer getSample_id() {
-		return sample_id;
+	public String getT_name() {
+		return t_name;
 	}
-	public void setSample_id(Integer sample_id) {
-		this.sample_id = sample_id;
+	public void setT_name(String t_name) {
+		this.t_name = t_name;
 	}
-	public java.sql.Date getTestd() {
-		return testd;
+	public Integer getS_id() {
+		return s_id;
 	}
-	public void setTestd(java.sql.Date testd) {
-		this.testd = testd;
+	public void setS_id(Integer s_id) {
+		this.s_id = s_id;
 	}
-	public java.sql.Time getTestt() {
-		return testt;
+	public String getSampleid() {
+		return sampleid;
 	}
-	public void setTestt(java.sql.Time testt) {
-		this.testt = testt;
+	public void setSampleid(String sampleid) {
+		this.sampleid = sampleid;
+	}
+	public Integer getM_id() {
+		return m_id;
+	}
+	public void setM_id(Integer m_id) {
+		this.m_id = m_id;
+	}
+	public String getM_name() {
+		return m_name;
+	}
+	public void setM_name(String m_name) {
+		this.m_name = m_name;
+	}
+	public java.sql.Timestamp getR_uptime() {
+		return r_uptime;
+	}
+	public void setR_uptime(java.sql.Timestamp r_uptime) {
+		this.r_uptime = r_uptime;
+	}
+	public java.sql.Timestamp getR_handletime() {
+		return r_handletime;
+	}
+	public void setR_handletime(java.sql.Timestamp r_handletime) {
+		this.r_handletime = r_handletime;
+	}
+	public java.sql.Timestamp getTesttime() {
+		return testtime;
+	}
+	public void setTesttime(java.sql.Timestamp testtime) {
+		this.testtime = testtime;
 	}
 	public Float getE_t() {
 		return e_t;
@@ -141,24 +179,5 @@ public class TestDataBean {
 	public void setR_desc(String r_desc) {
 		this.r_desc = r_desc;
 	}
-	public java.sql.Timestamp getR_uptime() {
-		return r_uptime;
-	}
-	public void setR_uptime(java.sql.Timestamp r_uptime) {
-		this.r_uptime = r_uptime;
-	}
-	public java.sql.Timestamp getR_handletime() {
-		return r_handletime;
-	}
-	public void setR_handletime(java.sql.Timestamp r_handletime) {
-		this.r_handletime = r_handletime;
-	}
-	public String getManageraccount() {
-		return this.manageraccount;
-	}
-	public void setManageraccount(String manageraccount) {
-		this.manageraccount = manageraccount;
-	}
-	
 
 }
