@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-11-2 9:17:26 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="org.com.xsx.Domain.TestDataBean" table="TESTDATABEAN">
+        <id name="cid" type="java.lang.String">
+            <column name="CID" />
+            <generator class="assigned" />
+        </id>
+        <property name="item" type="java.lang.String">
+            <column name="ITEM" length="15"/>
+        </property>
+        <property name="did" type="java.lang.String">
+            <column name="DID" />
+        </property>
+        <property name="t_id" type="java.lang.Integer">
+            <column name="T_ID" />
+        </property>
+        <property name="t_name" type="java.lang.String">
+            <column name="T_NAME" length="10"/>
+        </property>
+        <property name="s_id" type="java.lang.Integer">
+            <column name="S_ID" />
+        </property>
+        <property name="sampleid" type="java.lang.String">
+            <column name="SAMPLEID" length="30"/>
+        </property>
+        <property name="m_account" type="java.lang.String">
+            <column name="M_ACCOUNT" length="30"/>
+        </property>
+        <property name="m_name" type="java.lang.String">
+            <column name="M_NAME" length="10"/>
+        </property>
+        <property name="uptime" type="java.sql.Timestamp">
+            <column name="UPTIME" />
+        </property>
+        <property name="handletime" type="java.sql.Timestamp">
+            <column name="HANDLETIME" />
+        </property>
+        <property name="testtime" type="java.sql.Timestamp">
+            <column name="TESTTIME" />
+        </property>
+        <property name="e_t" type="java.lang.Float">
+            <column name="E_T" />
+        </property>
+        <property name="o_t" type="java.lang.Float">
+            <column name="O_T" />
+        </property>
+        <property name="outt" type="java.lang.Integer">
+            <column name="OUTT" />
+        </property>
+        <property name="c_l" type="java.lang.Integer">
+            <column name="C_L" />
+        </property>
+        <property name="t_l" type="java.lang.Integer">
+            <column name="T_L" />
+        </property>
+        <property name="b_l" type="java.lang.Integer">
+            <column name="B_L" />
+        </property>
+        <property name="serie_a" type="text">
+            <column name="SERIE_A" length="800"/>
+        </property>
+        <property name="serie_b" type="text">
+            <column name="SERIE_B" length="800"/>
+        </property>
+        <property name="serie_c" type="text">
+            <column name="SERIE_C" length="800"/>
+        </property>
+        <property name="serie_d" type="text">
+            <column name="SERIE_D" length="800"/>
+        </property>
+        <property name="t_c_v" type="java.lang.Float">
+            <column name="T_C_V" />
+        </property>
+        <property name="a_p" type="java.lang.Float">
+            <column name="A_P" />
+        </property>
+        <property name="b_v" type="java.lang.Float">
+            <column name="B_V" />
+        </property>
+        <property name="a_v" type="java.lang.Float">
+            <column name="A_V" />
+        </property>
+        <property name="result" type="java.lang.String">
+            <column name="RESULT" />
+        </property>
+        <property name="r_desc" type="java.lang.String">
+            <column name="R_DESC" />
+        </property>
+    </class>
+</hibernate-mapping>

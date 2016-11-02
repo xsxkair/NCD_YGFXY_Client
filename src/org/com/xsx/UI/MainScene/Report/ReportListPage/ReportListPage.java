@@ -79,7 +79,7 @@ public class ReportListPage {
 	@FXML
 	TableColumn<ReportListTableItem, String> TableColumn2;
 	@FXML
-	TableColumn<ReportListTableItem, java.sql.Date> TableColumn3;
+	TableColumn<ReportListTableItem, java.sql.Timestamp> TableColumn3;
 	@FXML
 	TableColumn<ReportListTableItem, Float> TableColumn4;
 	@FXML
@@ -135,8 +135,8 @@ public class ReportListPage {
         TableColumn2.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("testitem"));
         TableColumn2.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
         
-        TableColumn3.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, java.sql.Date>("testdate"));
-        TableColumn3.setCellFactory(new TableColumnModel<ReportListTableItem, java.sql.Date>());
+        TableColumn3.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, java.sql.Timestamp>("testdate"));
+        TableColumn3.setCellFactory(new TableColumnModel<ReportListTableItem, java.sql.Timestamp>());
         
         TableColumn4.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, Float>("testresult"));
         TableColumn4.setCellFactory(new TableColumnModel<ReportListTableItem, Float>());
@@ -428,7 +428,7 @@ public class ReportListPage {
 					
 					if((row != null)&&(row.getIndex() < GB_TableView.getItems().size())){
 						if(event.getClickCount() == 2){
-							ReportDetailPage.GetInstance().setS_TestDataBean(GB_TableView.getItems().get(row.getIndex()).getReportdata());
+							//ReportDetailPage.GetInstance().setS_TestDataBean(GB_TableView.getItems().get(row.getIndex()).getReportdata());
 							UIMainPage.GetInstance().setGB_Page(ReportDetailPage.GetInstance().getPane());
 						}
 						else if(event.getButton().equals(MouseButton.SECONDARY)){

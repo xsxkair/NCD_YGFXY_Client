@@ -5,7 +5,7 @@ public class ManagerBean {
 	private String password;
 	private String devicelist;
 	private String fatheraccount;
-	private Integer person_id;
+	private Integer p_id;
 	
 	public String getAccount() {
 		return account;
@@ -31,10 +31,10 @@ public class ManagerBean {
 	public void setFatheraccount(String fatheraccount) {
 		this.fatheraccount = fatheraccount;
 	}
-	public Integer getPerson_id() {
-		return person_id;
+	public Integer getP_id() {
+		return p_id;
 	}
-	public void setPerson_id(Integer person_id) {
-		this.person_id = person_id;
+	public void setP_id(Integer p_id) {
+		this.p_id = p_id;
 	}
 }

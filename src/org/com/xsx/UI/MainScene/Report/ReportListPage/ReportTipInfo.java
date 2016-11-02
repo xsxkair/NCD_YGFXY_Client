@@ -23,14 +23,12 @@ import net.sf.json.JSONObject;
 
 public class ReportTipInfo extends AnchorPane{
 
-	private Object[] reportdata;
 	private TestDataBean testDataBean;
-	private CardBean cardBean;
 	
 	public ReportTipInfo(){
 	}
 	
-	public ReportTipInfo(Object[] data){
+	public ReportTipInfo(TestDataBean data){
 		this.reportdata = data;
 		testDataBean = (TestDataBean) data[0];
 		cardBean = (CardBean) data[1];

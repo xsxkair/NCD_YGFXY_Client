@@ -11,7 +11,6 @@ import org.com.xsx.Domain.CardBean;
 import org.com.xsx.Domain.DeviceBean;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Domain.PersonBean;
-import org.com.xsx.Domain.SampleBean;
 import org.com.xsx.Domain.TestDataBean;
 
 import javafx.beans.property.ObjectProperty;

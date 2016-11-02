@@ -37,14 +37,12 @@ public class SignedManager {
 		
 		JSONArray jsonArray;
 		
-		if((gB_SignedManager != null) && (gB_SignedManager[0] != null) && (gB_SignedManager[1] != null)){
+		if((gB_SignedManager != null) && (gB_SignedManager[0] != null)){
 			jsonArray = (JSONArray) JSONSerializer.toJSON(((ManagerBean)gB_SignedManager[0]).getDevicelist());
 			my_deviceids = (List<String>) JSONSerializer.toJava(jsonArray);
 			
 			GB_SignedManager.set(gB_SignedManager);
-			
-			System.out.println(((ManagerBean)gB_SignedManager[0]).getDevicelist());
-			System.out.println(((PersonBean)gB_SignedManager[1]).getPname());
+			System.out.println(my_deviceids);
 		}
 		else{
 			my_deviceids = null;

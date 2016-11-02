@@ -16,11 +16,11 @@
 		<property name="hibernate.show_sql">true</property>
 		
 		<mapping resource="org/com/xsx/Domain/CardBean.hbm.xml"/>
+		
 		<mapping resource="org/com/xsx/Domain/DeviceBean.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/ManagerBean.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/PersonBean.hbm.xml"/>
-		<mapping resource="org/com/xsx/Domain/SampleBean.hbm.xml"/>
-		<mapping resource="org/com/xsx/Domain/TestDataBean.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/SoftVersion.hbm.xml"/>
+		<mapping resource="org/com/xsx/Domain/TestDataBean.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

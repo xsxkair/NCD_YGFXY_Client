@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.com.xsx.Dao.ReportDao;
 import org.com.xsx.Data.ReportFilterData;
-import org.com.xsx.Data.SelectedReportList;
 import org.com.xsx.Domain.TestDataBean;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListTableItem;
 
@@ -48,18 +47,19 @@ public class ReadReportService extends Service<Object[]>{
 			
 			Object[] reportdatas = ReportDao.QueryTestDataS(ReportFilterData.GetInstance().isFilterisnew());
 			
-			List<Object[]> reportdatalist = (List<Object[]>) reportdatas[0];
+			List<Object[]> reportdatalist =  (List<Object[]>) reportdatas[0];
 			
-			for (Object[] objects : reportdatalist) {
-
+			for (Object[] report : reportdatalist) {
+				
+				
 				ReportListTableItem temp = new ReportListTableItem();
     			
-    			temp.setReportdata(objects);
-    			temp.setIndex(ReportFilterData.GetInstance().getFirstindex()+1+reportdatalist.indexOf(objects));
+    			temp.setReportdata(report);
+    			temp.setIndex(ReportFilterData.GetInstance().getFirstindex()+1+reportdatalist.indexOf(report));
 
     			reportTableItems.add(temp);
     			
-    			updateProgress(reportdatalist.indexOf(objects), reportdatalist.size());
+    			updateProgress(reportdatalist.indexOf(report), reportdatalist.size());
 			}
 
 			return new Object[]{reportTableItems, reportdatas[1]};

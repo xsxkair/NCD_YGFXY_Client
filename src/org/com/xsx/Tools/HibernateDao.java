@@ -264,5 +264,54 @@ public class HibernateDao{
           }  
         return list;  
     }
+    
+    public <T> List<T> querysql(String sql)  
+    {  
+        List<T> list=new ArrayList<T>();  
+        Session session=null;  
+         try  
+          {  
+              session = HibernateSessionBean.GetInstance().getSession();  
+              Query query=session.createSQLQuery(sql);  
+
+              list=query.list();  
+          }  
+          catch (Exception e)  
+          {
+        	  System.out.println(e);
+          }  
+          finally  
+          {  
+              if(session!=null)  
+              {  
+                  session.close();  
+              }  
+          }  
+        return list;  
+    }
  
+    public Object queryonesql(String sql)  
+    {  
+    	Object object=null; 
+        Session session=null;  
+         try  
+          {  
+              session = HibernateSessionBean.GetInstance().getSession();  
+              Query query=session.createSQLQuery(sql);  
+
+              object = query.uniqueResult(); 
+          }  
+          catch (Exception e)  
+          {
+        	  System.out.println(e);
+          }  
+          finally  
+          {  
+              if(session!=null)  
+              {  
+                  session.close();  
+              }  
+          }  
+        return object;  
+    }
 } 
