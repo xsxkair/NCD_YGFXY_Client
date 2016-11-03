@@ -2,12 +2,14 @@ package org.com.xsx.UI.MainScene.Report.ReportDetailPage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.com.xsx.Dao.ReportDao;
+import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Domain.CardBean;
 import org.com.xsx.Domain.DeviceBean;
@@ -288,6 +290,9 @@ public class ReportDetailPage {
         
         S_TestLineChart.getData().add(series);
         
+        S_ReportOK.setUserData("合格");
+        S_ReportNotOK.setUserData("不合格");
+        
         AnchorPane.setTopAnchor(rootpane, 0.0);
         AnchorPane.setBottomAnchor(rootpane, 0.0);
         AnchorPane.setLeftAnchor(rootpane, 0.0);
@@ -323,8 +328,12 @@ public class ReportDetailPage {
 
 		testDataBean.setResult((String) S_ReportResultToogleGroup.getSelectedToggle().getUserData());
 		testDataBean.setR_desc(S_ReportDescTextArea.getText());
+		testDataBean.setHandletime(new Timestamp(System.currentTimeMillis()));
+		testDataBean.setM_account(SignedManager.GetInstance().GetSignedManagerAccountInfo().getAccount());
+		testDataBean.setM_name(SignedManager.GetInstance().GetSignedManagerPersonInfo().getName());
 		
-		testDataBean.setHandletime();
+		GB_ManagerNameLabel.setText((testDataBean.getM_name() == null)?"无":testDataBean.getM_name().toString());
+        GB_ManagerTimeLabel.setText((testDataBean.getHandletime() == null)?"无":testDataBean.getHandletime().toString());
 		
 		ReportDao.UpdateReport(S_ReportData.get());
 	}
