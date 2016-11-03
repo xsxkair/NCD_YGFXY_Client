@@ -1,5 +1,6 @@
 package org.com.xsx.UI.MainScene.Report.ReportListPage;
 
+import org.com.xsx.Domain.CardBean;
 import org.com.xsx.Domain.TestDataBean;
 
 
@@ -8,7 +9,7 @@ public class ReportListTableItem {
 	private Integer index;
 	private String testitem;
 	private java.sql.Timestamp testdate;
-	private Float testresult;
+	private String testresult;
 	private String tester;
 	private String deviceid;
 	private String simpleid;
@@ -42,11 +43,11 @@ public class ReportListTableItem {
 		this.testdate = testdate;
 	}
 
-	public Float getTestresult() {
+	public String getTestresult() {
 		return testresult;
 	}
 
-	public void setTestresult(Float testresult) {
+	public void setTestresult(String testresult) {
 		this.testresult = testresult;
 	}
 
@@ -97,27 +98,40 @@ public class ReportListTableItem {
 	public void setReportdata(Object[] reportdata) {
 		this.reportdata = reportdata;
 		
+		this.testitem = null;
+		this.testdate = null;
+		this.testresult = null;
+		this.tester = null;
+		this.deviceid = null;
+		this.simpleid = null;
+		this.reportresult = null;
+		
 		if(this.reportdata != null){
-			System.out.println(((TestDataBean)this.reportdata[0]).getCid());
-/*			this.testitem = this.reportdata.getItem();
-			this.testdate = this.reportdata.getTesttime();
-			this.testresult = this.reportdata.getA_v();
-			this.tester = this.reportdata.getT_name();
-			this.deviceid = this.reportdata.getDid();
-			this.simpleid = this.reportdata.getSampleid();
-			if(this.reportdata.getResult() == null)
-				this.reportresult = "Œ¥…Û∫À";
-			else
-				this.reportresult = this.reportdata.getResult();*/
-		}
-		else{
-			this.testitem = null;
-			this.testdate = null;
-			this.testresult = null;
-			this.tester = null;
-			this.deviceid = null;
-			this.simpleid = null;
-			this.reportresult = null;
+
+			TestDataBean testDataBean = (TestDataBean) this.reportdata[0];
+			CardBean cardBean = (CardBean) this.reportdata[1];
+			if(testDataBean != null && cardBean != null){
+				this.testitem = testDataBean.getCitem();
+				this.testresult = testDataBean.getA_v() + " "+ cardBean.getDw();
+				this.testdate = testDataBean.getTesttime();
+				this.tester = testDataBean.getT_name();
+				this.deviceid = testDataBean.getDid();
+				this.simpleid = testDataBean.getSampleid();
+				
+				if(testDataBean.getResult() == null)
+					this.reportresult = "Œ¥…Û∫À";
+				else
+					this.reportresult = testDataBean.getResult();
+			}
+			else {
+				this.testitem = null;
+				this.testdate = null;
+				this.testresult = null;
+				this.tester = null;
+				this.deviceid = null;
+				this.simpleid = null;
+				this.reportresult = null;
+			}
 		}
 	}
 

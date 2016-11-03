@@ -1,53 +1,60 @@
 package org.com.xsx.Dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Data.SignedManager;
+import org.com.xsx.Domain.CardBean;
+import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.ManagerBean;
+import org.com.xsx.Domain.PersonBean;
+import org.com.xsx.Domain.TestDataBean;
 import org.com.xsx.Tools.HibernateDao;
 
 public class ReportDao {
 	
 	public static Object[] QueryTestDataS(boolean isquerytotalnum){
 
-		Long totalnum = null;
+		BigInteger totalnum = null;
 		
-		StringBuffer hql = new StringBuffer("from TESTDATABEAN t");
+		StringBuffer hql = new StringBuffer("from TESTDATABEAN");
 
 		ArrayList<Object> parms = new ArrayList<>();
 		String tempstr;
 		java.sql.Date tempdate;
 		
+		
 		// 测试项目,如果过滤条件为null，则搜索所有项目
 		tempstr = ReportFilterData.GetInstance().getTestitem();
 		if(tempstr != null){
-			hql.append(" AND t.ITEM like '%"+tempstr+"%'");
+			hql.append(" AND CITEM like '%"+tempstr+"%'");
 		}
 		
  		// 测试时间, 如果时间条件为null，则搜索所有时间
 		tempdate = ReportFilterData.GetInstance().getTesttime();
 		if(tempdate != null){
-			hql.append(" AND t.TESTTIME ='"+tempdate+"'");
+			hql.append(" AND DATE(TESTTIME) ='"+tempdate+"'");
 		}
 		
 		//测试人, 如果测试人条件为null，则搜索所有人
 		tempstr = ReportFilterData.GetInstance().getTestername();
 		if(tempstr != null){
-			hql.append(" AND t.T_NAME like '%"+tempstr+"%'");
+			hql.append(" AND T_NAME like '%"+tempstr+"%'");
 		}
 		
 		//测试设备,如果为null，则搜索所有设备
 		tempstr = ReportFilterData.GetInstance().getDeviceid();
 		if(tempstr != null){
-			hql.append(" AND t.DID='"+tempstr+"'");
+			hql.append(" AND DID='"+tempstr+"'");
 		}
 		else{
 			List<String> deviceid = SignedManager.GetInstance().GetManagerDeviceIdList();
 			if(deviceid.size() == 0)
 				return null;
 			
-			hql.append(" AND t.DID in (");
+			hql.append(" AND DID in (");
 			for(int i=0; i<deviceid.size(); i++){
 				if(i == 0)
 					hql.append("'" + deviceid.get(i) + "'");
@@ -62,7 +69,7 @@ public class ReportDao {
 		//测试样本id,如果为null，则显示所有样本id的测试数据
 		tempstr = ReportFilterData.GetInstance().getSimpleid();
 		if(tempstr != null){
-			hql.append(" AND t.SAMPLEID like '%"+tempstr+"%'");
+			hql.append(" AND SAMPLEID like '%"+tempstr+"%'");
 		}
 
 		//报告结果
@@ -73,34 +80,52 @@ public class ReportDao {
 		tempstr = ReportFilterData.GetInstance().getReportresult();
 		if(tempstr != null){
 			if(tempstr.equals("未审核"))
-				hql.append(" AND t.RESULT is null");
+				hql.append(" AND RESULT is null");
 			else{
-				hql.append(" AND t.RESULT='"+tempstr+"'");
+				hql.append(" AND RESULT='"+tempstr+"'");
 			}	
 		}
 		hql.replace(hql.indexOf("AND"), hql.indexOf("AND")+3, "WHERE");
 		
-		StringBuffer hql1 = new StringBuffer("select t.CID ");
+		StringBuffer hql1 = new StringBuffer("select CID ");
 		hql1.append(hql);
-		hql1.append(" limit " + ReportFilterData.GetInstance().getFirstindex() + "," +ReportFilterData.GetInstance().getPagesize());
+		hql1.append(" limit " 
+				+ ReportFilterData.GetInstance().getFirstindex() 
+				+ "," 
+				+ReportFilterData.GetInstance().getPagesize());
+
+		StringBuffer hql3 = new StringBuffer("select {testbean1.*}, {cardbean.*}, {device.*}, {tester.*}, {managerbean.*}, {manager.*}, {sample.*}, {devicer.*} from CARDBEAN cardbean , DEVICEBEAN device, PERSONBEAN tester, MANAGERBEAN managerbean, PERSONBEAN manager, PERSONBEAN sample, PERSONBEAN devicer, TESTDATABEAN testbean1  " 
+				+ " INNER JOIN ( " + hql1.toString() + ")testbean2 on testbean1.CID=testbean2.CID WHERE cardbean.ID=testbean1.CID and device.ID=testbean1.DID and devicer.ID=device.P_ID and tester.ID=testbean1.T_ID and managerbean.ACCOUNT=testbean1.M_ACCOUNT and manager.ID=managerbean.P_ID and sample.ID=testbean1.S_ID");
 		
-		StringBuffer hql2 = new StringBuffer("select t1.* from TESTDATABEAN t1 inner join (" + hql1.toString() + ")t2 on t1.CID=t2.CID");
-		StringBuffer hql3 = new StringBuffer("select t3.*, c.*, d.*, p1.*, m.*, p2.*, p3.* from (CARDBEAN c , DEVICEBEAN d, PERSONBEAN p1, MANAGERBEAN m, PERSONBEAN p2, PERSONBEAN p3)" 
-				+ " INNER JOIN ( " + hql2.toString() + ")t3 on c.ID=t3.CID and d.ID=t3.DID and p1.ID=t3.T_ID and m.ACCOUNT=t3.M_ACCOUNT and p2.ID=m.P_ID and p3.ID=t3.S_ID");
-		
-		List<Object[]> list = HibernateDao.GetInstance().querysql(hql3.toString());
-		
-		if(isquerytotalnum){
-			System.out.println("查询数目");
+		List<Object[]> list = HibernateDao.GetInstance().querysql(hql3.toString(), 
+				new Object[][]{{"testbean1", TestDataBean.class}, {"cardbean", CardBean.class}, {"device", DeviceBean.class}, {"tester", PersonBean.class}
+				,{"managerbean", ManagerBean.class}, {"manager", PersonBean.class}, {"sample", PersonBean.class}, {"devicer", PersonBean.class}}
+				);
+
+		if(isquerytotalnum){			
 			
-			hql1.setLength(0);
-			hql1.append("select count(t.CID)");
-			hql1.append(hql);
+			StringBuffer hql2 = new StringBuffer("select count(CID) ");
+			hql2.append(hql);
 			
-			totalnum = (Long) HibernateDao.GetInstance().queryonesql(hql1.toString());
-			System.out.println(totalnum);
+			totalnum = (BigInteger) HibernateDao.GetInstance().queryonesql(hql2.toString());
 		}
 
 		return new Object[]{list, totalnum};
+	}
+	
+	public static void DeleteReport(Object[] reportdata){
+		//删除检测卡
+		HibernateDao.GetInstance().delete(reportdata[1]);
+		
+		//删除样品
+		HibernateDao.GetInstance().delete(reportdata[6]);
+		
+		//删除测试数据
+		HibernateDao.GetInstance().delete(reportdata[0]);
+	}
+	
+	public static Boolean UpdateReport(Object[] reportdata) {
+		HibernateDao.GetInstance().update(reportdata[0]);
+		return true;
 	}
 }

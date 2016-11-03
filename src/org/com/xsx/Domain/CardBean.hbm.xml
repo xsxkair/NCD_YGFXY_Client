@@ -23,8 +23,8 @@
         <property name="dw" type="java.lang.String">
             <column name="DW" length="10"/>
         </property>
-        <property name="t_l" type="java.lang.Integer">
-            <column name="T_L" />
+        <property name="tl" type="java.lang.Integer">
+            <column name="TL" />
         </property>
         <property name="bq_n" type="java.lang.Integer">
             <column name="BQ_N" />
@@ -53,11 +53,11 @@
         <property name="waitt" type="java.lang.Integer">
             <column name="WAITT" />
         </property>
-        <property name="c_l" type="java.lang.Integer">
-            <column name="C_L" />
+        <property name="cl" type="java.lang.Integer">
+            <column name="CL" />
         </property>
-        <property name="outt" type="java.sql.Date">
-            <column name="OUTT" />
+        <property name="outdate" type="java.sql.Date">
+            <column name="OUTDATE" />
         </property>
     </class>
 </hibernate-mapping>

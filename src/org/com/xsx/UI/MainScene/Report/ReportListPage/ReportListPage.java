@@ -3,6 +3,7 @@ package org.com.xsx.UI.MainScene.Report.ReportListPage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 import org.com.xsx.Data.ReportFilterData;
@@ -13,9 +14,11 @@ import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
 
 import com.sun.javafx.scene.control.skin.PaginationSkin;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -59,6 +62,8 @@ public class ReportListPage {
 	
 	private AnchorPane reportpane;
 	
+	@FXML
+	HBox GB_FilterHbox;
 	@FXML
 	TextField GB_TestItemFilterTextfield;
 	@FXML
@@ -172,7 +177,7 @@ public class ReportListPage {
 				}
 			}
 		});
-        
+
         GB_FreshPane.visibleProperty().bind(new BooleanBinding() {
 			
 			{
@@ -181,13 +186,23 @@ public class ReportListPage {
 			@Override
 			protected boolean computeValue() {
 				// TODO Auto-generated method stub
-				if(ReadReportService.GetInstance().isRunning())
+				if(ReadReportService.GetInstance().isRunning()){
+					GB_TestItemFilterTextfield.setEditable(false);
+					GB_TestTimeFilterDateChoose.setEditable(false);
+					GB_TesterFilterTextfield.setEditable(false);
+					GB_TestSampleFilterTextField.setEditable(false);
 					return true;
-				else
+				}
+				else{
+					GB_TestItemFilterTextfield.setEditable(true);
+					GB_TestTimeFilterDateChoose.setEditable(true);
+					GB_TesterFilterTextfield.setEditable(true);
+					GB_TestSampleFilterTextField.setEditable(true);
 					return false;
+				}
 			}
 		});
-		
+        
 		GB_TestItemFilterTextfield.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
@@ -252,7 +267,7 @@ public class ReportListPage {
 					ReportFilterData.GetInstance().setDeviceid(null);
 				else
 					ReportFilterData.GetInstance().setDeviceid(newValue);
-				
+
 				ReportFilterData.GetInstance().setFilterisnew(true);
 				StartReportService();
 			}
@@ -289,6 +304,17 @@ public class ReportListPage {
 			}
 		});
 		
+		ChangeListener<Number> pagevaluechangedlistener = new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// TODO Auto-generated method stub
+				ReportFilterData.GetInstance().setPageindex(newValue.intValue());
+				ReadReportService.GetInstance().restart();
+			}
+		};
+		GB_Pagination.currentPageIndexProperty().addListener(pagevaluechangedlistener);
+		
 		ReadReportService.GetInstance().valueProperty().addListener(new ChangeListener<Object[]>() {
 
 			@Override
@@ -297,14 +323,14 @@ public class ReportListPage {
 				if(newValue != null){
 					
 					//更新页数
-					Long totalnum = (Long) newValue[1];
+					BigInteger totalnum = (BigInteger) newValue[1];
 					
 					if(totalnum != null){
 
 						int pagesize = ReportFilterData.GetInstance().getPagesize();
 
 						GB_Pagination.setPageCount((int) ((totalnum.longValue()%pagesize == 0)?(totalnum.longValue()/pagesize):(totalnum.longValue()/pagesize+1)));
-							
+						
 						GB_Pagination.setCurrentPageIndex(0);
 					}
 
@@ -316,16 +342,8 @@ public class ReportListPage {
 				}
 			}
 		});
-
-		GB_Pagination.currentPageIndexProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				// TODO Auto-generated method stub
-				ReportFilterData.GetInstance().setPageindex(newValue.intValue());
-				StartReportService();
-			}
-		});
+		
+		
 		
         reportpane.getStylesheets().add(this.getClass().getResource("reportpage.css").toExternalForm());
         
@@ -349,13 +367,16 @@ public class ReportListPage {
 	}
 
 	public AnchorPane GetReportPane(){	
-		//ReadReportCountService.GetInstance().restart();
 		StartReportService();
 		return reportpane;
 	}
 	
 	private void StartReportService(){
-		ReadReportService.GetInstance().restart();
+		
+		if(GB_Pagination.getCurrentPageIndex() != 0)
+			GB_Pagination.setCurrentPageIndex(0);
+		else
+			ReadReportService.GetInstance().restart();
 	}
 	
 	@FXML
@@ -377,14 +398,11 @@ public class ReportListPage {
 				
 		//测试结果
 		GB_ReportResultFilterCombox.setValue(null);
-		
-		//ReadReportCountService.GetInstance().restart();
-		StartReportService();
+
 	}
 	
 	@FXML
 	public void RefreshButtonActionHandle(){
-		//ReadReportCountService.GetInstance().restart();
 		StartReportService();
 	}
 
@@ -428,7 +446,7 @@ public class ReportListPage {
 					
 					if((row != null)&&(row.getIndex() < GB_TableView.getItems().size())){
 						if(event.getClickCount() == 2){
-							//ReportDetailPage.GetInstance().setS_TestDataBean(GB_TableView.getItems().get(row.getIndex()).getReportdata());
+							ReportDetailPage.GetInstance().setS_ReportData(GB_TableView.getItems().get(row.getIndex()).getReportdata());
 							UIMainPage.GetInstance().setGB_Page(ReportDetailPage.GetInstance().getPane());
 						}
 						else if(event.getButton().equals(MouseButton.SECONDARY)){

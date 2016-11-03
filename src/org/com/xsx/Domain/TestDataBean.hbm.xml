@@ -8,8 +8,8 @@
             <column name="CID" />
             <generator class="assigned" />
         </id>
-        <property name="item" type="java.lang.String">
-            <column name="ITEM" length="15"/>
+        <property name="citem" type="java.lang.String">
+            <column name="CITEM" length="15"/>
         </property>
         <property name="did" type="java.lang.String">
             <column name="DID" />

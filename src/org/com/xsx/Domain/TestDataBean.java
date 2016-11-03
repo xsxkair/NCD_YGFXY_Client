@@ -3,7 +3,7 @@ package org.com.xsx.Domain;
 public class TestDataBean {
 	
 	private String cid;						//检测卡id	-- 对应cardbean
-	private String item;					//测试项目
+	private String citem;					//测试项目
 	private String did;						//设备id		-- 对应devicebean
 	private Integer t_id;					//测试人id	-- 对应personbean
 	private String t_name;					//测试人姓名
@@ -38,11 +38,11 @@ public class TestDataBean {
 	public void setCid(String cid) {
 		this.cid = cid;
 	}
-	public String getItem() {
-		return item;
+	public String getCitem() {
+		return citem;
 	}
-	public void setItem(String item) {
-		this.item = item;
+	public void setCitem(String citem) {
+		this.citem = citem;
 	}
 	public String getDid() {
 		return did;

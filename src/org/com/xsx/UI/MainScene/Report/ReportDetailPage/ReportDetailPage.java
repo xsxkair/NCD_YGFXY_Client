@@ -7,11 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.com.xsx.Dao.ReportDao;
+import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Domain.CardBean;
 import org.com.xsx.Domain.DeviceBean;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Domain.PersonBean;
 import org.com.xsx.Domain.TestDataBean;
+import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,13 +32,27 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 
 public class ReportDetailPage {
 	
 	private static ReportDetailPage GB_ReportDetailPage = null;
 	
 	private AnchorPane rootpane;
+	
+	TestDataBean testDataBean;	//测试数据
+	PersonBean tester;			//操作人
+	
+	CardBean cardBean;			//检测卡信息
+	DeviceBean deviceBean;		//设备信息
+	PersonBean devicer;			//设备责任人信息
+	
+	ManagerBean managerBean;	//审核人账号
+	PersonBean manager;		//审核人信息
+	
+	PersonBean sampleperson;	//样品信息
 	
 	private ObjectProperty<Object[]> S_ReportData;
 	
@@ -102,6 +119,10 @@ public class ReportDetailPage {
 	
 	//报告信息
 	@FXML
+	Label GB_ManagerNameLabel;
+	@FXML
+	Label GB_ManagerTimeLabel;
+	@FXML
 	private RadioButton S_ReportOK;
 	@FXML
 	private RadioButton S_ReportNotOK;
@@ -112,16 +133,10 @@ public class ReportDetailPage {
 	@FXML
 	private Button S_DeleteReportButton;
 	@FXML
-	private Button S_ModifyReportButton;
-	@FXML
 	private Button S_CommitReportButton;
 	@FXML
 	private Button S_BackButton;
-	
-	Map<String, List<Integer>> typemap = new HashMap<>();
-	Map<String, List<Integer>> outmap = null;
 		
-	String datajson;
 	Series<Number, Number> series = new Series<>();
 	
 	private ReportDetailPage() {
@@ -154,118 +169,124 @@ public class ReportDetailPage {
 			@Override
 			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
 				// TODO Auto-generated method stub
-				TestDataBean testDataBean;
-				CardBean cardBean;
-				DeviceBean deviceBean;
-				PersonBean personBean;
-				SampleBean sampleBean;
-				ManagerBean managerBean;
+				
+				//清空曲线
+				series.getData().clear();
+				
 				if(newValue == null){
 					
 				}
 				else{
+					testDataBean = (TestDataBean) newValue[0];
+					cardBean = (CardBean) newValue[1];
+					deviceBean = (DeviceBean) newValue[2];
+					tester = (PersonBean) newValue[3];
+					managerBean = (ManagerBean) newValue[4];
+					manager = (PersonBean) newValue[5];
+					sampleperson = (PersonBean) newValue[6];
+					devicer = (PersonBean) newValue[7];
+					
 					//更新设备信息
-					S_DeviceidLabel.setText(newValue.getDid().toString());
-					S_UserNameLabel.setText(newValue.getDid().toString());
-					S_UserAgeLabel.setText(newValue.getDid().toString());
-					S_UserSexLabel.setText(newValue.getDid().toString());
-					S_UserJobLabel.setText(newValue.getDid().toString());
-					S_UserPhoneLabel.setText(newValue.getDid().toString());
-					S_UserDescLabel.setText(newValue.getDid().toString());
-					S_DeviceLocationLabel.setText(newValue.getDid().toString());
+					S_DeviceidLabel.setText((deviceBean.getId() == null)?"null":deviceBean.getId().toString());
+					S_UserNameLabel.setText((devicer.getName() == null)?"null":devicer.getName().toString());
+					S_UserAgeLabel.setText((devicer.getAge() == null)?"null":devicer.getAge().toString());
+					S_UserSexLabel.setText((devicer.getSex() == null)?"null":devicer.getSex().toString());
+					S_UserJobLabel.setText((devicer.getJob() == null)?"null":devicer.getJob().toString());
+					S_UserPhoneLabel.setText((devicer.getPhone() == null)?"null":devicer.getPhone().toString());
+					S_UserDescLabel.setText((devicer.getDsc() == null)?"null":devicer.getDsc().toString());
+					S_DeviceLocationLabel.setText((deviceBean.getDaddr() == null)?"null":deviceBean.getDaddr().toString());
 					
 					//试剂卡信息
-					S_CardidLabel.setText(newValue.getCid().toString());
-					S_ItemNameLabel.setText(newValue.getC_item().toString());
-					S_NormalLabel.setText(newValue.getC_n_v().toString());
-					S_WaittimeLabel.setText(newValue.getC_waitt().toString());
-					S_OuttimeLabel.setText(newValue.getC_outt().toString());
+					S_CardidLabel.setText((cardBean.getId() == null)?"null":cardBean.getId().toString());
+					S_ItemNameLabel.setText((cardBean.getItem() == null)?"null":cardBean.getItem().toString());
+					S_NormalLabel.setText((cardBean.getN_v() == null)?"null":cardBean.getN_v().toString());
+					S_WaittimeLabel.setText((cardBean.getWaitt() == null)?"null":cardBean.getWaitt().toString());
+					S_OuttimeLabel.setText((cardBean.getOutdate() == null)?"null":cardBean.getOutdate().toString());
 					
 					//操作人信息
-					S_TesterNameLabel.setText(newValue.getT_name().toString());
-					S_TesterAgeLabel.setText(newValue.getT_age().toString());
-					S_TesterSexLabel.setText(newValue.getT_sex().toString());
-					S_TesterJobLabel.setText(newValue.getT_job().toString());
-					S_TesterPhoneLabel.setText(newValue.getT_phone().toString());
-					S_TesterDescLabel.setText(newValue.getT_desc().toString());
+					S_TesterNameLabel.setText((tester.getName() == null)?"null":tester.getName().toString());
+					S_TesterAgeLabel.setText((tester.getAge() == null)?"null":tester.getAge().toString());
+					S_TesterSexLabel.setText((tester.getSex() == null)?"null":tester.getSex().toString());
+					S_TesterJobLabel.setText((tester.getJob() == null)?"null":tester.getJob().toString());
+					S_TesterPhoneLabel.setText((tester.getPhone() == null)?"null":tester.getPhone().toString());
+					S_TesterDescLabel.setText((tester.getDsc() == null)?"null":tester.getDsc().toString());
 
 					
 					//测试信息
-					datajson = newValue.getSerie();
+					JSONArray jsonArray = null;
+			        List<Integer> seriesdata = new ArrayList<>();
 
-					series.setName(null);
-					S_TestLineChart.getData().add(series);
+			        for(int i=0; i<4; i++){
+			        	  	
+			        	if(i == 0)
+			        		jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_a());
+			        	else if(i == 1)
+			        		jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_b());
+			        	else if(i == 2)
+			        		jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_c());
+			        	else if(i == 3)
+			        		jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_d());
+			        	
+			        	seriesdata.addAll((List<Integer>) JSONSerializer.toJava(jsonArray));
+			        }
+			        
+			        Integer t = testDataBean.getT_l();
+			        Integer b = testDataBean.getB_l();
+			        Integer c = testDataBean.getC_l();
 
-					if(datajson != null){
-						JSONObject jsonObject = JSONObject.fromObject(datajson);	
-						
-						outmap = (Map<String, List<Integer>>) jsonObject.toBean(jsonObject, Map.class, typemap);
-						
-						List<Integer> seriesdata = new ArrayList<>();
-						
-						for (String key : outmap.keySet()) {
-							seriesdata.addAll(outmap.get(key));
-						}
-						
-						Integer t = newValue.getT_l();
-				        Integer b = newValue.getB_l();
-				        Integer c = newValue.getC_l();
-				        
-				        for(int i=0; i<seriesdata.size(); i++){
-				        	Data<Number, Number> data = new Data<Number, Number>(i, seriesdata.get(i));
-				        	StackPane stackPane = new StackPane();
-				        	
-				        	stackPane.setPrefSize(0, 0);
-				        	
-				        	if((t != null) && (i == t.intValue())){
-				        		stackPane.setStyle("-fx-background-color:red");
-				        		stackPane.setPrefSize(10, 10);
-				        	}
-				        	else if((b != null) && (i == b.intValue())){
-				        		stackPane.setStyle("-fx-background-color:green");
-				        		stackPane.setPrefSize(10, 10);
-				        	}
-				        	else if((c != null) && (i == c.intValue())){
-				        		stackPane.setStyle("-fx-background-color:blue");
-				        		stackPane.setPrefSize(10, 10);
-				        	}
-				        	
-				        	data.setNode(stackPane);
-				        	series.getData().add(data);
-						}
+			        for(int i=0; i<seriesdata.size(); i++){
+			        	Data<Number, Number> data = new Data<Number, Number>(i, seriesdata.get(i));
+			        	StackPane stackPane = new StackPane();
+			        	
+			        	stackPane.setPrefSize(0, 0);
+			        	
+			        	if((t != null) && (i == t.intValue())){
+			        		stackPane.setStyle("-fx-background-color:red");
+			        		stackPane.setPrefSize(10, 10);
+			        	}
+			        	else if((b != null) && (i == b.intValue())){
+			        		stackPane.setStyle("-fx-background-color:green");
+			        		stackPane.setPrefSize(10, 10);
+			        	}
+			        	else if((c != null) && (i == c.intValue())){
+			        		stackPane.setStyle("-fx-background-color:blue");
+			        		stackPane.setPrefSize(10, 10);
+			        	}
+			        	
+			        	data.setNode(stackPane);
+			        	series.getData().add(data);
 					}
+	
 					//S_TestLineChart;
-					S_SampleIDLabel.setText(newValue.getSid().toString());
-					S_RealWaittimeLabel.setText(newValue.getOutt()+newValue.getC_waitt()+"");
-					S_CardTempLabel.setText(newValue.getO_t().toString());;
-					S_EnTempLabel.setText(newValue.getE_t().toString());
-					S_TesttimeLabel.setText(newValue.getTestd()+" "+newValue.getTestt());
-					S_ReportUpTimeLabel.setText(newValue.getR_uptime().toString());
-					
+			        S_SampleIDLabel.setText((testDataBean.getSampleid() == null)?"null":testDataBean.getSampleid().toString());
+			        S_RealWaittimeLabel.setText(((cardBean.getWaitt() == null)?0:cardBean.getWaitt())+(testDataBean.getOutt()==null?0:testDataBean.getOutt())+" 秒");
+			        S_CardTempLabel.setText((testDataBean.getO_t() == null)?"null":testDataBean.getO_t().toString());
+			        S_EnTempLabel.setText((testDataBean.getE_t() == null)?"null":testDataBean.getE_t().toString());
+			        S_TesttimeLabel.setText((testDataBean.getTesttime() == null)?"null":testDataBean.getTesttime().toString());
+			        S_ReportUpTimeLabel.setText((testDataBean.getUptime() == null)?"null":testDataBean.getUptime().toString());
+			        
 					//报告信息
-					String string = newValue.getR_re();
-					S_ReportDescTextArea.setDisable(true);
-					S_ReportOK.setDisable(true);
-					S_ReportNotOK.setDisable(true);
-					if (string == null) {
-						
+			        GB_ManagerNameLabel.setText((testDataBean.getM_name() == null)?"无":testDataBean.getM_name().toString());
+			        GB_ManagerTimeLabel.setText((testDataBean.getHandletime() == null)?"无":testDataBean.getHandletime().toString());
+					
+			        String string = testDataBean.getResult();
+
+					if (string == null) {	
 						S_ReportResultToogleGroup.selectToggle(null);
-						S_ReportOK.setDisable(false);
-						S_ReportNotOK.setDisable(false);
-						S_ReportDescTextArea.setDisable(false);
-						S_ModifyReportButton.setDisable(true);
 					}
 					else if (string.equals("合格")) {
 						S_ReportResultToogleGroup.selectToggle(S_ReportOK);
-						S_ReportDescTextArea.setText(newValue.getR_desc().toString());
+						S_ReportDescTextArea.setText((testDataBean.getR_desc() == null)?"null":testDataBean.getR_desc().toString());
 					}
 					else {
 						S_ReportResultToogleGroup.selectToggle(S_ReportNotOK);
-						S_ReportDescTextArea.setText(newValue.getR_desc().toString());
+						S_ReportDescTextArea.setText((testDataBean.getR_desc() == null)?"null":testDataBean.getR_desc().toString());
 					}
 				}
 			}
 		});
+        
+        S_TestLineChart.getData().add(series);
         
         AnchorPane.setTopAnchor(rootpane, 0.0);
         AnchorPane.setBottomAnchor(rootpane, 0.0);
@@ -282,7 +303,7 @@ public class ReportDetailPage {
 	}
 
 	public AnchorPane getPane(){
-		if(S_TestDataBean == null)
+		if(S_ReportData.get() == null)
 			return null;
 		else
 			return rootpane;
@@ -291,21 +312,25 @@ public class ReportDetailPage {
 	
 	@FXML
 	public void S_DeleteReportAction(){
+		ReportDao.DeleteReport(S_ReportData.get());
 		
-	}
-	
-	@FXML
-	public void S_ModifyReportAction(){
-		
+		UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
 	}
 	
 	@FXML
 	public void S_CommitReportAction(){
+		Object[] report = new Object[8];
+
+		testDataBean.setResult((String) S_ReportResultToogleGroup.getSelectedToggle().getUserData());
+		testDataBean.setR_desc(S_ReportDescTextArea.getText());
 		
+		testDataBean.setHandletime();
+		
+		ReportDao.UpdateReport(S_ReportData.get());
 	}
 	
 	@FXML
 	public void S_BackAction(){
-		
+		UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
 	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Criteria; 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;  
 import org.hibernate.Transaction;
 
@@ -222,13 +223,14 @@ public class HibernateDao{
               }
               if((firstnum != null)&&(maxnum != null)){
               	query.setFirstResult(firstnum.intValue());
-              	query.setMaxResults(maxnum.intValue());
+              	query.setMaxResults(
+              			maxnum.intValue());
               }
               list=query.list();
           }  
           catch (Exception e)  
           {
-        	  System.out.println(e);
+        	 e.printStackTrace();
           }  
           finally  
           {  
@@ -240,45 +242,26 @@ public class HibernateDao{
         return list;  
     }
     
-    public <T> List<T> querysql(String sql, Class c)  
+    public <T> List<T> querysql(String sql, Object[][] c)  
     {  
         List<T> list=new ArrayList<T>();  
         Session session=null;  
          try  
           {  
               session = HibernateSessionBean.GetInstance().getSession();  
-              Query query=session.createSQLQuery(sql).addEntity(c);  
-
+              SQLQuery query=session.createSQLQuery(sql);
+              
+              if(c != null){
+            	  for (Object[] t : c) {
+      				query.addEntity((String)t[0], (Class)t[1]);
+      			}
+              }
+              
               list=query.list();  
           }  
           catch (Exception e)  
           {
-        	  System.out.println(e);
-          }  
-          finally  
-          {  
-              if(session!=null)  
-              {  
-                  session.close();  
-              }  
-          }  
-        return list;  
-    }
-    
-    public <T> List<T> querysql(String sql)  
-    {  
-        List<T> list=new ArrayList<T>();  
-        Session session=null;  
-         try  
-          {  
-              session = HibernateSessionBean.GetInstance().getSession();  
-              Query query=session.createSQLQuery(sql);  
-
-              list=query.list();  
-          }  
-          catch (Exception e)  
-          {
-        	  System.out.println(e);
+        	  e.printStackTrace();
           }  
           finally  
           {  
@@ -297,13 +280,14 @@ public class HibernateDao{
          try  
           {  
               session = HibernateSessionBean.GetInstance().getSession();  
-              Query query=session.createSQLQuery(sql);  
+              SQLQuery query=session.createSQLQuery(sql);  
 
               object = query.uniqueResult(); 
+              System.out.println(object);
           }  
           catch (Exception e)  
           {
-        	  System.out.println(e);
+        	  e.printStackTrace();
           }  
           finally  
           {  

@@ -105,7 +105,7 @@ public class SystemInitService extends Service<Boolean>{
     		updateProgress(36, 100);
       		
     		updateMessage("4");
- //   		ReportDetailPage.GetInstance().UI_Init();
+    		ReportDetailPage.GetInstance().UI_Init();
     		updateProgress(38, 100);
      		
     		updateMessage("5");

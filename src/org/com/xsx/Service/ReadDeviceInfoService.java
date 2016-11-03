@@ -26,7 +26,7 @@ public class ReadDeviceInfoService extends ScheduledService<ObservableList<Devic
 	public static ReadDeviceInfoService GetInstance() {
 		if(GB_ReadDeviceInfoService == null){
 			GB_ReadDeviceInfoService = new ReadDeviceInfoService();
-			GB_ReadDeviceInfoService.setPeriod(Duration.minutes(1));
+			GB_ReadDeviceInfoService.setPeriod(Duration.minutes(5));
 		}
 
 		return GB_ReadDeviceInfoService;

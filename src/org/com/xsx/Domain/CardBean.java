@@ -7,7 +7,7 @@ public class CardBean {
 	private Float l_v;					//最低值
 	private Float h_v;					//最高值
 	private String dw;					//单位
-	private Integer t_l;					//t线位置
+	private Integer tl;					//t线位置
 	private Integer bq_n;					//曲线数目
 	private Float fend;					//分段峰高比
 	private Float bq1_a;					//曲线1--a
@@ -17,8 +17,8 @@ public class CardBean {
 	private Float bq2_b;					//曲线2--b
 	private Float bq2_c;					//曲线2--c
 	private Integer waitt;				//反应时间
-	private Integer c_l;					//c线位置
-	private java.sql.Date outt;			//过期时间
+	private Integer cl;					//c线位置
+	private java.sql.Date outdate;			//过期时间
 	
 	public String getId() {
 		return id;
@@ -55,12 +55,6 @@ public class CardBean {
 	}
 	public void setDw(String dw) {
 		this.dw = dw;
-	}
-	public Integer getT_l() {
-		return t_l;
-	}
-	public void setT_l(Integer t_l) {
-		this.t_l = t_l;
 	}
 	public Integer getBq_n() {
 		return bq_n;
@@ -116,17 +110,22 @@ public class CardBean {
 	public void setWaitt(Integer waitt) {
 		this.waitt = waitt;
 	}
-	public Integer getC_l() {
-		return c_l;
+	public Integer getTl() {
+		return tl;
 	}
-	public void setC_l(Integer c_l) {
-		this.c_l = c_l;
+	public void setTl(Integer tl) {
+		this.tl = tl;
 	}
-	public java.sql.Date getOutt() {
-		return outt;
+	public Integer getCl() {
+		return cl;
 	}
-	public void setOutt(java.sql.Date outt) {
-		this.outt = outt;
+	public void setCl(Integer cl) {
+		this.cl = cl;
 	}
-
+	public java.sql.Date getOutdate() {
+		return outdate;
+	}
+	public void setOutdate(java.sql.Date outdate) {
+		this.outdate = outdate;
+	}
 }

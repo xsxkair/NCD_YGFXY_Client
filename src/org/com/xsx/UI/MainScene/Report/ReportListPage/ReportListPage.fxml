@@ -21,7 +21,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <HBox fx:id="GB_FilterHbox" alignment="CENTER_LEFT" spacing="20.0">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>

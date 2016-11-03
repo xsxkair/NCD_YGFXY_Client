@@ -7,6 +7,8 @@ import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Domain.TestDataBean;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListTableItem;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -47,10 +49,12 @@ public class ReadReportService extends Service<Object[]>{
 			
 			Object[] reportdatas = ReportDao.QueryTestDataS(ReportFilterData.GetInstance().isFilterisnew());
 			
+			if(reportdatas == null)
+				return null;
+			
 			List<Object[]> reportdatalist =  (List<Object[]>) reportdatas[0];
 			
 			for (Object[] report : reportdatalist) {
-				
 				
 				ReportListTableItem temp = new ReportListTableItem();
     			
