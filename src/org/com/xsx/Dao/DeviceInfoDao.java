@@ -12,7 +12,7 @@ import net.sf.json.JSONSerializer;
 
 public class DeviceInfoDao {
 	
-	public static List<Object[]> QueryDeviceS(List<String> deviceidlist){
+	public static List<Object[]> QueryDeviceList(List<String> deviceidlist){
 		
 		List<Object[]> result = new ArrayList<>();
 		

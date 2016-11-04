@@ -20,12 +20,10 @@ public class DeviceTableItem {
 	
 	private DeviceBean devicebean;					//设备信息
 	private PersonBean deviceperson;				//设备责任人信息
-	private List<PersonBean> devicepersonlist;		//设备操作人列表
 	
 	public DeviceTableItem(Object[] deviceinfo){
 		this.setDevicebean((DeviceBean) deviceinfo[0]);
 		this.setDeviceperson((PersonBean) deviceinfo[1]);
-		this.setDevicepersonlist((List<PersonBean>) deviceinfo[2]);
 	}
 	
 	public Image getDeviceico() {
@@ -120,21 +118,12 @@ public class DeviceTableItem {
 		this.deviceperson = deviceperson;
 		
 		if(deviceperson != null){
-			this.setDevicemanagername(deviceperson.getPname());
-			this.setDevicemanagerphone(deviceperson.getPphone());
+			this.setDevicemanagername(deviceperson.getName());
+			this.setDevicemanagerphone(deviceperson.getPhone());
 		}
 		else{
 			this.setDevicemanagername(null);
 			this.setDevicemanagerphone(null);
 		}
 	}
-
-	public List<PersonBean> getDevicepersonlist() {
-		return devicepersonlist;
-	}
-
-	public void setDevicepersonlist(List<PersonBean> devicepersonlist) {
-		this.devicepersonlist = devicepersonlist;
-	}
-	
 }

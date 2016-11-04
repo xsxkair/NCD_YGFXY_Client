@@ -86,7 +86,7 @@ public class ReportListPage {
 	@FXML
 	TableColumn<ReportListTableItem, java.sql.Timestamp> TableColumn3;
 	@FXML
-	TableColumn<ReportListTableItem, Float> TableColumn4;
+	TableColumn<ReportListTableItem, String> TableColumn4;
 	@FXML
 	TableColumn<ReportListTableItem, String> TableColumn5;
 	@FXML
@@ -143,8 +143,8 @@ public class ReportListPage {
         TableColumn3.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, java.sql.Timestamp>("testdate"));
         TableColumn3.setCellFactory(new TableColumnModel<ReportListTableItem, java.sql.Timestamp>());
         
-        TableColumn4.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, Float>("testresult"));
-        TableColumn4.setCellFactory(new TableColumnModel<ReportListTableItem, Float>());
+        TableColumn4.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("testresult"));
+        TableColumn4.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
         
         TableColumn5.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("tester"));
         TableColumn5.setCellFactory(new TableColumnModel<ReportListTableItem, String>());

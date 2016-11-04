@@ -7,6 +7,8 @@ import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.UI.AboutStage.AboutStage;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
+import org.com.xsx.UI.MainScene.Manager.ManagerManagementPage;
+import org.com.xsx.UI.MainScene.Manager.MyInfoPage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
 
 import javafx.beans.value.ChangeListener;
@@ -112,7 +114,13 @@ public class ContainerPane {
 	}
 	
 	@FXML
+	public void ManagerManagementAction(){
+		UIMainPage.GetInstance().setGB_Page(ManagerManagementPage.GetInstance().GetPane());
+	}
+	
+	@FXML
 	public void ShowMyInfoAction(){
+		UIMainPage.GetInstance().setGB_Page(MyInfoPage.GetInstance().GetPane());
 		
 	}
 	

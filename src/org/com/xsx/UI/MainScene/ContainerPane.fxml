@@ -35,7 +35,13 @@
                 <MenuItem mnemonicParsing="false" text="Action 1" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" onAction="#ShowMyInfoAction" text="设置" />
+            <Menu mnemonicParsing="false" text="审核人管理">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#ManagerManagementAction" text="审核人管理" />
+                  <MenuItem mnemonicParsing="false" onAction="#ShowMyInfoAction" text="我的信息" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="设置" />
             <Menu mnemonicParsing="false" text="关于">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#AboutMeAction" text="关于" />

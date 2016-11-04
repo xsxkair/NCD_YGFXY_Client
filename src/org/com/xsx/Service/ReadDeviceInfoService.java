@@ -49,7 +49,7 @@ public class ReadDeviceInfoService extends ScheduledService<ObservableList<Devic
 		private ObservableList<DeviceTableItem> ReadDeviceInfoFun(){
 			ObservableList<DeviceTableItem> deviceTableItems = FXCollections.observableArrayList();
 			
-			List<Object[]> devices = DeviceInfoDao.QueryDeviceS(SignedManager.GetInstance().GetManagerDeviceIdList());
+			List<Object[]> devices = DeviceInfoDao.QueryDeviceList(SignedManager.GetInstance().GetManagerDeviceIdList());
 
 			for (Object[] deviceinfo : devices) {
 				

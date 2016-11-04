@@ -47,36 +47,36 @@ public class DeviceTipInfo extends VBox{
 		vBox1.setAlignment(Pos.CENTER_LEFT);
 		vBox1.setSpacing(5);
 		StringBuffer userinfo = new StringBuffer();
-		if((deviceinfo.getDeviceperson().getPname() != null)&&(deviceinfo.getDeviceperson().getPname().length() > 0))
-			userinfo.append(deviceinfo.getDeviceperson().getPname()+"  ");
+		if((deviceinfo.getDeviceperson().getName() != null)&&(deviceinfo.getDeviceperson().getName().length() > 0))
+			userinfo.append(deviceinfo.getDeviceperson().getName()+"  ");
 		
-		if((deviceinfo.getDeviceperson().getPsex() != null)&&(deviceinfo.getDeviceperson().getPsex().length() > 0))
-			userinfo.append(deviceinfo.getDeviceperson().getPsex()+"  ");
+		if((deviceinfo.getDeviceperson().getSex() != null)&&(deviceinfo.getDeviceperson().getSex().length() > 0))
+			userinfo.append(deviceinfo.getDeviceperson().getSex()+"  ");
 		
-		if((deviceinfo.getDeviceperson().getPage() != null)&&(deviceinfo.getDeviceperson().getPage().length() > 0))
-			userinfo.append(deviceinfo.getDeviceperson().getPage());
+		if((deviceinfo.getDeviceperson().getAge() != null)&&(deviceinfo.getDeviceperson().getAge().length() > 0))
+			userinfo.append(deviceinfo.getDeviceperson().getAge());
 		
 		Label label3 = new Label(userinfo.toString());
 		label3.setFont(new Font("System", 14));
 		
 		Label label6 = new Label();
 		label6.setFont(new Font("System", 14));
-		if((deviceinfo.getDeviceperson().getPjob() != null)&&(deviceinfo.getDeviceperson().getPjob().length() > 0))
-			label6.setText(deviceinfo.getDeviceperson().getPjob());
+		if((deviceinfo.getDeviceperson().getJob() != null)&&(deviceinfo.getDeviceperson().getJob().length() > 0))
+			label6.setText(deviceinfo.getDeviceperson().getJob());
 		else
 			label6.setText("нч");
 		
 		Label label7 = new Label();
 		label7.setFont(new Font("System", 14));
-		if((deviceinfo.getDeviceperson().getPphone() != null)&&(deviceinfo.getDeviceperson().getPphone().length() > 0))
-			label7.setText(deviceinfo.getDeviceperson().getPphone());
+		if((deviceinfo.getDeviceperson().getPhone() != null)&&(deviceinfo.getDeviceperson().getPhone().length() > 0))
+			label7.setText(deviceinfo.getDeviceperson().getPhone());
 		else
 			label7.setText("нч");
 		
 		Label label8 = new Label();
 		label8.setFont(new Font("System", 14));
-		if((deviceinfo.getDeviceperson().getPdesc() != null)&&(deviceinfo.getDeviceperson().getPdesc().length() > 0))
-			label8.setText(deviceinfo.getDeviceperson().getPdesc());
+		if((deviceinfo.getDeviceperson().getDsc() != null)&&(deviceinfo.getDeviceperson().getDsc().length() > 0))
+			label8.setText(deviceinfo.getDeviceperson().getDsc());
 		else
 			label8.setText("нч");
 	

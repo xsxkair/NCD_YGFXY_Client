@@ -8,6 +8,8 @@ import org.com.xsx.Tools.HibernateSessionBean;
 import org.com.xsx.UI.LoginScene.LoginScene;
 import org.com.xsx.UI.MainScene.ContainerPane;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
+import org.com.xsx.UI.MainScene.Manager.ManagerManagementPage;
+import org.com.xsx.UI.MainScene.Manager.MyInfoPage;
 import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
 
@@ -109,9 +111,17 @@ public class SystemInitService extends Service<Boolean>{
     		updateProgress(38, 100);
      		
     		updateMessage("5");
- //   		DevicePage.GetInstance().UI_Init();
+    		DevicePage.GetInstance().UI_Init();
     		updateProgress(40, 100);
-   		
+    		
+    		updateMessage("5");
+    		MyInfoPage.GetInstance().UI_Init();
+    		updateProgress(42, 100);
+    		
+    		updateMessage("5");
+    		ManagerManagementPage.GetInstance().UI_Init();
+    		updateProgress(45, 100);
+    		
     		updateProgress(100, 100);
     		Thread.sleep(1000); 
 

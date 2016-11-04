@@ -1,0 +1,5 @@
+
+.modifystatus:hover{
+	-fx-background-color:red;
+	readonly:true;
+}
