@@ -329,8 +329,8 @@ public class ReportDetailPage {
 		testDataBean.setResult((String) S_ReportResultToogleGroup.getSelectedToggle().getUserData());
 		testDataBean.setR_desc(S_ReportDescTextArea.getText());
 		testDataBean.setHandletime(new Timestamp(System.currentTimeMillis()));
-		testDataBean.setM_account(SignedManager.GetInstance().GetSignedManagerAccountInfo().getAccount());
-		testDataBean.setM_name(SignedManager.GetInstance().GetSignedManagerPersonInfo().getName());
+		testDataBean.setM_account(SignedManager.GetInstance().GetSignedManagerInfo().getAccount());
+		testDataBean.setM_name(SignedManager.GetInstance().GetSignedManagerInfo().getName());
 		
 		GB_ManagerNameLabel.setText((testDataBean.getM_name() == null)?"нч":testDataBean.getM_name().toString());
         GB_ManagerTimeLabel.setText((testDataBean.getHandletime() == null)?"нч":testDataBean.getHandletime().toString());

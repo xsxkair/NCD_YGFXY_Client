@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.com.xsx.Data.SignedManager;
+import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Service.ReadDeviceInfoService;
 
 import javafx.beans.value.ChangeListener;
@@ -142,10 +143,10 @@ public class DevicePage {
 			}
 		});
         
-        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<Object[]>() {
+        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<ManagerBean>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
+			public void changed(ObservableValue<? extends ManagerBean> observable, ManagerBean oldValue, ManagerBean newValue) {
 				// TODO Auto-generated method stub
 				if(newValue != null){
 					ReadDeviceInfoService.GetInstance().start();

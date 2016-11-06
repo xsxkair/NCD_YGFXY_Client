@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-11-2 9:10:14 by Hibernate Tools 3.5.0.Final -->
+<!-- Generated 2016-11-6 22:26:18 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="org.com.xsx.Domain.ManagerBean" table="MANAGERBEAN">
         <id name="account" type="java.lang.String">
@@ -14,11 +14,26 @@
         <property name="devicelist" type="java.lang.String">
             <column name="DEVICELIST" />
         </property>
-        <property name="p_id" type="java.lang.Integer">
-            <column name="P_ID" />
-        </property>
         <property name="fatheraccount" type="java.lang.String">
             <column name="FATHERACCOUNT" length="15"/>
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" length="10"/>
+        </property>
+        <property name="age" type="java.lang.String">
+            <column name="AGE" length="10"/>
+        </property>
+        <property name="sex" type="java.lang.String">
+            <column name="SEX" length="10"/>
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="PHONE" length="30"/>
+        </property>
+        <property name="job" type="java.lang.String">
+            <column name="JOB" length="50"/>
+        </property>
+        <property name="dsctext" type="java.lang.String">
+            <column name="DSCTEXT" />
         </property>
     </class>
 </hibernate-mapping>

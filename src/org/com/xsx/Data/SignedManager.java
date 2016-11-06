@@ -14,7 +14,7 @@ public class SignedManager {
 
 	private static SignedManager S_SignedManager = null;
 	
-	private ObjectProperty<Object[]> GB_SignedManager = new SimpleObjectProperty<Object[]>(null);
+	private ObjectProperty<ManagerBean> GB_SignedManager = new SimpleObjectProperty<ManagerBean>(null);
 	
 	private List<String> my_deviceids = null;
 	
@@ -29,20 +29,19 @@ public class SignedManager {
 		return S_SignedManager;
 	}
 
-	public ObjectProperty<Object[]> getGB_SignedManager() {
+	public ObjectProperty<ManagerBean> getGB_SignedManager() {
 		return GB_SignedManager;
 	}
 	
-	public void setGB_SignedManager(Object[] gB_SignedManager) {
+	public void setGB_SignedManager(ManagerBean gB_SignedManager) {
 		
 		JSONArray jsonArray;
 		
-		if((gB_SignedManager != null) && (gB_SignedManager[0] != null)){
-			jsonArray = (JSONArray) JSONSerializer.toJSON(((ManagerBean)gB_SignedManager[0]).getDevicelist());
+		if(gB_SignedManager != null){
+			jsonArray = (JSONArray) JSONSerializer.toJSON(gB_SignedManager.getDevicelist());
 			my_deviceids = (List<String>) JSONSerializer.toJava(jsonArray);
 			
 			GB_SignedManager.set(gB_SignedManager);
-			System.out.println(my_deviceids);
 		}
 		else{
 			my_deviceids = null;
@@ -50,18 +49,8 @@ public class SignedManager {
 		}
 	}
 	
-	public ManagerBean GetSignedManagerAccountInfo(){
-		if(GB_SignedManager.get() != null)
-			return (ManagerBean) GB_SignedManager.get()[0];
-		else
-			return null;
-	}
-	
-	public PersonBean GetSignedManagerPersonInfo(){
-		if(GB_SignedManager.get() != null)
-			return (PersonBean) GB_SignedManager.get()[1];
-		else
-			return null;
+	public ManagerBean GetSignedManagerInfo(){
+		return GB_SignedManager.get();
 	}
 	
 	public List<String> GetManagerDeviceIdList() {

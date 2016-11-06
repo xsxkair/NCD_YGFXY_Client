@@ -105,8 +105,8 @@ public class LoginScene {
 	@FXML
 	public void LoginAction(ActionEvent e){
 		
-		Object[] tempuser = ManagerDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
-		System.out.println(tempuser);
+		ManagerBean tempuser = ManagerDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
+
 		if(tempuser != null){
 			SignedManager.GetInstance().setGB_SignedManager(tempuser);
 			UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
@@ -126,7 +126,7 @@ public class LoginScene {
 			
 			if((UserNameText.getText().length() > 0)&&(UserPasswordText.getText().length() > 0)){
 					
-				Object[] tempuser = ManagerDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
+				ManagerBean tempuser = ManagerDao.QueryReportManager(UserNameText.getText(), UserPasswordText.getText());
 				
 				if(tempuser != null){
 					SignedManager.GetInstance().setGB_SignedManager(tempuser);

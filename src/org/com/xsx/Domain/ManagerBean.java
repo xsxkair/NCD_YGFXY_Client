@@ -5,7 +5,12 @@ public class ManagerBean {
 	private String password;
 	private String devicelist;
 	private String fatheraccount;
-	private Integer p_id;
+	private String name;
+	private String age;
+	private String sex;
+	private String phone;
+	private String job;
+	private String dsctext;
 	
 	public String getAccount() {
 		return account;
@@ -31,10 +36,41 @@ public class ManagerBean {
 	public void setFatheraccount(String fatheraccount) {
 		this.fatheraccount = fatheraccount;
 	}
-	public Integer getP_id() {
-		return p_id;
+	public String getName() {
+		return name;
 	}
-	public void setP_id(Integer p_id) {
-		this.p_id = p_id;
+	public void setName(String name) {
+		this.name = name;
 	}
+	public String getAge() {
+		return age;
+	}
+	public void setAge(String age) {
+		this.age = age;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getJob() {
+		return job;
+	}
+	public void setJob(String job) {
+		this.job = job;
+	}
+	public String getDsctext() {
+		return dsctext;
+	}
+	public void setDsctext(String dsctext) {
+		this.dsctext = dsctext;
+	}
+
 }

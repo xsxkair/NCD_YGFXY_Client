@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
+import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Service.ReadReportService;
 import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
 
@@ -163,9 +164,9 @@ public class ReportListPage {
         GB_RefreshBar.progressProperty().bind(ReadReportService.GetInstance().progressProperty());
         GB_ReportResultFilterCombox.getItems().addAll("All", "未审核", "合格", "不合格");
         
-        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<Object[]>() {
+        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<ManagerBean>() {
 			@Override
-			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
+			public void changed(ObservableValue<? extends ManagerBean> observable, ManagerBean oldValue, ManagerBean newValue) {
 				// TODO Auto-generated method stub
 				if(newValue != null){
 					UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
