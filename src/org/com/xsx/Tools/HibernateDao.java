@@ -178,10 +178,12 @@ public class HibernateDao{
                 {  
                     for(int i=0;i<param.length;i++)  
                     {
-                    	if(param[i] instanceof List<?>)
-                  		  query.setParameterList("parm"+i, (List) param[i]);
-                  	  	else
-                  		  query.setParameter("parm"+i, param[i]);      
+                    	if(param[i] != null){
+                    		if(param[i] instanceof List<?>)
+                    			query.setParameterList("parm"+i, (List) param[i]);
+                    		else
+                    			query.setParameter("parm"+i, param[i]); 
+                    	}  
                     }  
                     
                 }  

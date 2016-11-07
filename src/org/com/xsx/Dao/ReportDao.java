@@ -50,7 +50,7 @@ public class ReportDao {
 			hql.append(" AND DID='"+tempstr+"'");
 		}
 		else{
-			List<String> deviceid = SignedManager.GetInstance().GetManagerDeviceIdList();
+			List<String> deviceid = ManagerDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
 			if(deviceid.size() == 0)
 				return null;
 			
@@ -94,12 +94,12 @@ public class ReportDao {
 				+ "," 
 				+ReportFilterData.GetInstance().getPagesize());
 
-		StringBuffer hql3 = new StringBuffer("select {testbean1.*}, {cardbean.*}, {device.*}, {tester.*}, {managerbean.*}, {manager.*}, {sample.*}, {devicer.*} from CARDBEAN cardbean , DEVICEBEAN device, PERSONBEAN tester, MANAGERBEAN managerbean, PERSONBEAN manager, PERSONBEAN sample, PERSONBEAN devicer, TESTDATABEAN testbean1  " 
-				+ " INNER JOIN ( " + hql1.toString() + ")testbean2 on testbean1.CID=testbean2.CID WHERE cardbean.ID=testbean1.CID and device.ID=testbean1.DID and devicer.ID=device.P_ID and tester.ID=testbean1.T_ID and managerbean.ACCOUNT=testbean1.M_ACCOUNT and manager.ID=managerbean.P_ID and sample.ID=testbean1.S_ID");
+		StringBuffer hql3 = new StringBuffer("select {testbean1.*}, {cardbean.*}, {device.*}, {tester.*}, {managerbean.*}, {sample.*}, {devicer.*} from CARDBEAN cardbean , DEVICEBEAN device, PERSONBEAN tester, MANAGERBEAN managerbean, PERSONBEAN sample, PERSONBEAN devicer, TESTDATABEAN testbean1  " 
+				+ " INNER JOIN ( " + hql1.toString() + ")testbean2 on testbean1.CID=testbean2.CID WHERE cardbean.ID=testbean1.CID and device.ID=testbean1.DID and devicer.ID=device.P_ID and tester.ID=testbean1.T_ID and managerbean.ACCOUNT=testbean1.M_ACCOUNT and sample.ID=testbean1.S_ID");
 		
 		List<Object[]> list = HibernateDao.GetInstance().querysql(hql3.toString(), 
 				new Object[][]{{"testbean1", TestDataBean.class}, {"cardbean", CardBean.class}, {"device", DeviceBean.class}, {"tester", PersonBean.class}
-				,{"managerbean", ManagerBean.class}, {"manager", PersonBean.class}, {"sample", PersonBean.class}, {"devicer", PersonBean.class}}
+				,{"managerbean", ManagerBean.class}, {"sample", PersonBean.class}, {"devicer", PersonBean.class}}
 				);
 
 		if(isquerytotalnum){			

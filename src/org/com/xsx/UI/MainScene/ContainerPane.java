@@ -2,7 +2,9 @@ package org.com.xsx.UI.MainScene;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 
+import org.com.xsx.Dao.ManagerDao;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Domain.ManagerBean;
@@ -17,6 +19,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -57,19 +64,6 @@ public class ContainerPane {
 
         S_Scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
         
-        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<ManagerBean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends ManagerBean> observable, ManagerBean oldValue,
-					ManagerBean newValue) {
-				// TODO Auto-generated method stub
-				if(newValue != null){
-					UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
-				}
-			}
-
-		});
-        
         UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
 
 			@Override
@@ -78,7 +72,7 @@ public class ContainerPane {
 				if(newValue != null){
 					S_ContainerPane.GB_RootPane.getChildren().clear();
 					S_ContainerPane.GB_RootPane.getChildren().add(newValue);
-				}	
+				}
 			}
 		});
 	}
@@ -119,7 +113,33 @@ public class ContainerPane {
 	
 	@FXML
 	public void ManagerManagementAction(){
-		UIMainPage.GetInstance().setGB_Page(ManagerManagementPage.GetInstance().GetPane());
+		
+		if(UIMainPage.GetInstance().getGB_Page().get().equals(ManagerManagementPage.GetInstance().GetPane()))
+			return;
+		
+		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
+		
+		//如果有父账号，说明无权限
+		if(admin.getFatheraccount() != null){
+			Alert alert = new Alert(AlertType.ERROR, "禁止操作  Access denied!", ButtonType.OK);
+			alert.initOwner(S_Scene.getWindow());
+			alert.showAndWait();
+		}
+		else {
+			TextInputDialog inputDialog = new TextInputDialog("input admin password");
+			inputDialog.initOwner(S_Scene.getWindow());
+			Optional<String> result = inputDialog.showAndWait();
+			
+			if(result.isPresent()){
+				if(result.get().equals(admin.getPassword()))
+					UIMainPage.GetInstance().setGB_Page(ManagerManagementPage.GetInstance().GetPane());
+				else {
+					Alert alert = new Alert(AlertType.ERROR, "禁止操作  Access denied!", ButtonType.OK);
+					alert.initOwner(S_Scene.getWindow());
+					alert.showAndWait();
+				}
+			}
+		}
 	}
 	
 	@FXML

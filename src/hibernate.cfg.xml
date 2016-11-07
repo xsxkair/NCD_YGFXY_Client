@@ -11,15 +11,11 @@
         <property name="hibernate.c3p0.max_size">20</property>
         <property name="hibernate.c3p0.min_size">5</property>
         <property name="hibernate.c3p0.timeout">120</property>
-        <property name="automaticTestTable">Test</property>
         <property name="hibernate.c3p0.max_statements">100</property>
         <property name="hibernate.c3p0.idle_test_period">120</property>
         <property name="hibernate.c3p0.acquire_increment">1</property>
         <property name="c3p0.testConnectionOnCheckout">true</property>
-        <property name="c3p0.idleConnectionTestPeriod">18000</property>
-        <property name="c3p0.maxIdleTime">25000</property>
-        <property name="c3p0.idle_test_period">120</property>
-        
+     
    	 	<property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://123.57.94.39:3306/ygfxy2?useUnicode=true&amp;characterEncoding=UTF-8</property>
 		<property name="hibernate.connection.username">YGFXY</property>
@@ -31,7 +27,6 @@
 		<property name="hibernate.show_sql">true</property>
 		
 		<mapping resource="org/com/xsx/Domain/CardBean.hbm.xml"/>
-		
 		<mapping resource="org/com/xsx/Domain/DeviceBean.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/ManagerBean.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/PersonBean.hbm.xml"/>

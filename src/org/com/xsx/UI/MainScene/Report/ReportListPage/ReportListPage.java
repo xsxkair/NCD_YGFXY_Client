@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
+import org.com.xsx.Dao.ManagerDao;
 import org.com.xsx.Data.ReportFilterData;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
@@ -52,6 +53,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -164,17 +166,19 @@ public class ReportListPage {
         GB_RefreshBar.progressProperty().bind(ReadReportService.GetInstance().progressProperty());
         GB_ReportResultFilterCombox.getItems().addAll("All", "未审核", "合格", "不合格");
         
-        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<ManagerBean>() {
+        UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
+
 			@Override
-			public void changed(ObservableValue<? extends ManagerBean> observable, ManagerBean oldValue, ManagerBean newValue) {
+			public void changed(ObservableValue<? extends Pane> observable, Pane oldValue, Pane newValue) {
 				// TODO Auto-generated method stub
 				if(newValue != null){
-					UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
-				}
-				if(newValue != null){
-					GB_TestDeviceFilterCombox.getItems().clear();
-					GB_TestDeviceFilterCombox.getItems().add("All");
-			        GB_TestDeviceFilterCombox.getItems().addAll(SignedManager.GetInstance().GetManagerDeviceIdList());
+					if(newValue.equals(reportpane)){
+						GB_TestDeviceFilterCombox.getItems().clear();
+						GB_TestDeviceFilterCombox.getItems().add("All");
+				        GB_TestDeviceFilterCombox.getItems().addAll(ManagerDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount()));
+				        
+				        StartReportService();
+					}
 				}
 			}
 		});
@@ -368,7 +372,7 @@ public class ReportListPage {
 	}
 
 	public AnchorPane GetReportPane(){	
-		StartReportService();
+		
 		return reportpane;
 	}
 	

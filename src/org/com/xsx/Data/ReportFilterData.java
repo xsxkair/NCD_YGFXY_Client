@@ -15,8 +15,6 @@ public class ReportFilterData {
 	private int pageindex;													//µ±Ç°Ò³Êý
 	private int pagesize = 50;
 	
-	
-	
 	private static ReportFilterData S_ReportFilterData = null;
 	
 	private ReportFilterData(){

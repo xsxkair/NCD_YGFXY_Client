@@ -12,9 +12,11 @@ import net.sf.json.JSONSerializer;
 
 public class DeviceInfoDao {
 	
-	public static List<Object[]> QueryDeviceList(List<String> deviceidlist){
+	public static List<Object[]> QueryDeviceList(String account){
 		
 		List<Object[]> result = new ArrayList<>();
+		
+		List<String> deviceidlist = ManagerDao.QueryDeviceList(account);
 		
         StringBuffer hql = new StringBuffer("select m,p from DeviceBean as m, PersonBean as p WHERE m.id IN (:parm0) AND m.p_id=p.id");
         
@@ -36,6 +38,15 @@ public class DeviceInfoDao {
         	
         	result.add(deviceinfo);
 		}
+
+		return result;
+	}
+	
+	public static Object[] QueryDevice(String deviceid){
+		
+        StringBuffer hql = new StringBuffer("select m,p from DeviceBean m left join PersonBean p on m.p_id=p.id WHERE m.id=:parm0 ");
+        
+        Object[] result = (Object[]) HibernateDao.GetInstance().queryOne(hql.toString(), new Object[]{deviceid});
 
 		return result;
 	}

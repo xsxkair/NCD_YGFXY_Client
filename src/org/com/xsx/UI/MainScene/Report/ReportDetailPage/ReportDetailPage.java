@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.com.xsx.Dao.ManagerDao;
 import org.com.xsx.Dao.ReportDao;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
@@ -184,9 +185,8 @@ public class ReportDetailPage {
 					deviceBean = (DeviceBean) newValue[2];
 					tester = (PersonBean) newValue[3];
 					managerBean = (ManagerBean) newValue[4];
-					manager = (PersonBean) newValue[5];
-					sampleperson = (PersonBean) newValue[6];
-					devicer = (PersonBean) newValue[7];
+					sampleperson = (PersonBean) newValue[5];
+					devicer = (PersonBean) newValue[6];
 					
 					//更新设备信息
 					S_DeviceidLabel.setText((deviceBean.getId() == null)?"null":deviceBean.getId().toString());
@@ -329,8 +329,10 @@ public class ReportDetailPage {
 		testDataBean.setResult((String) S_ReportResultToogleGroup.getSelectedToggle().getUserData());
 		testDataBean.setR_desc(S_ReportDescTextArea.getText());
 		testDataBean.setHandletime(new Timestamp(System.currentTimeMillis()));
-		testDataBean.setM_account(SignedManager.GetInstance().GetSignedManagerInfo().getAccount());
-		testDataBean.setM_name(SignedManager.GetInstance().GetSignedManagerInfo().getName());
+		
+		ManagerBean tempmanager = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
+		testDataBean.setM_account(tempmanager.getAccount());
+		testDataBean.setM_name(tempmanager.getName());
 		
 		GB_ManagerNameLabel.setText((testDataBean.getM_name() == null)?"无":testDataBean.getM_name().toString());
         GB_ManagerTimeLabel.setText((testDataBean.getHandletime() == null)?"无":testDataBean.getHandletime().toString());

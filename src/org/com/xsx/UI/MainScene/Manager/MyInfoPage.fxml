@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="765.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button maxHeight="1.0" maxWidth="1.0" minHeight="1.0" minWidth="1.0" mnemonicParsing="false" prefHeight="1.0" prefWidth="1.0" text="Button" />
-      <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" styleClass="edge-to-edge" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
             <VBox fx:id="GB_ChildPane" alignment="TOP_CENTER">
                <children>
@@ -97,7 +97,7 @@
                         </HBox>
                         <GridPane alignment="CENTER" hgap="50.0">
                            <children>
-                              <ListView fx:id="GB_ManagerListView" prefHeight="300.0" prefWidth="200.0" />
+                              <ListView fx:id="GB_ManagerListView" prefHeight="300.0" prefWidth="200.0" style="-fx-background-insets: 0;" />
                               <GridPane gridLinesVisible="true" prefHeight="200.0" prefWidth="600.0" GridPane.columnIndex="1">
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="备注" textOverrun="CLIP" GridPane.rowIndex="5" />
@@ -156,7 +156,7 @@
                         </HBox>
                         <GridPane alignment="CENTER" hgap="50.0">
                            <children>
-                              <ListView fx:id="S_DeviceListView" prefHeight="300.0" prefWidth="200.0" />
+                              <ListView fx:id="S_DeviceListView" prefHeight="300.0" prefWidth="200.0" style="-fx-background-insets: 0;" />
                               <GridPane gridLinesVisible="true" prefHeight="300.0" prefWidth="300.0" GridPane.columnIndex="1">
                                  <children>
                                     <Label text="设备地址" GridPane.rowIndex="2" />

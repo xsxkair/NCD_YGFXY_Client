@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.com.xsx.Dao.ManagerDao;
 import org.com.xsx.Data.SignedManager;
+import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Service.ReadDeviceInfoService;
 
@@ -36,10 +38,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONSerializer;
 
@@ -72,6 +76,9 @@ public class DevicePage {
 	
 	@FXML
 	ToggleButton DeviceListShowButton;
+	
+	//更新设备状态任务
+	private ReadDeviceInfoService S_ReadDeviceInfoService = new ReadDeviceInfoService();
 	
 	private DevicePage(){
 		
@@ -119,37 +126,45 @@ public class DevicePage {
         TableColumn6.setCellValueFactory(new PropertyValueFactory<DeviceTableItem, String>("devicestatus"));
         TableColumn6.setCellFactory(new MyColumnCallback<DeviceTableItem, String>());
         
-        DeviceListShowPane.itemsProperty().bind(ReadDeviceInfoService.GetInstance().lastValueProperty());
+        S_ReadDeviceInfoService.setPeriod(Duration.minutes(5));
         
-        ReadDeviceInfoService.GetInstance().lastValueProperty().addListener(new ChangeListener<ObservableList<DeviceTableItem>>() {
+        DeviceListShowPane.itemsProperty().bind(S_ReadDeviceInfoService.lastValueProperty());
+        
+        S_ReadDeviceInfoService.lastValueProperty().addListener(new ChangeListener<ObservableList<DeviceTableItem>>() {
 
 			@Override
 			public void changed(ObservableValue<? extends ObservableList<DeviceTableItem>> observable,
 					ObservableList<DeviceTableItem> oldValue, ObservableList<DeviceTableItem> newValue) {
 				// TODO Auto-generated method stub
-				DeviceThumbShowPane.getChildren().clear();
+				if(newValue != null){
+					DeviceThumbShowPane.getChildren().clear();
 
-				for (DeviceTableItem deviceTableItem : newValue) {
-					
-					DeviceThumnPane temp = deviceTableItem.getDevicethumn();
-					
-					//提示					
-					Tooltip tooltip = new Tooltip();
-					tooltip.setGraphic(new DeviceTipInfo(deviceTableItem));
-			        Tooltip.install(temp, tooltip);
-			        
-					DeviceThumbShowPane.getChildren().add(temp);
+					for (DeviceTableItem deviceTableItem : newValue) {
+						
+						DeviceThumnPane temp = deviceTableItem.getDevicethumn();
+						
+						//提示					
+						Tooltip tooltip = new Tooltip();
+						tooltip.setGraphic(new DeviceTipInfo(deviceTableItem));
+				        Tooltip.install(temp, tooltip);
+				        
+						DeviceThumbShowPane.getChildren().add(temp);
+					}
 				}
 			}
 		});
         
-        SignedManager.GetInstance().getGB_SignedManager().addListener(new ChangeListener<ManagerBean>() {
+        UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
 
 			@Override
-			public void changed(ObservableValue<? extends ManagerBean> observable, ManagerBean oldValue, ManagerBean newValue) {
+			public void changed(ObservableValue<? extends Pane> observable, Pane oldValue, Pane newValue) {
 				// TODO Auto-generated method stub
-				if(newValue != null){
-					ReadDeviceInfoService.GetInstance().start();
+				if(devicepane.equals(newValue)){
+					S_ReadDeviceInfoService.restart();
+				}
+				
+				if(devicepane.equals(oldValue)){
+					S_ReadDeviceInfoService.cancel();
 				}
 			}
 		});

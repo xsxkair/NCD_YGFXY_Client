@@ -53,7 +53,7 @@ public class ReadReportService extends Service<Object[]>{
 				return null;
 			
 			List<Object[]> reportdatalist =  (List<Object[]>) reportdatas[0];
-			
+			System.out.println("ÊýÄ¿"+reportdatalist.size());
 			for (Object[] report : reportdatalist) {
 				
 				ReportListTableItem temp = new ReportListTableItem();

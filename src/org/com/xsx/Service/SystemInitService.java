@@ -63,7 +63,7 @@ public class SystemInitService extends Service<Boolean>{
 				// TODO: handle exception
 				updateMessage("服务器连接失败，请检查网络！");
 	    		Thread.sleep(1000); 
-	    		
+	    		e.printStackTrace();
 	    		return false;
 			}
     		

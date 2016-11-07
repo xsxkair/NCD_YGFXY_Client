@@ -17,21 +17,6 @@ import javafx.util.Duration;
 
 public class ReadDeviceInfoService extends ScheduledService<ObservableList<DeviceTableItem>>{
 	
-	private static ReadDeviceInfoService GB_ReadDeviceInfoService = null;
-	
-	private ReadDeviceInfoService() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public static ReadDeviceInfoService GetInstance() {
-		if(GB_ReadDeviceInfoService == null){
-			GB_ReadDeviceInfoService = new ReadDeviceInfoService();
-			GB_ReadDeviceInfoService.setPeriod(Duration.minutes(5));
-		}
-
-		return GB_ReadDeviceInfoService;
-	}
-	
 	@Override
 	protected Task<ObservableList<DeviceTableItem>> createTask() {
 		// TODO Auto-generated method stub
@@ -49,7 +34,7 @@ public class ReadDeviceInfoService extends ScheduledService<ObservableList<Devic
 		private ObservableList<DeviceTableItem> ReadDeviceInfoFun(){
 			ObservableList<DeviceTableItem> deviceTableItems = FXCollections.observableArrayList();
 			
-			List<Object[]> devices = DeviceInfoDao.QueryDeviceList(SignedManager.GetInstance().GetManagerDeviceIdList());
+			List<Object[]> devices = DeviceInfoDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
 
 			for (Object[] deviceinfo : devices) {
 				
