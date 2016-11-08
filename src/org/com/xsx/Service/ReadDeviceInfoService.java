@@ -5,6 +5,7 @@ import java.util.List;
 import org.com.xsx.Dao.DeviceInfoDao;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.UI.MainScene.DevicePage.DeviceDataPackage;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceTableItem;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceThumnPane;
 
@@ -34,9 +35,9 @@ public class ReadDeviceInfoService extends ScheduledService<ObservableList<Devic
 		private ObservableList<DeviceTableItem> ReadDeviceInfoFun(){
 			ObservableList<DeviceTableItem> deviceTableItems = FXCollections.observableArrayList();
 			
-			List<Object[]> devices = DeviceInfoDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
+			List<DeviceDataPackage> devices = DeviceInfoDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
 
-			for (Object[] deviceinfo : devices) {
+			for (DeviceDataPackage deviceinfo : devices) {
 				
 				DeviceTableItem temp = new DeviceTableItem(deviceinfo);
 

@@ -71,7 +71,6 @@ public class DevicePage {
 	@FXML
 	ScrollPane DeviceICOShowRootPane;
 	@FXML
-	//TilePane DeviceThumbShowPane;
 	FlowPane DeviceThumbShowPane;
 	
 	@FXML
@@ -129,7 +128,7 @@ public class DevicePage {
         S_ReadDeviceInfoService.setPeriod(Duration.minutes(5));
         
         DeviceListShowPane.itemsProperty().bind(S_ReadDeviceInfoService.lastValueProperty());
-        
+ /*       
         S_ReadDeviceInfoService.lastValueProperty().addListener(new ChangeListener<ObservableList<DeviceTableItem>>() {
 
 			@Override
@@ -153,7 +152,7 @@ public class DevicePage {
 				}
 			}
 		});
-        
+        */
         UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
 
 			@Override

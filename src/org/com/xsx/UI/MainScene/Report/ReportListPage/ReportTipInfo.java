@@ -27,15 +27,13 @@ import net.sf.json.JSONSerializer;
 public class ReportTipInfo extends AnchorPane{
 
 	private TestDataBean testDataBean;
-	private CardBean cardBean;
 	
 	public ReportTipInfo(){
 	}
 	
-	public ReportTipInfo(Object[] data){
+	public ReportTipInfo(TestDataBean data){
 
-		testDataBean = (TestDataBean) data[0];
-		cardBean = (CardBean) data[1];
+		testDataBean = data;
 		this.UI_Init();
 	}
 	
@@ -105,7 +103,7 @@ public class ReportTipInfo extends AnchorPane{
         
         Label label1_1 = new Label("²âÊÔ½á¹û: ");
         label1_1.setFont(new Font("System", 16));
-        Label label1_2 = new Label(testDataBean.getA_v()+" "+ cardBean.getDw());
+        Label label1_2 = new Label(testDataBean.getA_v()+" "+ testDataBean.getCdw());
         label1_2.setFont(new Font("System", 16)); 
         hBox1.getChildren().addAll(label1_1, label1_2);
         

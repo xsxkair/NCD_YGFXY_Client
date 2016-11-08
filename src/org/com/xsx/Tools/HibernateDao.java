@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;  
 import org.hibernate.Transaction;
+import org.jboss.logging.Param;
 
 public class HibernateDao{  
 	
@@ -284,8 +285,7 @@ public class HibernateDao{
               session = HibernateSessionBean.GetInstance().getSession();  
               SQLQuery query=session.createSQLQuery(sql);  
 
-              object = query.uniqueResult(); 
-              System.out.println(object);
+              object = query.uniqueResult();
           }  
           catch (Exception e)  
           {
@@ -300,4 +300,40 @@ public class HibernateDao{
           }  
         return object;  
     }
+    
+    public int HqlAction(String hql, Object[] param) {
+    	int num = 0;
+    	Session session=null;  
+        try  
+         {  
+             session = HibernateSessionBean.GetInstance().getSession();  
+             Query query=session.createQuery(hql); 
+
+             if(param!=null)  
+             {  
+                 for(int i=0;i<param.length;i++)  
+                 {
+               	  if(param[i] instanceof List<?>)
+               		  query.setParameterList("parm"+i, (List) param[i]);
+               	  else
+               
+               		  query.setParameter("parm"+i, param[i]);    
+                 }  
+             }
+
+             num = query.executeUpdate();
+         }  
+         catch (Exception e)  
+         {
+       	 e.printStackTrace();
+         }  
+         finally  
+         {  
+             if(session!=null)  
+             {  
+                 session.close();  
+             }  
+         }  
+       return num;  
+	}
 } 

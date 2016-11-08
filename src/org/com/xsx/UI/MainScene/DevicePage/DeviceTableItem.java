@@ -3,6 +3,7 @@ package org.com.xsx.UI.MainScene.DevicePage;
 import java.util.List;
 
 import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.DevicerBean;
 import org.com.xsx.Domain.PersonBean;
 
 import javafx.scene.image.Image;
@@ -19,11 +20,11 @@ public class DeviceTableItem {
 	private DeviceThumnPane devicethumn;
 	
 	private DeviceBean devicebean;					//设备信息
-	private PersonBean deviceperson;				//设备责任人信息
+	private DevicerBean deviceperson;				//设备责任人信息
 	
-	public DeviceTableItem(Object[] deviceinfo){
-		this.setDevicebean((DeviceBean) deviceinfo[0]);
-		this.setDeviceperson((PersonBean) deviceinfo[1]);
+	public DeviceTableItem(DeviceDataPackage deviceinfo){
+		this.setDevicebean(deviceinfo.getDeviceBean());
+		this.setDeviceperson(deviceinfo.getDevicerBean());
 	}
 	
 	public Image getDeviceico() {
@@ -110,11 +111,11 @@ public class DeviceTableItem {
 		this.setDevicethumn(new DeviceThumnPane(this.getDeviceico(), this.getDeviceid()));
 	}
 
-	public PersonBean getDeviceperson() {
+	public DevicerBean getDeviceperson() {
 		return deviceperson;
 	}
 
-	public void setDeviceperson(PersonBean deviceperson) {
+	public void setDeviceperson(DevicerBean deviceperson) {
 		this.deviceperson = deviceperson;
 		
 		if(deviceperson != null){

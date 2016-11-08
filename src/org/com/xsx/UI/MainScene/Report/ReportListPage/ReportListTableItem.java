@@ -16,7 +16,7 @@ public class ReportListTableItem {
 	private String managername;
 	private String reportresult;
 	
-	private Object[] reportdata = null;
+	private TestDataBean reportdata = null;
 
 	public Integer getIndex() {
 		return index;
@@ -91,11 +91,11 @@ public class ReportListTableItem {
 		this.reportresult = reportresult;
 	}
 
-	public Object[] getReportdata() {
+	public TestDataBean getReportdata() {
 		return reportdata;
 	}
 
-	public void setReportdata(Object[] reportdata) {
+	public void setReportdata(TestDataBean reportdata) {
 		this.reportdata = reportdata;
 		
 		this.testitem = null;
@@ -107,31 +107,17 @@ public class ReportListTableItem {
 		this.reportresult = null;
 		
 		if(this.reportdata != null){
-
-			TestDataBean testDataBean = (TestDataBean) this.reportdata[0];
-			CardBean cardBean = (CardBean) this.reportdata[1];
-			if(testDataBean != null && cardBean != null){
-				this.testitem = testDataBean.getCitem();
-				this.testresult = testDataBean.getA_v() + " "+ cardBean.getDw();
-				this.testdate = testDataBean.getTesttime();
-				this.tester = testDataBean.getT_name();
-				this.deviceid = testDataBean.getDid();
-				this.simpleid = testDataBean.getSampleid();
+			this.testitem = reportdata.getCitem();
+			this.testresult = reportdata.getA_v() + " "+ reportdata.getCdw();
+			this.testdate = reportdata.getTesttime();
+			this.tester = reportdata.getT_name();
+			this.deviceid = reportdata.getDid();
+			this.simpleid = reportdata.getSampleid();
 				
-				if(testDataBean.getResult() == null)
-					this.reportresult = "Œ¥…Û∫À";
-				else
-					this.reportresult = testDataBean.getResult();
-			}
-			else {
-				this.testitem = null;
-				this.testdate = null;
-				this.testresult = null;
-				this.tester = null;
-				this.deviceid = null;
-				this.simpleid = null;
-				this.reportresult = null;
-			}
+			if(reportdata.getResult() == null)
+				this.reportresult = "Œ¥…Û∫À";
+			else
+				this.reportresult = reportdata.getResult();
 		}
 	}
 

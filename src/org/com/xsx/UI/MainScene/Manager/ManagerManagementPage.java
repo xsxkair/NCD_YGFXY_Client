@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.com.xsx.Dao.DeviceInfoDao;
 import org.com.xsx.Dao.ManagerDao;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.DevicerBean;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Domain.PersonBean;
+import org.com.xsx.UI.MainScene.DevicePage.DeviceDataPackage;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -89,6 +93,8 @@ public class ManagerManagementPage {
 	Label GB_DeviceDescLabel;
 	@FXML
 	Label GB_DeviceAddrLabel;
+	@FXML
+	Button GB_DeleteDeviceButton;
 
 	private ManagerManagementPage() {
 		
@@ -183,10 +189,10 @@ public class ManagerManagementPage {
 					GB_DeviceAddrLabel.setText(null);
 				}
 				else {
-					Object[] deviceinfo = DeviceInfoDao.QueryDevice(newValue);
+					DeviceDataPackage deviceinfo = DeviceInfoDao.QueryDevice(newValue);
 
-					DeviceBean deviceBean = (DeviceBean) deviceinfo[0];
-					PersonBean personBean = (PersonBean) deviceinfo[1];
+					DeviceBean deviceBean = deviceinfo.getDeviceBean();
+					DevicerBean personBean = deviceinfo.getDevicerBean();
 					
 					if(personBean == null){
 						GB_DeviceNameLabel.setText("null");
@@ -216,6 +222,8 @@ public class ManagerManagementPage {
 				}
 			}
 		});
+        
+        GB_DeleteDeviceButton.disableProperty().bind(GB_DeviceListView.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
         
         AnchorPane.setTopAnchor(rootpane, 0.0);
         AnchorPane.setBottomAnchor(rootpane, 0.0);
@@ -253,10 +261,12 @@ public class ManagerManagementPage {
 			items.add(new ManagerListViewItem(namelist));
 		}
 		
+		GB_ManagerListView.getItems().clear();
 		GB_ManagerListView.setItems(FXCollections.observableArrayList(items));
 	}
 
 	private void UpDeviceValue() {
+		GB_DeviceListView.getItems().clear();
 		GB_DeviceListView.setItems(FXCollections.observableArrayList(ManagerDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount())));
 		
 	}
@@ -345,5 +355,8 @@ public class ManagerManagementPage {
 	@FXML
 	public void GB_DeleteDeviceAction(){
 		
+		DeviceInfoDao.DeleteDevice(GB_DeviceListView.getSelectionModel().getSelectedItem());
+		
+		UpDeviceValue();
 	}
 }

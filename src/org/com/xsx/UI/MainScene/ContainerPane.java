@@ -13,6 +13,7 @@ import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
 import org.com.xsx.UI.MainScene.Manager.ManagerManagementPage;
 import org.com.xsx.UI.MainScene.Manager.MyInfoPage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
+import org.com.xsx.UI.MainScene.Report.ReportOverViewPage.ReportOverViewPage;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -83,7 +84,7 @@ public class ContainerPane {
 	
 	@FXML
 	public void ReportThumbAction(){
-
+		UIMainPage.GetInstance().setGB_Page(ReportOverViewPage.GetInstance().GetPane());
 	}
 	
 	@FXML

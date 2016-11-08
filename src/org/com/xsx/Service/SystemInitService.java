@@ -12,6 +12,7 @@ import org.com.xsx.UI.MainScene.Manager.ManagerManagementPage;
 import org.com.xsx.UI.MainScene.Manager.MyInfoPage;
 import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
+import org.com.xsx.UI.MainScene.Report.ReportOverViewPage.ReportOverViewPage;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -114,12 +115,16 @@ public class SystemInitService extends Service<Boolean>{
     		DevicePage.GetInstance().UI_Init();
     		updateProgress(40, 100);
     		
-    		updateMessage("5");
+    		updateMessage("6");
     		MyInfoPage.GetInstance().UI_Init();
     		updateProgress(42, 100);
     		
-    		updateMessage("5");
+    		updateMessage("7");
     		ManagerManagementPage.GetInstance().UI_Init();
+    		updateProgress(45, 100);
+    		
+    		updateMessage("8");
+    		ReportOverViewPage.GetInstance().UI_Init();
     		updateProgress(45, 100);
     		
     		updateProgress(100, 100);

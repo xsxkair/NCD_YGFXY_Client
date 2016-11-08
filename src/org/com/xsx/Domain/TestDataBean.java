@@ -4,6 +4,7 @@ public class TestDataBean {
 	
 	private String cid;						//检测卡id	-- 对应cardbean
 	private String citem;					//测试项目
+	private String cdw;						//单位
 	private String did;						//设备id		-- 对应devicebean
 	private Integer t_id;					//测试人id	-- 对应personbean
 	private String t_name;					//测试人姓名
@@ -43,6 +44,12 @@ public class TestDataBean {
 	}
 	public void setCitem(String citem) {
 		this.citem = citem;
+	}
+	public String getCdw() {
+		return cdw;
+	}
+	public void setCdw(String cdw) {
+		this.cdw = cdw;
 	}
 	public String getDid() {
 		return did;

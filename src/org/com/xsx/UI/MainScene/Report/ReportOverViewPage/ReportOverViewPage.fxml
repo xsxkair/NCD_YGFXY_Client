@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="765.0" prefWidth="1240.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <VBox spacing="50.0">
+               <children>
+                  <FlowPane hgap="100.0" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <PieChart fx:id="GB_ReportPieChart" prefHeight="250.0" prefWidth="250.0" style="-fx-background-color: red;" title="报告概览" />
+                        <PieChart fx:id="GB_ItemPieChart" prefHeight="250.0" prefWidth="250.0" style="-fx-background-color: green;" title="项目概览" />
+                        <PieChart fx:id="GB_DevicePieChart" prefHeight="250.0" prefWidth="250.0" style="-fx-background-color: lightblue;" title="设备概览" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </FlowPane>
+                  <StackedBarChart fx:id="GB_ReportDetailBarChart" prefHeight="600.0">
+                    <xAxis>
+                      <CategoryAxis fx:id="GB_ReportDetailBarChartX" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="GB_ReportDetailBarChartY" side="LEFT" />
+                    </yAxis>
+                  </StackedBarChart>
+               </children>
+               <padding>
+                  <Insets bottom="100.0" top="30.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

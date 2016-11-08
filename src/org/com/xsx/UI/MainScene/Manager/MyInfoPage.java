@@ -10,8 +10,10 @@ import org.com.xsx.Dao.ManagerDao;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.DevicerBean;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Domain.PersonBean;
+import org.com.xsx.UI.MainScene.DevicePage.DeviceDataPackage;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -186,10 +188,10 @@ public class MyInfoPage {
 					S_DeviceAddrLabel.setText(null);
 				}
 				else {
-					Object[] deviceinfo = DeviceInfoDao.QueryDevice(newValue);
+					DeviceDataPackage deviceinfo = DeviceInfoDao.QueryDevice(newValue);
 
-					DeviceBean deviceBean = (DeviceBean) deviceinfo[0];
-					PersonBean personBean = (PersonBean) deviceinfo[1];
+					DeviceBean deviceBean = deviceinfo.getDeviceBean();
+					DevicerBean personBean = deviceinfo.getDevicerBean();
 					
 					if(personBean == null){
 						S_DeviceNameLabel.setText("null");

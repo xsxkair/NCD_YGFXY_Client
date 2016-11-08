@@ -227,7 +227,7 @@
                               </GridPane>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" GridPane.columnIndex="2">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#GB_DeleteDeviceAction" prefHeight="25.0" prefWidth="60.0" text="删除" />
+                                    <Button fx:id="GB_DeleteDeviceButton" mnemonicParsing="false" onAction="#GB_DeleteDeviceAction" prefHeight="25.0" prefWidth="60.0" text="删除" />
                                  </children>
                               </VBox>
                            </children>

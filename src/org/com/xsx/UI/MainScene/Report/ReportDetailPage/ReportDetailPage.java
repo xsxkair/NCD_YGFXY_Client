@@ -8,12 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.com.xsx.Dao.DeviceInfoDao;
 import org.com.xsx.Dao.ManagerDao;
+import org.com.xsx.Dao.PersonDao;
 import org.com.xsx.Dao.ReportDao;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Domain.CardBean;
 import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.DevicerBean;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Domain.PersonBean;
 import org.com.xsx.Domain.TestDataBean;
@@ -45,19 +48,7 @@ public class ReportDetailPage {
 	
 	private AnchorPane rootpane;
 	
-	TestDataBean testDataBean;	//测试数据
-	PersonBean tester;			//操作人
-	
-	CardBean cardBean;			//检测卡信息
-	DeviceBean deviceBean;		//设备信息
-	PersonBean devicer;			//设备责任人信息
-	
-	ManagerBean managerBean;	//审核人账号
-	PersonBean manager;		//审核人信息
-	
-	PersonBean sampleperson;	//样品信息
-	
-	private ObjectProperty<Object[]> S_ReportData;
+	private ObjectProperty<TestDataBean> S_ReportData;
 	
 	
 	//设备信息
@@ -167,10 +158,10 @@ public class ReportDetailPage {
 		}
         
         S_ReportData = new SimpleObjectProperty<>(null);
-        S_ReportData.addListener(new ChangeListener<Object[]>() {
+        S_ReportData.addListener(new ChangeListener<TestDataBean>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
+			public void changed(ObservableValue<? extends TestDataBean> observable, TestDataBean oldValue, TestDataBean newValue) {
 				// TODO Auto-generated method stub
 				
 				//清空曲线
@@ -180,13 +171,13 @@ public class ReportDetailPage {
 					
 				}
 				else{
-					testDataBean = (TestDataBean) newValue[0];
-					cardBean = (CardBean) newValue[1];
-					deviceBean = (DeviceBean) newValue[2];
-					tester = (PersonBean) newValue[3];
-					managerBean = (ManagerBean) newValue[4];
-					sampleperson = (PersonBean) newValue[5];
-					devicer = (PersonBean) newValue[6];
+					TestDataBean testDataBean = newValue;
+					CardBean cardBean = ReportDao.ReadCardByCID(newValue.getCid());
+					DeviceBean deviceBean = DeviceInfoDao.ReadDeviceByDID(newValue.getDid());
+					DevicerBean tester = DeviceInfoDao.ReadDevicerByID(newValue.getT_id());
+					ManagerBean managerBean = ManagerDao.QueryReportManager(newValue.getM_account(), null);
+					PersonBean sampleperson = PersonDao.QueryPerson(newValue.getS_id());
+					DevicerBean devicer = DeviceInfoDao.ReadDevicerByID(deviceBean.getP_id());
 					
 					//更新设备信息
 					S_DeviceidLabel.setText((deviceBean.getId() == null)?"null":deviceBean.getId().toString());
@@ -299,11 +290,11 @@ public class ReportDetailPage {
         AnchorPane.setRightAnchor(rootpane, 0.0);
 	}
 	
-	public ObjectProperty<Object[]> getS_ReportData() {
+	public ObjectProperty<TestDataBean> getS_ReportData() {
 		return S_ReportData;
 	}
 
-	public void setS_ReportData(Object[] s_ReportData) {
+	public void setS_ReportData(TestDataBean s_ReportData) {
 		S_ReportData.set(s_ReportData);
 	}
 
@@ -324,8 +315,7 @@ public class ReportDetailPage {
 	
 	@FXML
 	public void S_CommitReportAction(){
-		Object[] report = new Object[8];
-
+		TestDataBean testDataBean = S_ReportData.get();
 		testDataBean.setResult((String) S_ReportResultToogleGroup.getSelectedToggle().getUserData());
 		testDataBean.setR_desc(S_ReportDescTextArea.getText());
 		testDataBean.setHandletime(new Timestamp(System.currentTimeMillis()));
@@ -337,7 +327,7 @@ public class ReportDetailPage {
 		GB_ManagerNameLabel.setText((testDataBean.getM_name() == null)?"无":testDataBean.getM_name().toString());
         GB_ManagerTimeLabel.setText((testDataBean.getHandletime() == null)?"无":testDataBean.getHandletime().toString());
 		
-		ReportDao.UpdateReport(S_ReportData.get());
+		ReportDao.UpdateReport(testDataBean);
 	}
 	
 	@FXML

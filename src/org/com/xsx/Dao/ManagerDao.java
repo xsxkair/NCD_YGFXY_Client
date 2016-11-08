@@ -51,4 +51,11 @@ public class ManagerDao {
 
 		return HibernateDao.GetInstance().delete(manager);
 	}
+	
+	public static List<ManagerBean> QueryManagerByDeviceid(String deviceid){
+		
+		StringBuffer hql = new StringBuffer("select t from ManagerBean as t where t.devicelist like :parm0)");
+		
+		return HibernateDao.GetInstance().query(hql.toString(), new Object[]{"%"+deviceid+"%"}, null, null);
+	}
 }

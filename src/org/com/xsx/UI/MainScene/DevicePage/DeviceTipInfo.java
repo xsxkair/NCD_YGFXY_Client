@@ -1,8 +1,11 @@
 package org.com.xsx.UI.MainScene.DevicePage;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.List;
 
 import org.com.xsx.Domain.DeviceBean;
+import org.com.xsx.Domain.DevicerBean;
 import org.com.xsx.Domain.PersonBean;
 
 import javafx.geometry.Insets;
@@ -21,14 +24,16 @@ public class DeviceTipInfo extends VBox{
 	
 	private void uiinit(DeviceTableItem deviceinfo){
 		
-		this.setAlignment(Pos.CENTER);
+		DeviceBean deviceBean = deviceinfo.getDevicebean();
+		DevicerBean devicerBean = deviceinfo.getDeviceperson();
 		
+		this.setAlignment(Pos.CENTER);
 		
 		Label label0 = new Label("设备ID: ");
 		label0.setFont(new Font("System", 16));
 		label0.setPadding(new Insets(0, 16, 0, 0));
 		
-		Label label1 = new Label(deviceinfo.getDevicebean().getId());
+		Label label1 = new Label(deviceBean.getId());
 		label1.setFont(new Font("System", 14));
 		
 		HBox hBox1 = new HBox();
@@ -47,38 +52,45 @@ public class DeviceTipInfo extends VBox{
 		vBox1.setAlignment(Pos.CENTER_LEFT);
 		vBox1.setSpacing(5);
 		StringBuffer userinfo = new StringBuffer();
-		if((deviceinfo.getDeviceperson().getName() != null)&&(deviceinfo.getDeviceperson().getName().length() > 0))
-			userinfo.append(deviceinfo.getDeviceperson().getName()+"  ");
 		
-		if((deviceinfo.getDeviceperson().getSex() != null)&&(deviceinfo.getDeviceperson().getSex().length() > 0))
-			userinfo.append(deviceinfo.getDeviceperson().getSex()+"  ");
-		
-		if((deviceinfo.getDeviceperson().getAge() != null)&&(deviceinfo.getDeviceperson().getAge().length() > 0))
-			userinfo.append(deviceinfo.getDeviceperson().getAge());
-		
+		if(devicerBean != null){
+			userinfo.append(((devicerBean.getName() == null)?"无":devicerBean.getName())+"  ");
+			userinfo.append(((devicerBean.getSex() == null)?"无":devicerBean.getName())+"  ");
+			userinfo.append(((devicerBean.getAge() == null)?"无":devicerBean.getAge())+"  ");
+		}
+		else {
+			userinfo.append("无");
+		}
 		Label label3 = new Label(userinfo.toString());
 		label3.setFont(new Font("System", 14));
 		
 		Label label6 = new Label();
 		label6.setFont(new Font("System", 14));
-		if((deviceinfo.getDeviceperson().getJob() != null)&&(deviceinfo.getDeviceperson().getJob().length() > 0))
-			label6.setText(deviceinfo.getDeviceperson().getJob());
-		else
+		if(devicerBean != null){
+			label6.setText(((devicerBean.getJob() == null)?"无":devicerBean.getJob()));
+		}
+		else {
 			label6.setText("无");
+		}
 		
 		Label label7 = new Label();
 		label7.setFont(new Font("System", 14));
-		if((deviceinfo.getDeviceperson().getPhone() != null)&&(deviceinfo.getDeviceperson().getPhone().length() > 0))
-			label7.setText(deviceinfo.getDeviceperson().getPhone());
-		else
+		if(devicerBean != null){
+			label7.setText(((devicerBean.getPhone() == null)?"无":devicerBean.getPhone()));
+		}
+		else {
 			label7.setText("无");
+		}
 		
 		Label label8 = new Label();
 		label8.setFont(new Font("System", 14));
-		if((deviceinfo.getDeviceperson().getDsc() != null)&&(deviceinfo.getDeviceperson().getDsc().length() > 0))
-			label8.setText(deviceinfo.getDeviceperson().getDsc());
-		else
+		
+		if(devicerBean != null){
+			label8.setText(((devicerBean.getDsc() == null)?"无":devicerBean.getDsc()));
+		}
+		else {
 			label8.setText("无");
+		}
 	
 		vBox1.getChildren().addAll(label3, label6, label7, label8);
 		
@@ -91,7 +103,7 @@ public class DeviceTipInfo extends VBox{
 		
 		Label label9 = new Label("设备地址: ");
 		label9.setFont(new Font("System", 16));
-		Label label10 = new Label(deviceinfo.getDevicebean().getDaddr());
+		Label label10 = new Label(deviceBean.getDaddr());
 		label10.setFont(new Font("System", 14));
 		
 		HBox hBox3 = new HBox();
