@@ -9,6 +9,7 @@ import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Service.ReadDeviceInfoService;
+import org.com.xsx.UI.MainScene.DevicePage.DeviceDetailPage.DeviceDetailPage;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -128,7 +129,7 @@ public class DevicePage {
         S_ReadDeviceInfoService.setPeriod(Duration.minutes(5));
         
         DeviceListShowPane.itemsProperty().bind(S_ReadDeviceInfoService.lastValueProperty());
- /*       
+        
         S_ReadDeviceInfoService.lastValueProperty().addListener(new ChangeListener<ObservableList<DeviceTableItem>>() {
 
 			@Override
@@ -147,12 +148,22 @@ public class DevicePage {
 						tooltip.setGraphic(new DeviceTipInfo(deviceTableItem));
 				        Tooltip.install(temp, tooltip);
 				        
+				        temp.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+							@Override
+							public void handle(MouseEvent event) {
+								// TODO Auto-generated method stub
+								DeviceDetailPage.GetInstance().setS_DeviceId(temp.getDeviceid());
+								UIMainPage.GetInstance().setGB_Page(DeviceDetailPage.GetInstance().GetPane());
+							}
+						});
+				        
 						DeviceThumbShowPane.getChildren().add(temp);
 					}
 				}
 			}
 		});
-        */
+        
         UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
 
 			@Override
@@ -226,6 +237,19 @@ public class DevicePage {
 					}
 					else
 						Tooltip.uninstall(cell, tooltip);
+				}
+			});
+			
+			cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent event) {
+					// TODO Auto-generated method stub
+					TableRow<T> row = cell.getTableRow();
+					if(event.getClickCount() == 2){
+						DeviceDetailPage.GetInstance().setS_DeviceId(DeviceListShowPane.getItems().get(row.getIndex()).getDeviceid());
+						UIMainPage.GetInstance().setGB_Page(DeviceDetailPage.GetInstance().GetPane());
+					}
 				}
 			});
 			

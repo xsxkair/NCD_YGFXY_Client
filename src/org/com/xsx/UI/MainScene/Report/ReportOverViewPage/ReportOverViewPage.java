@@ -9,6 +9,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
@@ -30,7 +31,7 @@ public class ReportOverViewPage {
 	PieChart GB_DevicePieChart;
 	
 	@FXML
-	StackedBarChart<String, Number> GB_ReportDetailBarChart;
+	BarChart<String, Number> GB_ReportDetailBarChart;
 	@FXML
 	CategoryAxis GB_ReportDetailBarChartX;
 	@FXML

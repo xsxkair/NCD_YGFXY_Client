@@ -12,14 +12,14 @@ import javafx.scene.text.FontWeight;
 
 public class DeviceThumnPane extends VBox{
 	
-	private ImageView deviceimage;
-	private Label deviceid;
+	private String deviceid;
 	
 	public DeviceThumnPane(Image image, String id){
-		deviceimage = new ImageView(image);
+		this.setDeviceid(id);
+		ImageView deviceimage = new ImageView(image);
 		deviceimage.setFitWidth(150);
 		deviceimage.setFitHeight(123);
-		deviceid = new Label(id);
+		Label deviceid = new Label(id);
 		deviceid.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
 		
 		this.setCursor(Cursor.HAND);
@@ -28,5 +28,13 @@ public class DeviceThumnPane extends VBox{
 		
 		this.setPadding(new Insets(15, 15, 15, 15));
 		this.setStyle("-fx-background-color:#D8EFF2");
+	}
+
+	public String getDeviceid() {
+		return deviceid;
+	}
+
+	public void setDeviceid(String deviceid) {
+		this.deviceid = deviceid;
 	}
 }

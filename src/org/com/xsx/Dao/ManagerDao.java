@@ -15,6 +15,9 @@ public class ManagerDao {
 		if(password != null){
 			hql.append(" and t.password=:parm1");
 		}
+		
+		if(account == null)
+			return null;
 				
 		return (ManagerBean) HibernateDao.GetInstance().queryOne(hql.toString(), new String[]{ account, password});
 	}

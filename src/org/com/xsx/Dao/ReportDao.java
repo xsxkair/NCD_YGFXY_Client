@@ -114,17 +114,14 @@ public class ReportDao {
 	}
 	
 	public static void DeleteReport(TestDataBean reportdata){
-		StringBuffer hql = new StringBuffer();
-		
+
 		//É¾³ý¼ì²â¿¨
-		hql.setLength(0);
-		hql.append("delete from CardBean as c where c.id=:parm0)");
-		HibernateDao.GetInstance().HqlAction(hql.toString(), new Object[]{reportdata.getCid()});
+		CardBean cardBean = ReportDao.ReadCardByCID(reportdata.getCid());
+		HibernateDao.GetInstance().delete(cardBean);
 		
 		//É¾³ýÑùÆ·
-		hql.setLength(0);
-		hql.append("delete from PersonBean as c where c.id=:parm0)");
-		HibernateDao.GetInstance().HqlAction(hql.toString(), new Object[]{reportdata.getS_id()});
+		PersonBean personBean = PersonDao.QueryPerson(reportdata.getS_id());
+		HibernateDao.GetInstance().delete(personBean);
 		
 		//É¾³ý²âÊÔÊý¾Ý
 		HibernateDao.GetInstance().delete(reportdata);
@@ -229,7 +226,10 @@ public class ReportDao {
 	public static CardBean ReadCardByCID(String cardid) {
 		String hql = "select c from CardBean as c where c.id=:parm0 ";
 		
-		return (CardBean) HibernateDao.GetInstance().query(hql.toString(), new String[]{cardid}, null, null);
+		if(cardid == null)
+			return null;
+		
+		return (CardBean) HibernateDao.GetInstance().queryOne(hql.toString(), new String[]{cardid});
 	}
 	
 	public static Boolean UpdateReport(TestDataBean reportdata) {

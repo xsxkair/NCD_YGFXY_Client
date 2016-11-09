@@ -167,62 +167,115 @@ public class ReportDetailPage {
 				//清空曲线
 				series.getData().clear();
 				
-				if(newValue == null){
+				S_DeviceidLabel.setText("-");
+				S_UserNameLabel.setText("-");
+				S_UserAgeLabel.setText("-");
+				S_UserSexLabel.setText("-");
+				S_UserJobLabel.setText("-");
+				S_UserPhoneLabel.setText("-");
+				S_UserDescLabel.setText("-");
+				S_DeviceLocationLabel.setText("-");
+				
+				S_CardidLabel.setText("-");
+				S_ItemNameLabel.setText("-");
+				S_NormalLabel.setText("-");
+				S_WaittimeLabel.setText("-");
+				S_OuttimeLabel.setText("-");
+
+				S_TesterNameLabel.setText("-");
+				S_TesterAgeLabel.setText("-");
+				S_TesterSexLabel.setText("-");
+				S_TesterJobLabel.setText("-");
+				S_TesterPhoneLabel.setText("-");
+				S_TesterDescLabel.setText("-");
+				
+				S_SampleIDLabel.setText("-");
+		        S_CardTempLabel.setText("-");
+		        S_EnTempLabel.setText("-");
+		        S_TesttimeLabel.setText("-");
+		        S_ReportUpTimeLabel.setText("-");
+		        S_RealWaittimeLabel.setText("-");
+		        
+				//报告信息
+		        GB_ManagerNameLabel.setText("-");
+		        GB_ManagerTimeLabel.setText("-");
+		        S_ReportDescTextArea.setText("-");
+				
+				if(newValue != null){
+					TestDataBean testDataBean = null;
+					CardBean cardBean = null;
+					DeviceBean deviceBean = null;
+					DevicerBean devicer = null;
+					PersonBean sampleperson = null;
+					DevicerBean tester = null;
+					ManagerBean managerBean = null;
 					
-				}
-				else{
-					TestDataBean testDataBean = newValue;
-					CardBean cardBean = ReportDao.ReadCardByCID(newValue.getCid());
-					DeviceBean deviceBean = DeviceInfoDao.ReadDeviceByDID(newValue.getDid());
-					DevicerBean tester = DeviceInfoDao.ReadDevicerByID(newValue.getT_id());
-					ManagerBean managerBean = ManagerDao.QueryReportManager(newValue.getM_account(), null);
-					PersonBean sampleperson = PersonDao.QueryPerson(newValue.getS_id());
-					DevicerBean devicer = DeviceInfoDao.ReadDevicerByID(deviceBean.getP_id());
+					testDataBean = newValue;
+					
+					cardBean = ReportDao.ReadCardByCID(newValue.getCid());
+					deviceBean = DeviceInfoDao.ReadDeviceByDID(newValue.getDid());
+					tester = DeviceInfoDao.ReadDevicerByID(newValue.getT_id());
+					managerBean = ManagerDao.QueryReportManager(newValue.getM_account(), null);
+					sampleperson = PersonDao.QueryPerson(newValue.getS_id());
+					devicer = DeviceInfoDao.ReadDevicerByID(deviceBean.getP_id());
+					
 					
 					//更新设备信息
-					S_DeviceidLabel.setText((deviceBean.getId() == null)?"null":deviceBean.getId().toString());
-					S_UserNameLabel.setText((devicer.getName() == null)?"null":devicer.getName().toString());
-					S_UserAgeLabel.setText((devicer.getAge() == null)?"null":devicer.getAge().toString());
-					S_UserSexLabel.setText((devicer.getSex() == null)?"null":devicer.getSex().toString());
-					S_UserJobLabel.setText((devicer.getJob() == null)?"null":devicer.getJob().toString());
-					S_UserPhoneLabel.setText((devicer.getPhone() == null)?"null":devicer.getPhone().toString());
-					S_UserDescLabel.setText((devicer.getDsc() == null)?"null":devicer.getDsc().toString());
-					S_DeviceLocationLabel.setText((deviceBean.getDaddr() == null)?"null":deviceBean.getDaddr().toString());
+					S_DeviceidLabel.setText((testDataBean.getDid() == null)?"null":testDataBean.getDid().toString());
+					
+					if(devicer != null){
+						S_UserNameLabel.setText((devicer.getName() == null)?"null":devicer.getName().toString());
+						S_UserAgeLabel.setText((devicer.getAge() == null)?"null":devicer.getAge().toString());
+						S_UserSexLabel.setText((devicer.getSex() == null)?"null":devicer.getSex().toString());
+						S_UserJobLabel.setText((devicer.getJob() == null)?"null":devicer.getJob().toString());
+						S_UserPhoneLabel.setText((devicer.getPhone() == null)?"null":devicer.getPhone().toString());
+						S_UserDescLabel.setText((devicer.getDsc() == null)?"null":devicer.getDsc().toString());
+					}
+					
+					if(deviceBean != null)
+						S_DeviceLocationLabel.setText((deviceBean.getDaddr() == null)?"null":deviceBean.getDaddr().toString());
 					
 					//试剂卡信息
-					S_CardidLabel.setText((cardBean.getId() == null)?"null":cardBean.getId().toString());
-					S_ItemNameLabel.setText((cardBean.getItem() == null)?"null":cardBean.getItem().toString());
-					S_NormalLabel.setText((cardBean.getN_v() == null)?"null":cardBean.getN_v().toString());
-					S_WaittimeLabel.setText((cardBean.getWaitt() == null)?"null":cardBean.getWaitt().toString());
-					S_OuttimeLabel.setText((cardBean.getOutdate() == null)?"null":cardBean.getOutdate().toString());
+					S_CardidLabel.setText((testDataBean.getCid() == null)?"null":testDataBean.getCid().toString());
+					S_ItemNameLabel.setText((testDataBean.getCitem() == null)?"null":testDataBean.getCitem().toString());
+					if(cardBean != null){
+						S_NormalLabel.setText((cardBean.getN_v() == null)?"null":cardBean.getN_v().toString());
+						S_WaittimeLabel.setText((cardBean.getWaitt() == null)?"null":cardBean.getWaitt().toString());
+						S_OuttimeLabel.setText((cardBean.getOutdate() == null)?"null":cardBean.getOutdate().toString());
+					}
+					
 					
 					//操作人信息
-					S_TesterNameLabel.setText((tester.getName() == null)?"null":tester.getName().toString());
-					S_TesterAgeLabel.setText((tester.getAge() == null)?"null":tester.getAge().toString());
-					S_TesterSexLabel.setText((tester.getSex() == null)?"null":tester.getSex().toString());
-					S_TesterJobLabel.setText((tester.getJob() == null)?"null":tester.getJob().toString());
-					S_TesterPhoneLabel.setText((tester.getPhone() == null)?"null":tester.getPhone().toString());
-					S_TesterDescLabel.setText((tester.getDsc() == null)?"null":tester.getDsc().toString());
+					S_TesterNameLabel.setText((testDataBean.getT_name() == null)?"null":testDataBean.getT_name().toString());
+					if(tester != null){
+						S_TesterAgeLabel.setText((tester.getAge() == null)?"null":tester.getAge().toString());
+						S_TesterSexLabel.setText((tester.getSex() == null)?"null":tester.getSex().toString());
+						S_TesterJobLabel.setText((tester.getJob() == null)?"null":tester.getJob().toString());
+						S_TesterPhoneLabel.setText((tester.getPhone() == null)?"null":tester.getPhone().toString());
+						S_TesterDescLabel.setText((tester.getDsc() == null)?"null":tester.getDsc().toString());
+					}
 
-					
 					//测试信息
 					JSONArray jsonArray = null;
 			        List<Integer> seriesdata = new ArrayList<>();
-
-			        for(int i=0; i<4; i++){
-			        	  	
-			        	if(i == 0)
-			        		jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_a());
-			        	else if(i == 1)
-			        		jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_b());
-			        	else if(i == 2)
-			        		jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_c());
-			        	else if(i == 3)
-			        		jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_d());
-			        	
-			        	seriesdata.addAll((List<Integer>) JSONSerializer.toJava(jsonArray));
-			        }
 			        
+			        try {
+			        	jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_a());
+				        seriesdata.addAll((List<Integer>) JSONSerializer.toJava(jsonArray));
+				        
+				        jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_b());
+				        seriesdata.addAll((List<Integer>) JSONSerializer.toJava(jsonArray));
+				        
+				        jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_c());
+				        seriesdata.addAll((List<Integer>) JSONSerializer.toJava(jsonArray));
+				        
+				        jsonArray = (JSONArray) JSONSerializer.toJSON(testDataBean.getSerie_d());
+				        seriesdata.addAll((List<Integer>) JSONSerializer.toJava(jsonArray));
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+
 			        Integer t = testDataBean.getT_l();
 			        Integer b = testDataBean.getB_l();
 			        Integer c = testDataBean.getC_l();
@@ -250,13 +303,14 @@ public class ReportDetailPage {
 			        	series.getData().add(data);
 					}
 	
-					//S_TestLineChart;
 			        S_SampleIDLabel.setText((testDataBean.getSampleid() == null)?"null":testDataBean.getSampleid().toString());
-			        S_RealWaittimeLabel.setText(((cardBean.getWaitt() == null)?0:cardBean.getWaitt())+(testDataBean.getOutt()==null?0:testDataBean.getOutt())+" 秒");
 			        S_CardTempLabel.setText((testDataBean.getO_t() == null)?"null":testDataBean.getO_t().toString());
 			        S_EnTempLabel.setText((testDataBean.getE_t() == null)?"null":testDataBean.getE_t().toString());
 			        S_TesttimeLabel.setText((testDataBean.getTesttime() == null)?"null":testDataBean.getTesttime().toString());
 			        S_ReportUpTimeLabel.setText((testDataBean.getUptime() == null)?"null":testDataBean.getUptime().toString());
+			        
+			        if(cardBean != null)
+			        	S_RealWaittimeLabel.setText(((cardBean.getWaitt() == null)?0:cardBean.getWaitt()*60)+(testDataBean.getOutt()==null?0:testDataBean.getOutt())+" 秒");
 			        
 					//报告信息
 			        GB_ManagerNameLabel.setText((testDataBean.getM_name() == null)?"无":testDataBean.getM_name().toString());
@@ -271,9 +325,12 @@ public class ReportDetailPage {
 						S_ReportResultToogleGroup.selectToggle(S_ReportOK);
 						S_ReportDescTextArea.setText((testDataBean.getR_desc() == null)?"null":testDataBean.getR_desc().toString());
 					}
-					else {
+					else if (string.equals("不合格")) {
 						S_ReportResultToogleGroup.selectToggle(S_ReportNotOK);
 						S_ReportDescTextArea.setText((testDataBean.getR_desc() == null)?"null":testDataBean.getR_desc().toString());
+					}
+					else{
+						S_ReportResultToogleGroup.selectToggle(null);
 					}
 				}
 			}

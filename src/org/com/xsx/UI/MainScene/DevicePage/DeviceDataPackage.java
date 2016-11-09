@@ -10,9 +10,10 @@ public class DeviceDataPackage {
 	private DevicerBean devicerBean;
 	private List<DevicerBean> devicerlist;
 	
-	public DeviceDataPackage(Object[] data) {
-		deviceBean = (DeviceBean) data[0];
-		devicerBean = (DevicerBean) data[1];
+	public DeviceDataPackage(DeviceBean deviceBean, DevicerBean devicerBean, List<DevicerBean> devicerlist) {
+		this.deviceBean = deviceBean;
+		this.devicerBean = devicerBean;
+		this.devicerlist = devicerlist;
 	}
 
 	public DeviceBean getDeviceBean() {

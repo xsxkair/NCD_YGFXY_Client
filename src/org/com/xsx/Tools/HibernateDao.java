@@ -303,10 +303,12 @@ public class HibernateDao{
     
     public int HqlAction(String hql, Object[] param) {
     	int num = 0;
-    	Session session=null;  
+    	Session session=null;
+    	Transaction tran=null;
         try  
          {  
-             session = HibernateSessionBean.GetInstance().getSession();  
+             session = HibernateSessionBean.GetInstance().getSession();
+             tran = session.beginTransaction();
              Query query=session.createQuery(hql); 
 
              if(param!=null)  
@@ -321,7 +323,11 @@ public class HibernateDao{
                  }  
              }
 
+             System.out.println(query.getQueryString());
              num = query.executeUpdate();
+             
+             tran.commit();
+             
          }  
          catch (Exception e)  
          {
