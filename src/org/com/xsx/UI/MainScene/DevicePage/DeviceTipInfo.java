@@ -1,7 +1,5 @@
 package org.com.xsx.UI.MainScene.DevicePage;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.List;
 
 import org.com.xsx.Domain.DeviceBean;

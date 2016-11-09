@@ -32,7 +32,7 @@
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Label text="测试时间：" />
-                        <DatePicker fx:id="GB_TestTimeFilterDateChoose" prefWidth="100.0" />
+                        <DatePicker fx:id="GB_TestTimeFilterDateChoose" prefWidth="120.0" promptText="YYYY-MM-DD" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">

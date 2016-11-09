@@ -10,6 +10,7 @@ import org.com.xsx.Data.UIScence;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.UI.MainScene.ContainerPane;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
+import org.com.xsx.UI.MainScene.Report.ReportOverViewPage.ReportOverViewPage;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -112,7 +113,7 @@ public class LoginScene {
 		if(tempuser != null){
 			SignedManager.GetInstance().setGB_SignedAccount(tempuser.getAccount());
 			UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
-			UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
+			UIMainPage.GetInstance().setGB_Page(ReportOverViewPage.GetInstance().GetPane());
 		}
 		else {
 			ButtonType loginButtonType = new ButtonType("确定", ButtonData.OK_DONE);
@@ -134,7 +135,7 @@ public class LoginScene {
 				if(tempuser != null){
 					SignedManager.GetInstance().setGB_SignedAccount(tempuser.getAccount());
 					UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
-					UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
+					UIMainPage.GetInstance().setGB_Page(ReportOverViewPage.GetInstance().GetPane());
 				}
 				else {
 					ButtonType loginButtonType = new ButtonType("确定", ButtonData.OK_DONE);

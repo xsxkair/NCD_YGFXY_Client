@@ -168,7 +168,7 @@
                         </GridPane>
                      </children>
                   </VBox>
-                  <LineChart fx:id="GB_DeviceLineChart" horizontalGridLinesVisible="false" prefHeight="500.0" title="设备月活跃度" verticalGridLinesVisible="false">
+                  <LineChart fx:id="GB_DeviceLineChart" prefHeight="500.0" title="设备月活跃度" verticalGridLinesVisible="false">
                     <xAxis>
                       <CategoryAxis fx:id="GB_DeviceXaxis" label="日期" side="BOTTOM" tickLabelRotation="-153.4" />
                     </xAxis>
