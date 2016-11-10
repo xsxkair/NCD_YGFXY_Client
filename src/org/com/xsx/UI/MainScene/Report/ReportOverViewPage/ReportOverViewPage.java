@@ -22,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -31,10 +32,16 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 
 public class ReportOverViewPage {
 	
@@ -46,16 +53,28 @@ public class ReportOverViewPage {
 	PieChart GB_ReportPieChart;
 	private ObservableList<PieChart.Data> GB_ReportPieChartData;
 	private QueryReportService S_QueryByResultService;
+	@FXML
+	StackPane GB_FreshPane1;
+	@FXML
+	ProgressIndicator GB_RefreshBar1;
 	
 	@FXML
 	PieChart GB_ItemPieChart;
 	private ObservableList<PieChart.Data> GB_ItemPieChartData;
 	private QueryReportService S_QueryByItemService;
+	@FXML
+	StackPane GB_FreshPane2;
+	@FXML
+	ProgressIndicator GB_RefreshBar2;
 	
 	@FXML
 	PieChart GB_DevicePieChart;
 	private ObservableList<PieChart.Data> GB_DevicePieChartData;
 	private QueryReportService S_QueryByDeviceService;
+	@FXML
+	StackPane GB_FreshPane3;
+	@FXML
+	ProgressIndicator GB_RefreshBar3;
 	
 	@FXML
 	TextField GB_YearTextField;
@@ -73,6 +92,10 @@ public class ReportOverViewPage {
 	@FXML
 	NumberAxis GB_ReportDetailBarChartY;
 	private QueryReportService S_QueryDetailService;
+	@FXML
+	StackPane GB_FreshPane4;
+	@FXML
+	ProgressIndicator GB_RefreshBar4;
 	
 	private Integer S_FilterYear = null;
 	private Integer S_FilterMonth = null;
@@ -131,6 +154,8 @@ public class ReportOverViewPage {
         GB_ReportPieChartData = FXCollections.observableArrayList();
         GB_ReportPieChart.setData(GB_ReportPieChartData);
         S_QueryByResultService = new QueryReportService("QueryResultCount");
+        GB_FreshPane1.visibleProperty().bind(S_QueryByResultService.runningProperty());
+        GB_RefreshBar1.progressProperty().bind(S_QueryByResultService.progressProperty());
         S_QueryByResultService.valueProperty().addListener(new ChangeListener<Object>() {
 
 			@Override
@@ -142,7 +167,30 @@ public class ReportOverViewPage {
 					GB_ReportPieChartData.clear();
 					Set<String> keyset = data.keySet();
 					for (String string : keyset) {
-						GB_ReportPieChartData.add(new Data(string, data.get(string)));
+						Data temp = new Data(string, data.get(string));
+						GB_ReportPieChartData.add(temp);
+						
+						HBox tempbox = new HBox();
+						tempbox.setAlignment(Pos.CENTER);
+	
+						Label label2 = new Label(string);
+						label2.getStyleClass().add("textstyle1");
+						
+						Label label5 = new Label(" : ");
+						label5.setFont(new Font("System", 16));
+						
+						Label label4 = new Label((int)(temp.getPieValue())+"");
+						label4.getStyleClass().add("textstyle2");
+						
+						Label label1 = new Label(" 例 ");
+						label1.setFont(new Font("System", 16));
+						
+						tempbox.getChildren().addAll(label2, label5, label4, label1);
+						tempbox.setSpacing(5);
+						
+						Tooltip tooltip = new Tooltip();
+						tooltip.setGraphic(tempbox);
+				        Tooltip.install(temp.getNode(), tooltip);
 					}
 				}
 			}
@@ -152,6 +200,8 @@ public class ReportOverViewPage {
         GB_ItemPieChartData = FXCollections.observableArrayList();
         GB_ItemPieChart.setData(GB_ItemPieChartData);
         S_QueryByItemService = new QueryReportService("QueryItemCount");
+        GB_FreshPane2.visibleProperty().bind(S_QueryByItemService.runningProperty());
+        GB_RefreshBar2.progressProperty().bind(S_QueryByItemService.progressProperty());
         S_QueryByItemService.valueProperty().addListener(new ChangeListener<Object>() {
 
 			@Override
@@ -163,7 +213,31 @@ public class ReportOverViewPage {
 					GB_ItemPieChartData.clear();
 					Set<String> keyset = data.keySet();
 					for (String string : keyset) {
-						GB_ItemPieChartData.add(new Data(string, data.get(string)));
+						Data temp = new Data(string, data.get(string));
+						GB_ItemPieChartData.add(temp);
+						
+						HBox tempbox = new HBox();
+						tempbox.setAlignment(Pos.CENTER);
+	
+						Label label2 = new Label(string);
+						label2.getStyleClass().add("textstyle1");
+						
+						Label label5 = new Label(" : ");
+						label5.setFont(new Font("System", 16));
+						
+						Label label4 = new Label((int)(temp.getPieValue())+"");
+						label4.getStyleClass().add("textstyle2");
+						
+						Label label1 = new Label(" 例 ");
+						label1.setFont(new Font("System", 16));
+						
+						tempbox.getChildren().addAll(label2, label5, label4, label1);
+						tempbox.setSpacing(5);
+
+						
+						Tooltip tooltip = new Tooltip();
+						tooltip.setGraphic(tempbox);
+				        Tooltip.install(temp.getNode(), tooltip);
 					}
 				}
 			}
@@ -173,6 +247,8 @@ public class ReportOverViewPage {
         GB_DevicePieChartData = FXCollections.observableArrayList();
         GB_DevicePieChart.setData(GB_DevicePieChartData);
         S_QueryByDeviceService = new QueryReportService("QueryDeviceCount");
+        GB_FreshPane3.visibleProperty().bind(S_QueryByDeviceService.runningProperty());
+        GB_RefreshBar3.progressProperty().bind(S_QueryByDeviceService.progressProperty());
         S_QueryByDeviceService.valueProperty().addListener(new ChangeListener<Object>() {
 
 			@Override
@@ -184,7 +260,31 @@ public class ReportOverViewPage {
 					GB_DevicePieChartData.clear();
 					Set<String> keyset = data.keySet();
 					for (String string : keyset) {
-						GB_DevicePieChartData.add(new Data(string, data.get(string)));
+						Data temp = new Data(string, data.get(string));
+						GB_DevicePieChartData.add(temp);
+						
+						HBox tempbox = new HBox();
+						tempbox.setAlignment(Pos.CENTER);
+						Label label1 = new Label("设备");
+						label1.setFont(new Font("System", 16));
+						
+						Label label2 = new Label(string);
+						label2.getStyleClass().add("textstyle1");
+						
+						Label label3 = new Label("今天已进行");
+						label3.setFont(new Font("System", 16));
+						
+						Label label4 = new Label((int)(temp.getPieValue())+"");
+						label4.getStyleClass().add("textstyle2");
+						
+						Label label5 = new Label("次测试");
+						label5.setFont(new Font("System", 16));
+						tempbox.getChildren().addAll(label1,label2, label3, label4, label5);
+						tempbox.setSpacing(5);
+						
+						Tooltip tooltip = new Tooltip();
+						tooltip.setGraphic(tempbox);
+				        Tooltip.install(temp.getNode(), tooltip);
 					}
 				}
 			}
@@ -194,6 +294,8 @@ public class ReportOverViewPage {
         GB_MonthComboBox.getSelectionModel().select(0);
         
         S_QueryDetailService = new QueryReportService("QueryDetailCount");
+        GB_FreshPane4.visibleProperty().bind(S_QueryDetailService.runningProperty());
+        GB_RefreshBar4.progressProperty().bind(S_QueryDetailService.progressProperty());
         S_QueryDetailService.valueProperty().addListener(new ChangeListener<Object>() {
 
 			@Override
@@ -236,8 +338,21 @@ public class ReportOverViewPage {
 						
 						for (XYChart.Series<String,Number> serie : series) {
 							Integer num = map2.get(serie.getName());
-							if(num != null)
-								serie.getData().add(new XYChart.Data<String, Number>(string, num));
+							if(num != null){
+								
+								XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(string, num);
+								serie.getData().add(data);
+
+								Label label2 = new Label(data.getYValue().intValue()+" 例");
+								label2.getStyleClass().add("textstyle2");
+								
+								Tooltip tooltip = new Tooltip();
+								tooltip.setGraphic(label2);
+						        Tooltip.install(data.getNode(), tooltip);
+						        
+						        System.out.println(data.getNode());
+							}
+								
 						}
 					}
 				}
