@@ -15,6 +15,9 @@ import org.com.xsx.Domain.PersonBean;
 import org.com.xsx.Domain.TestDataBean;
 import org.com.xsx.Tools.HibernateDao;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 public class ReportDao {
 	
 	public static void DeleteReport(TestDataBean reportdata){
@@ -144,9 +147,18 @@ public class ReportDao {
 	public static List<String> QueryAllItem(List<String> deviceid) {
 		StringBuffer hql = new StringBuffer();
 		
-		hql.append("select DISTINCT t.citem from TestDataBean t where t.did in (:parm0)");
+		hql.append("SELECT CITEM FROM TESTDATABEAN where DID IN (");
+		for (String string : deviceid) {
+			hql.append("'"+string+"'");
+			if(deviceid.size() != (deviceid.indexOf(string)+1))
+				hql.append(",");
+		}
+		hql.append(")");
+		hql.append(" GROUP BY (CITEM)");
 		
-		return HibernateDao.GetInstance().query(hql.toString(), new Object[]{deviceid}, null, null);
+		List<String> queryresult = HibernateDao.GetInstance().querysql(hql.toString(), null);
+		return queryresult;
+		
 	}
 	
 	public static Map<String, Integer> QueryReportCountGroupByResult(java.sql.Date date){
@@ -154,9 +166,19 @@ public class ReportDao {
 		
 		StringBuffer hql = new StringBuffer();
 		
+		List<String> deviceidlist = ManagerDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
+		
 		hql.append("SELECT RESULT,COUNT(CID) FROM TESTDATABEAN where DATE(TESTTIME)='");
 		hql.append(date);
-		hql.append("' GROUP BY (RESULT)");
+		hql.append("'");
+		hql.append(" AND DID IN (");
+		for (String string : deviceidlist) {
+			hql.append("'"+string+"'");
+			if(deviceidlist.size() != (deviceidlist.indexOf(string)+1))
+				hql.append(",");
+		}
+		hql.append(")");
+		hql.append(" GROUP BY (RESULT)");
 		
 		List<Object[]> queryresult = HibernateDao.GetInstance().querysql(hql.toString(), null);
 		
@@ -166,5 +188,118 @@ public class ReportDao {
 		}
 		
 		return result;
+	}
+	
+	public static Map<String, Integer> QueryReportCountGroupByItem(java.sql.Date date) {
+		Map<String, Integer> result = new HashMap<>();
+		
+		StringBuffer hql = new StringBuffer();
+		
+		List<String> deviceidlist = ManagerDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
+		
+		hql.append("SELECT CITEM,COUNT(CID) FROM TESTDATABEAN where DATE(TESTTIME)='");
+		hql.append(date);
+		hql.append("'");
+		hql.append(" AND DID IN (");
+		for (String string : deviceidlist) {
+			hql.append("'"+string+"'");
+			if(deviceidlist.size() != (deviceidlist.indexOf(string)+1))
+				hql.append(",");
+		}
+		hql.append(")");
+		hql.append(" GROUP BY (CITEM)");
+		
+		List<Object[]> queryresult = HibernateDao.GetInstance().querysql(hql.toString(), null);
+		
+		for (Object[] objects : queryresult) {
+			BigInteger num = (BigInteger) objects[1];
+			result.put((String)objects[0], num.intValue());
+		}
+		
+		return result;
+	}
+	
+	public static Map<String, Integer> QueryReportCountGroupByDevice(java.sql.Date date) {
+		Map<String, Integer> result = new HashMap<>();
+		
+		StringBuffer hql = new StringBuffer();
+		
+		List<String> deviceidlist = ManagerDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
+		
+		hql.append("SELECT DID,COUNT(CID) FROM TESTDATABEAN where DATE(TESTTIME)='");
+		hql.append(date);
+		hql.append("'");
+		hql.append(" AND DID IN (");
+		for (String string : deviceidlist) {
+			hql.append("'"+string+"'");
+			if(deviceidlist.size() != (deviceidlist.indexOf(string)+1))
+				hql.append(",");
+		}
+		hql.append(")");
+		hql.append(" GROUP BY (DID)");
+		
+		List<Object[]> queryresult = HibernateDao.GetInstance().querysql(hql.toString(), null);
+		
+		for (Object[] objects : queryresult) {
+			BigInteger num = (BigInteger) objects[1];
+			result.put((String)objects[0], num.intValue());
+		}
+		
+		return result;
+	}
+	
+	public static List<Object[]> QueryReportSummyChartData(Integer year, Integer month, List<String> itemlist, List<String> deviceidlist) {
+		StringBuffer hql = new StringBuffer("SELECT ");
+		
+		String datestr1 = null;			//日期select
+		String datestr2 = null;			//日期条件
+		String datestr3 = null;			//日期分组
+		if(year != null){
+			if(month != null){
+				datestr1 = "DATE_FORMAT(TESTTIME,'第%e天')";
+				datestr2 = "DATE_FORMAT(TESTTIME,'%Y%c')='"+year+month+"'";
+				datestr3 = "DATE_FORMAT(TESTTIME,'%d')";
+			}
+			else {
+				datestr1 = "DATE_FORMAT(TESTTIME,'%c月')";
+				datestr2 = "DATE_FORMAT(TESTTIME,'%Y')='"+year+"'";
+				datestr3 = "DATE_FORMAT(TESTTIME,'%c')";
+			}
+		}
+		else {
+			datestr1 = "DATE_FORMAT(TESTTIME,'%Y年')";
+			datestr2 = null;
+			datestr3 = "DATE_FORMAT(TESTTIME,'%Y')";
+		}
+		
+		hql.append(datestr1);
+		hql.append(" ,CITEM, COUNT(CID) FROM TESTDATABEAN WHERE CITEM IN (");
+		for (String string : itemlist) {
+			hql.append("'"+string+"'");
+			if(itemlist.size() != (itemlist.indexOf(string)+1))
+				hql.append(",");
+		}
+		hql.append(")");
+		
+		hql.append(" AND DID IN (");
+		for (String string : deviceidlist) {
+			hql.append("'"+string+"'");
+			if(deviceidlist.size() != (deviceidlist.indexOf(string)+1))
+				hql.append(",");
+		}
+		hql.append(")");
+		
+		if(datestr2 != null){
+			hql.append(" AND ");
+			hql.append(datestr2);
+		}
+		
+		hql.append(" GROUP BY ");
+		hql.append(datestr3);
+		hql.append(" ,CITEM");
+		
+		List<Object[]> queryresult = HibernateDao.GetInstance().querysql(hql.toString(), null);
+		
+		return queryresult;
 	}
 }
