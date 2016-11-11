@@ -161,10 +161,12 @@ public class ReportOverViewPage {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				// TODO Auto-generated method stub
-				if(newValue != null){
-					Map<String, Integer> data = (Map<String, Integer>) newValue;
-					
+				if(newValue == null){
 					GB_ReportPieChartData.clear();
+				}
+				else{
+					Map<String, Integer> data = (Map<String, Integer>) newValue;
+
 					Set<String> keyset = data.keySet();
 					for (String string : keyset) {
 						Data temp = new Data(string, data.get(string));
@@ -207,10 +209,12 @@ public class ReportOverViewPage {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				// TODO Auto-generated method stub
-				if(newValue != null){
+				if(newValue == null){
+					GB_ItemPieChartData.clear();
+				}
+				else{
 					Map<String, Integer> data = (Map<String, Integer>) newValue;
 
-					GB_ItemPieChartData.clear();
 					Set<String> keyset = data.keySet();
 					for (String string : keyset) {
 						Data temp = new Data(string, data.get(string));
@@ -254,10 +258,12 @@ public class ReportOverViewPage {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				// TODO Auto-generated method stub
-				if(newValue != null){
-					Map<String, Integer> data = (Map<String, Integer>) newValue;
-	
+				if(newValue == null){
 					GB_DevicePieChartData.clear();
+				}
+				else{
+					Map<String, Integer> data = (Map<String, Integer>) newValue;
+
 					Set<String> keyset = data.keySet();
 					for (String string : keyset) {
 						Data temp = new Data(string, data.get(string));
@@ -301,10 +307,12 @@ public class ReportOverViewPage {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				// TODO Auto-generated method stub
-				if(newValue != null){
-					List<Object[]> result = (List<Object[]>) newValue;
-					
+				if(newValue == null){
 					GB_ReportDetailBarChart.getData().clear();
+				}
+				else{
+					List<Object[]> result = (List<Object[]>) newValue;
+
 					//创建柱状图的数据线
 					XYChart.Series<String,Number>[] series = new XYChart.Series[S_FilterItemList.size()];
 					for (int i=0; i<S_FilterItemList.size(); i++) {
@@ -349,8 +357,6 @@ public class ReportOverViewPage {
 								Tooltip tooltip = new Tooltip();
 								tooltip.setGraphic(label2);
 						        Tooltip.install(data.getNode(), tooltip);
-						        
-						        System.out.println(data.getNode());
 							}
 								
 						}

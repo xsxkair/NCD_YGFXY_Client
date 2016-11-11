@@ -13,6 +13,8 @@ import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
 import org.com.xsx.UI.MainScene.Report.ReportOverViewPage.ReportOverViewPage;
 
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -88,14 +90,24 @@ public class LoginScene {
 			@Override
 			protected boolean computeValue() {
 				// TODO Auto-generated method stub
-				if((UserNameText.getText().length() > 0)&&(UserPasswordText.getText().length() > 0))
+				if((UserNameText.getText() != null)&&(UserNameText.getText().length() > 0)&&((UserPasswordText.getText() != null))&&(UserPasswordText.getText().length() > 0))
 					return false;
 				else
 					return true;
 			}
 		});
 		
-		
+		UIScence.GetInstance().getGB_Scene().addListener(new ChangeListener<Scene>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
+				// TODO Auto-generated method stub
+				if(newValue == S_Scene){
+					UserNameText.setText(null);
+					UserPasswordText.setText(null);
+				}
+			}
+		});
         
         return true;
 	}
@@ -113,7 +125,6 @@ public class LoginScene {
 		if(tempuser != null){
 			SignedManager.GetInstance().setGB_SignedAccount(tempuser.getAccount());
 			UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
-			UIMainPage.GetInstance().setGB_Page(ReportOverViewPage.GetInstance().GetPane());
 		}
 		else {
 			ButtonType loginButtonType = new ButtonType("确定", ButtonData.OK_DONE);
@@ -135,7 +146,6 @@ public class LoginScene {
 				if(tempuser != null){
 					SignedManager.GetInstance().setGB_SignedAccount(tempuser.getAccount());
 					UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
-					UIMainPage.GetInstance().setGB_Page(ReportOverViewPage.GetInstance().GetPane());
 				}
 				else {
 					ButtonType loginButtonType = new ButtonType("确定", ButtonData.OK_DONE);

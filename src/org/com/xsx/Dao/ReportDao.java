@@ -98,11 +98,7 @@ public class ReportDao {
 		//如果为未处理，则显示所有未处理的数据
 		tempstr = ReportFilterData.GetInstance().getReportresult();
 		if(tempstr != null){
-			if(tempstr.equals("未审核"))
-				hql.append(" AND RESULT is null");
-			else{
-				hql.append(" AND RESULT='"+tempstr+"'");
-			}	
+			hql.append(" AND RESULT='"+tempstr+"'");	
 		}
 		hql.replace(hql.indexOf("AND"), hql.indexOf("AND")+3, "WHERE");
 		
