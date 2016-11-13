@@ -52,7 +52,7 @@ public class ReportOverViewPage {
 	@FXML
 	PieChart GB_ReportPieChart;
 	private ObservableList<PieChart.Data> GB_ReportPieChartData;
-	private QueryReportService S_QueryByResultService;
+	private QueryReportInfoService S_QueryByResultService;
 	@FXML
 	StackPane GB_FreshPane1;
 	@FXML
@@ -61,7 +61,7 @@ public class ReportOverViewPage {
 	@FXML
 	PieChart GB_ItemPieChart;
 	private ObservableList<PieChart.Data> GB_ItemPieChartData;
-	private QueryReportService S_QueryByItemService;
+	private QueryReportInfoService S_QueryByItemService;
 	@FXML
 	StackPane GB_FreshPane2;
 	@FXML
@@ -70,7 +70,7 @@ public class ReportOverViewPage {
 	@FXML
 	PieChart GB_DevicePieChart;
 	private ObservableList<PieChart.Data> GB_DevicePieChartData;
-	private QueryReportService S_QueryByDeviceService;
+	private QueryReportInfoService S_QueryByDeviceService;
 	@FXML
 	StackPane GB_FreshPane3;
 	@FXML
@@ -91,7 +91,7 @@ public class ReportOverViewPage {
 	CategoryAxis GB_ReportDetailBarChartX;
 	@FXML
 	NumberAxis GB_ReportDetailBarChartY;
-	private QueryReportService S_QueryDetailService;
+	private QueryReportInfoService S_QueryDetailService;
 	@FXML
 	StackPane GB_FreshPane4;
 	@FXML
@@ -153,7 +153,7 @@ public class ReportOverViewPage {
         //今日报告审核饼图
         GB_ReportPieChartData = FXCollections.observableArrayList();
         GB_ReportPieChart.setData(GB_ReportPieChartData);
-        S_QueryByResultService = new QueryReportService("QueryResultCount");
+        S_QueryByResultService = new QueryReportInfoService("QueryResultCount");
         GB_FreshPane1.visibleProperty().bind(S_QueryByResultService.runningProperty());
         GB_RefreshBar1.progressProperty().bind(S_QueryByResultService.progressProperty());
         S_QueryByResultService.valueProperty().addListener(new ChangeListener<Object>() {
@@ -201,7 +201,7 @@ public class ReportOverViewPage {
         //今日测试项目情况饼图
         GB_ItemPieChartData = FXCollections.observableArrayList();
         GB_ItemPieChart.setData(GB_ItemPieChartData);
-        S_QueryByItemService = new QueryReportService("QueryItemCount");
+        S_QueryByItemService = new QueryReportInfoService("QueryItemCount");
         GB_FreshPane2.visibleProperty().bind(S_QueryByItemService.runningProperty());
         GB_RefreshBar2.progressProperty().bind(S_QueryByItemService.progressProperty());
         S_QueryByItemService.valueProperty().addListener(new ChangeListener<Object>() {
@@ -250,7 +250,7 @@ public class ReportOverViewPage {
         //今日设备使用情况饼图
         GB_DevicePieChartData = FXCollections.observableArrayList();
         GB_DevicePieChart.setData(GB_DevicePieChartData);
-        S_QueryByDeviceService = new QueryReportService("QueryDeviceCount");
+        S_QueryByDeviceService = new QueryReportInfoService("QueryDeviceCount");
         GB_FreshPane3.visibleProperty().bind(S_QueryByDeviceService.runningProperty());
         GB_RefreshBar3.progressProperty().bind(S_QueryByDeviceService.progressProperty());
         S_QueryByDeviceService.valueProperty().addListener(new ChangeListener<Object>() {
@@ -299,7 +299,7 @@ public class ReportOverViewPage {
         GB_MonthComboBox.getItems().addAll(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11,12});
         GB_MonthComboBox.getSelectionModel().select(0);
         
-        S_QueryDetailService = new QueryReportService("QueryDetailCount");
+        S_QueryDetailService = new QueryReportInfoService("QueryDetailCount");
         GB_FreshPane4.visibleProperty().bind(S_QueryDetailService.runningProperty());
         GB_RefreshBar4.progressProperty().bind(S_QueryDetailService.progressProperty());
         S_QueryDetailService.valueProperty().addListener(new ChangeListener<Object>() {

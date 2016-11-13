@@ -7,11 +7,12 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 
 import org.com.xsx.Dao.ManagerDao;
-import org.com.xsx.Data.ReportFilterData;
+import org.com.xsx.Data.QueryReportFilterData;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Data.UIMainPage;
+import org.com.xsx.Define.ReportTableItem;
 import org.com.xsx.Domain.ManagerBean;
-import org.com.xsx.Service.ReadReportService;
+import org.com.xsx.Service.QueryReportService;
 import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
 
 import com.sun.javafx.scene.control.skin.PaginationSkin;
@@ -81,23 +82,23 @@ public class ReportListPage {
 	ComboBox<String> GB_ReportResultFilterCombox;
 	
 	@FXML
-	TableView<ReportListTableItem>	GB_TableView;
+	TableView<ReportTableItem>	GB_TableView;
 	@FXML
-	TableColumn<ReportListTableItem, Integer> TableColumn1;
+	TableColumn<ReportTableItem, Integer> TableColumn1;
 	@FXML
-	TableColumn<ReportListTableItem, String> TableColumn2;
+	TableColumn<ReportTableItem, String> TableColumn2;
 	@FXML
-	TableColumn<ReportListTableItem, java.sql.Timestamp> TableColumn3;
+	TableColumn<ReportTableItem, java.sql.Timestamp> TableColumn3;
 	@FXML
-	TableColumn<ReportListTableItem, String> TableColumn4;
+	TableColumn<ReportTableItem, String> TableColumn4;
 	@FXML
-	TableColumn<ReportListTableItem, String> TableColumn5;
+	TableColumn<ReportTableItem, String> TableColumn5;
 	@FXML
-	TableColumn<ReportListTableItem, String> TableColumn6;
+	TableColumn<ReportTableItem, String> TableColumn6;
 	@FXML
-	TableColumn<ReportListTableItem, String> TableColumn7;
+	TableColumn<ReportTableItem, String> TableColumn7;
 	@FXML
-	TableColumn<ReportListTableItem, String> TableColumn8;
+	TableColumn<ReportTableItem, String> TableColumn8;
 	
 	@FXML
 	Pagination GB_Pagination;
@@ -112,6 +113,11 @@ public class ReportListPage {
 	ContextMenu myContextMenu;
 	MenuItem myMenuItem1;
 	
+	//查询线程
+	private QueryReportService S_QueryReportService;
+	//查询条件
+	private QueryReportFilterData S_QueryReportFilterData;
+	
 	private ReportListPage(){
 		
 	}
@@ -119,6 +125,9 @@ public class ReportListPage {
 	public static ReportListPage GetInstance() {
 		if(S_ReportPage == null){
 			S_ReportPage = new ReportListPage();
+			
+			S_ReportPage.S_QueryReportFilterData = new QueryReportFilterData();
+			S_ReportPage.S_QueryReportService = new QueryReportService(S_ReportPage.S_QueryReportFilterData);
 		}
 		
 		return S_ReportPage;
@@ -137,33 +146,33 @@ public class ReportListPage {
 			e.printStackTrace();
 		}
         
-        TableColumn1.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, Integer>("index"));
-        TableColumn1.setCellFactory(new TableColumnModel<ReportListTableItem, Integer>());
+        TableColumn1.setCellValueFactory(new PropertyValueFactory<ReportTableItem, Integer>("index"));
+        TableColumn1.setCellFactory(new TableColumnModel<ReportTableItem, Integer>());
         
-        TableColumn2.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("testitem"));
-        TableColumn2.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
+        TableColumn2.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("testitem"));
+        TableColumn2.setCellFactory(new TableColumnModel<ReportTableItem, String>());
         
-        TableColumn3.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, java.sql.Timestamp>("testdate"));
-        TableColumn3.setCellFactory(new TableColumnModel<ReportListTableItem, java.sql.Timestamp>());
+        TableColumn3.setCellValueFactory(new PropertyValueFactory<ReportTableItem, java.sql.Timestamp>("testdate"));
+        TableColumn3.setCellFactory(new TableColumnModel<ReportTableItem, java.sql.Timestamp>());
         
-        TableColumn4.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("testresult"));
-        TableColumn4.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
+        TableColumn4.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("testresult"));
+        TableColumn4.setCellFactory(new TableColumnModel<ReportTableItem, String>());
         
-        TableColumn5.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("tester"));
-        TableColumn5.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
+        TableColumn5.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("tester"));
+        TableColumn5.setCellFactory(new TableColumnModel<ReportTableItem, String>());
         
-        TableColumn6.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("deviceid"));
-        TableColumn6.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
+        TableColumn6.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("deviceid"));
+        TableColumn6.setCellFactory(new TableColumnModel<ReportTableItem, String>());
         
-        TableColumn7.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("simpleid"));
-        TableColumn7.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
+        TableColumn7.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("simpleid"));
+        TableColumn7.setCellFactory(new TableColumnModel<ReportTableItem, String>());
         
-        TableColumn8.setCellValueFactory(new PropertyValueFactory<ReportListTableItem, String>("reportresult"));
-        TableColumn8.setCellFactory(new TableColumnModel<ReportListTableItem, String>());
+        TableColumn8.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("reportresult"));
+        TableColumn8.setCellFactory(new TableColumnModel<ReportTableItem, String>());
     	
         //GB_TableView.itemsProperty().bind(ReadReportService.GetInstance().valueProperty());
         
-        GB_RefreshBar.progressProperty().bind(ReadReportService.GetInstance().progressProperty());
+        GB_RefreshBar.progressProperty().bind(S_QueryReportService.progressProperty());
         GB_ReportResultFilterCombox.getItems().addAll("All", "未审核", "合格", "不合格");
         
         UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
@@ -186,12 +195,12 @@ public class ReportListPage {
         GB_FreshPane.visibleProperty().bind(new BooleanBinding() {
 			
 			{
-				bind(ReadReportService.GetInstance().runningProperty());
+				bind(S_QueryReportService.runningProperty());
 			}
 			@Override
 			protected boolean computeValue() {
 				// TODO Auto-generated method stub
-				if(ReadReportService.GetInstance().isRunning()){
+				if(S_QueryReportService.isRunning()){
 					GB_TestItemFilterTextfield.setEditable(false);
 					GB_TestTimeFilterDateChoose.setEditable(false);
 					GB_TesterFilterTextfield.setEditable(false);
@@ -215,11 +224,11 @@ public class ReportListPage {
 				// TODO Auto-generated method stub
 
 				if((newValue == null) || (newValue.length() == 0))
-					ReportFilterData.GetInstance().setTestitem(null);
+					S_QueryReportFilterData.setTestitem(null);
 				else
-					ReportFilterData.GetInstance().setTestitem(newValue);
+					S_QueryReportFilterData.setTestitem(newValue);
 				
-				ReportFilterData.GetInstance().setFilterisnew(true);
+				S_QueryReportFilterData.setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -239,9 +248,9 @@ public class ReportListPage {
 
 				}
 				
-				ReportFilterData.GetInstance().setTesttime(tempdate);
+				S_QueryReportFilterData.setTesttime(tempdate);
 				
-				ReportFilterData.GetInstance().setFilterisnew(true);
+				S_QueryReportFilterData.setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -253,11 +262,11 @@ public class ReportListPage {
 				// TODO Auto-generated method stub
 
 				if((newValue == null) || (newValue.length() == 0))
-					ReportFilterData.GetInstance().setTestername(null);
+					S_QueryReportFilterData.setTestername(null);
 				else
-					ReportFilterData.GetInstance().setTestername(newValue);
+					S_QueryReportFilterData.setTestername(newValue);
 				
-				ReportFilterData.GetInstance().setFilterisnew(true);
+				S_QueryReportFilterData.setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -269,11 +278,11 @@ public class ReportListPage {
 				// TODO Auto-generated method stub
 
 				if((newValue != null)&&(newValue.equals("All")))
-					ReportFilterData.GetInstance().setDeviceid(null);
+					S_QueryReportFilterData.setDeviceid(null);
 				else
-					ReportFilterData.GetInstance().setDeviceid(newValue);
+					S_QueryReportFilterData.setDeviceid(newValue);
 
-				ReportFilterData.GetInstance().setFilterisnew(true);
+				S_QueryReportFilterData.setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -284,11 +293,11 @@ public class ReportListPage {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
 				if((newValue == null) || (newValue.length() == 0))
-					ReportFilterData.GetInstance().setSimpleid(null);
+					S_QueryReportFilterData.setSimpleid(null);
 				else
-					ReportFilterData.GetInstance().setSimpleid(newValue);
+					S_QueryReportFilterData.setSimpleid(newValue);
 				
-				ReportFilterData.GetInstance().setFilterisnew(true);
+				S_QueryReportFilterData.setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -300,11 +309,11 @@ public class ReportListPage {
 				// TODO Auto-generated method stub
 				
 				if((newValue != null)&&(newValue.equals("All")))
-					ReportFilterData.GetInstance().setReportresult(null);
+					S_QueryReportFilterData.setReportresult(null);
 				else
-					ReportFilterData.GetInstance().setReportresult(newValue);
+					S_QueryReportFilterData.setReportresult(newValue);
 				
-				ReportFilterData.GetInstance().setFilterisnew(true);
+				S_QueryReportFilterData.setFilterisnew(true);
 				StartReportService();
 			}
 		});
@@ -314,13 +323,13 @@ public class ReportListPage {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				// TODO Auto-generated method stub
-				ReportFilterData.GetInstance().setPageindex(newValue.intValue());
-				ReadReportService.GetInstance().restart();
+				S_QueryReportFilterData.setPageindex(newValue.intValue());
+				S_QueryReportService.restart();
 			}
 		};
 		GB_Pagination.currentPageIndexProperty().addListener(pagevaluechangedlistener);
 		
-		ReadReportService.GetInstance().valueProperty().addListener(new ChangeListener<Object[]>() {
+		S_QueryReportService.valueProperty().addListener(new ChangeListener<Object[]>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Object[]> observable, Object[] oldValue, Object[] newValue) {
@@ -332,7 +341,7 @@ public class ReportListPage {
 					
 					if(totalnum != null){
 
-						int pagesize = ReportFilterData.GetInstance().getPagesize();
+						int pagesize = S_QueryReportFilterData.getPagesize();
 
 						GB_Pagination.setPageCount((int) ((totalnum.longValue()%pagesize == 0)?(totalnum.longValue()/pagesize):(totalnum.longValue()/pagesize+1)));
 						
@@ -341,9 +350,9 @@ public class ReportListPage {
 
 					//更新数据
 					GB_TableView.getItems().clear();
-					GB_TableView.getItems().addAll((ObservableList<ReportListTableItem>) newValue[0]);
+					GB_TableView.getItems().addAll((ObservableList<ReportTableItem>) newValue[0]);
 					
-					ReportFilterData.GetInstance().setFilterisnew(false);
+					S_QueryReportFilterData.setFilterisnew(false);
 				}
 			}
 		});
@@ -381,7 +390,7 @@ public class ReportListPage {
 		if(GB_Pagination.getCurrentPageIndex() != 0)
 			GB_Pagination.setCurrentPageIndex(0);
 		else
-			ReadReportService.GetInstance().restart();
+			S_QueryReportService.restart();
 	}
 	
 	@FXML
@@ -434,7 +443,7 @@ public class ReportListPage {
 						if(!row.getStyleClass().contains("tablerow"))
 							row.getStyleClass().add("tablerow");
 						
-						tooltip.setGraphic(new ReportTipInfo(GB_TableView.getItems().get(row.getIndex()).getReportdata()));
+						tooltip.setGraphic(new ReportTipInfo(GB_TableView.getItems().get(row.getIndex()).getTestdata()));
 						Tooltip.install(cell, tooltip);	
 					}
 					else
@@ -451,7 +460,7 @@ public class ReportListPage {
 					
 					if((row != null)&&(row.getIndex() < GB_TableView.getItems().size())){
 						if(event.getClickCount() == 2){
-							ReportDetailPage.GetInstance().setS_ReportData(GB_TableView.getItems().get(row.getIndex()).getReportdata());
+							ReportDetailPage.GetInstance().setS_ReportData(GB_TableView.getItems().get(row.getIndex()).getTestdata());
 							UIMainPage.GetInstance().setGB_Page(ReportDetailPage.GetInstance().getPane());
 						}
 						else if(event.getButton().equals(MouseButton.SECONDARY)){

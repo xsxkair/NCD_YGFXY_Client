@@ -8,7 +8,7 @@ import org.com.xsx.Dao.ReportDao;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-public class QueryReportService extends Service<Object>{
+public class QueryReportInfoService extends Service<Object>{
 
 	//查询类型
 	private String QueryType = null;
@@ -16,7 +16,7 @@ public class QueryReportService extends Service<Object>{
 	//查询参数
 	private Object[] parm;
 	
-	public QueryReportService(String type) {
+	public QueryReportInfoService(String type) {
 		this.setQueryType(type);
 	}
 	
