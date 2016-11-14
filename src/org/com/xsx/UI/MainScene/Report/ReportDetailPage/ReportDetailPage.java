@@ -37,6 +37,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -47,6 +48,7 @@ public class ReportDetailPage {
 	private static ReportDetailPage GB_ReportDetailPage = null;
 	
 	private AnchorPane rootpane;
+	private Pane S_FatherPane = null;
 	
 	private ObjectProperty<TestDataBean> S_ReportData;
 	
@@ -156,6 +158,15 @@ public class ReportDetailPage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        
+        UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Pane> observable, Pane oldValue, Pane newValue) {
+				// TODO Auto-generated method stub
+				S_FatherPane = oldValue;
+			}
+		});
         
         S_ReportData = new SimpleObjectProperty<>(null);
         S_ReportData.addListener(new ChangeListener<TestDataBean>() {
@@ -385,10 +396,17 @@ public class ReportDetailPage {
         GB_ManagerTimeLabel.setText((testDataBean.getHandletime() == null)?"нч":testDataBean.getHandletime().toString());
 		
 		ReportDao.UpdateReport(testDataBean);
+		
+		UIMainPage.GetInstance().setGB_Page(S_FatherPane);
 	}
 	
 	@FXML
 	public void S_BackAction(){
-		UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
+		UIMainPage.GetInstance().setGB_Page(S_FatherPane);
+	}
+	
+	@FXML
+	public void GB_PrintfReportAction(){
+		
 	}
 }

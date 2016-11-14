@@ -170,7 +170,7 @@
                   </VBox>
                   <LineChart fx:id="GB_DeviceLineChart" prefHeight="500.0" title="设备月活跃度" verticalGridLinesVisible="false">
                     <xAxis>
-                      <CategoryAxis fx:id="GB_DeviceXaxis" label="日期" side="BOTTOM" tickLabelRotation="-153.4" />
+                      <CategoryAxis fx:id="GB_DeviceXaxis" label="日期" side="BOTTOM" />
                     </xAxis>
                     <yAxis>
                       <NumberAxis fx:id="GB_DeviceYaxis" label="测试数目" side="LEFT" />

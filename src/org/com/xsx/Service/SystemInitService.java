@@ -1,15 +1,10 @@
 package org.com.xsx.Service;
 
-import java.io.IOException;
-
-import org.com.xsx.Dao.SoftwareDao;
-import org.com.xsx.Data.SoftwareInfo;
 import org.com.xsx.Tools.HibernateSessionBean;
 import org.com.xsx.UI.LoginScene.LoginScene;
 import org.com.xsx.UI.MainScene.ContainerPane;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceDetailPage.DeviceDetailPage;
-import org.com.xsx.UI.MainScene.Manager.ManagerManagementPage;
 import org.com.xsx.UI.MainScene.Manager.MyInfoPage;
 import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
@@ -117,12 +112,8 @@ public class SystemInitService extends Service<Boolean>{
     		DevicePage.GetInstance().UI_Init();
     		updateProgress(40, 100);
     		
-    		updateMessage("6");
-    		MyInfoPage.GetInstance().UI_Init();
-    		updateProgress(42, 100);
-    		
     		updateMessage("7");
-    		ManagerManagementPage.GetInstance().UI_Init();
+    		MyInfoPage.GetInstance().UI_Init();
     		updateProgress(45, 100);
     		
     		updateMessage("8");

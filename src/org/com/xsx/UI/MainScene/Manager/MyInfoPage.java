@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.com.xsx.Dao.DeviceInfoDao;
 import org.com.xsx.Dao.ManagerDao;
@@ -15,91 +16,77 @@ import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.Domain.PersonBean;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceDataPackage;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONSerializer;
+import javafx.stage.Window;
 
 public class MyInfoPage {
-	
+
 	private static MyInfoPage S_MyInfoPage = null;
 	
 	private AnchorPane rootpane;
 	
-	private ManagerBean S_Manager = null;
+	@FXML
+	VBox GB_ContentPane;
 	
 	@FXML
-	VBox GB_ChildPane;
+	TextField GB_AdminNameTextField;
+	@FXML
+	TextField GB_AdminSexTextField;
+	@FXML
+	TextField GB_AdminAgeTextField;
+	@FXML
+	TextField GB_AdminPhoneTextField;
+	@FXML
+	TextField GB_AdminJobTextField;
+	@FXML
+	TextField GB_AdminDescTextField;
+	@FXML
+	PasswordField GB_AdminPasswordTextField;
+	@FXML
+	Button GB_AdminModifyButton;
 	
-	//我的信息
 	@FXML
-	TextField GB_MyNameTextField;
-	@FXML
-	TextField GB_MySexTextField;
-	@FXML
-	TextField GB_MyAgeTextField;
-	@FXML
-	TextField GB_MyPhoneTextField;
-	@FXML
-	TextField GB_MyJobTextField;
-	@FXML
-	TextField GB_MyDescTextField;
-	@FXML
-	PasswordField GB_MyPasswordTextField;
-	@FXML
-	Button GB_MyModifyButton;
-	@FXML
-	Button GB_CancleMyModifyButton;
-	
-	//子账户列表
-	@FXML
-	VBox GB_ChildManagerListVBox;
+	VBox GB_ManagerListPane;
 	@FXML
 	ListView<ManagerListViewItem> GB_ManagerListView;
 	@FXML
-	Label S_ManagerNameLabel;
+	TextField GB_ManagerAccoutTextFiled;
 	@FXML
-	Label S_ManagerSexLabel;
+	PasswordField GB_ManagerPasswordTextFiled;
 	@FXML
-	Label S_ManagerAgeLabel;
+	TextField GB_ManagerNameTextFiled;
 	@FXML
-	Label S_ManagerPhoneLabel;
+	TextField GB_ManagerSexTextFiled;
 	@FXML
-	Label S_ManagerJobLabel;
+	TextField GB_ManagerAgeTextFiled;
 	@FXML
-	Label S_ManagerDescLabel;
-	
-	//设备列表
+	TextField GB_ManagerPhoneTextFiled;
 	@FXML
-	ListView<String> S_DeviceListView;
+	TextField GB_ManagerJobTextFiled;
 	@FXML
-	Label S_DeviceIdLabel;
+	TextField GB_ManagerDescTextFiled;
 	@FXML
-	Label S_DeviceNameLabel;
+	Button GB_ModifyManagerButton;
 	@FXML
-	Label S_DeviceAgeLabel;
-	@FXML
-	Label S_DeviceSexLabel;
-	@FXML
-	Label S_DevicePhoneLabel;
-	@FXML
-	Label S_DeviceJobLabel;
-	@FXML
-	Label S_DeviceDescLabel;
-	@FXML
-	Label S_DeviceAddrLabel;
-	
+	Button GB_DeleteManagerButton;
+
 	private MyInfoPage() {
 		
 	}
@@ -114,8 +101,8 @@ public class MyInfoPage {
 	public void UI_Init(){
 
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("MyInfoPage.fxml"));
-        InputStream in = this.getClass().getResourceAsStream("MyInfoPage.fxml");
+		loader.setLocation(this.getClass().getResource("MyInfoPagefxml.fxml"));
+        InputStream in = this.getClass().getResourceAsStream("MyInfoPagefxml.fxml");
         loader.setController(this);
         try {
         	rootpane = loader.load(in);
@@ -141,86 +128,80 @@ public class MyInfoPage {
 			public void changed(ObservableValue<? extends ManagerListViewItem> observable, ManagerListViewItem oldValue, ManagerListViewItem newValue) {
 				// TODO Auto-generated method stub
 				if(newValue == null){
-					S_ManagerNameLabel.setText(null);
-					S_ManagerAgeLabel.setText(null);
-					S_ManagerSexLabel.setText(null);
-					S_ManagerPhoneLabel.setText(null);
-					S_ManagerJobLabel.setText(null);
-					S_ManagerDescLabel.setText(null);
+					GB_ManagerAccoutTextFiled.setText(null);
+					GB_ManagerPasswordTextFiled.setText(null);
+					GB_ManagerNameTextFiled.setText(null);
+					GB_ManagerSexTextFiled.setText(null);
+					GB_ManagerAgeTextFiled.setText(null);
+					GB_ManagerPhoneTextFiled.setText(null);
+					GB_ManagerJobTextFiled.setText(null);
+					GB_ManagerDescTextFiled.setText(null);
 				}
 				else {
 					ManagerBean tBean = ManagerDao.QueryReportManager(newValue.GetAccount(), null);
 					
 					if(tBean == null){
-						S_ManagerNameLabel.setText(null);
-						S_ManagerAgeLabel.setText(null);
-						S_ManagerSexLabel.setText(null);
-						S_ManagerPhoneLabel.setText(null);
-						S_ManagerJobLabel.setText(null);
-						S_ManagerDescLabel.setText(null);
+						GB_ManagerAccoutTextFiled.setText(null);
+						GB_ManagerPasswordTextFiled.setText(null);
+						GB_ManagerNameTextFiled.setText(null);
+						GB_ManagerSexTextFiled.setText(null);
+						GB_ManagerAgeTextFiled.setText(null);
+						GB_ManagerPhoneTextFiled.setText(null);
+						GB_ManagerJobTextFiled.setText(null);
+						GB_ManagerDescTextFiled.setText(null);
 					}
 					else {
-						
-						S_ManagerNameLabel.setText((tBean.getName()==null)?"null":tBean.getName().toString());
-						S_ManagerAgeLabel.setText((tBean.getAge()==null)?"null":tBean.getAge().toString());
-						S_ManagerSexLabel.setText((tBean.getSex()==null)?"null":tBean.getSex().toString());
-						S_ManagerPhoneLabel.setText((tBean.getPhone()==null)?"null":tBean.getPhone().toString());
-						S_ManagerJobLabel.setText((tBean.getJob()==null)?"null":tBean.getJob().toString());
-						S_ManagerDescLabel.setText((tBean.getDsctext()==null)?"null":tBean.getDsctext().toString());
+						GB_ManagerAccoutTextFiled.setText((tBean.getAccount()==null)?"null":tBean.getAccount().toString());
+						GB_ManagerPasswordTextFiled.setText((tBean.getPassword()==null)?"null":tBean.getPassword().toString());
+						GB_ManagerNameTextFiled.setText((tBean.getName()==null)?"null":tBean.getName().toString());
+						GB_ManagerAgeTextFiled.setText((tBean.getAge()==null)?"null":tBean.getAge().toString());
+						GB_ManagerSexTextFiled.setText((tBean.getSex()==null)?"null":tBean.getSex().toString());
+						GB_ManagerPhoneTextFiled.setText((tBean.getPhone()==null)?"null":tBean.getPhone().toString());
+						GB_ManagerJobTextFiled.setText((tBean.getJob()==null)?"null":tBean.getJob().toString());
+						GB_ManagerDescTextFiled.setText((tBean.getDsctext()==null)?"null":tBean.getDsctext().toString());
 					}
 				}
 			}
 		});
         
-        S_DeviceListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        GB_AdminModifyButton.disableProperty().bind(new BooleanBinding() {
+        	{
+        		bind(GB_AdminNameTextField.textProperty());
+        		bind(GB_AdminPasswordTextField.textProperty());
+        	}
 
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			protected boolean computeValue() {
 				// TODO Auto-generated method stub
-				if(newValue == null){
-					S_DeviceIdLabel.setText(null);
-					S_DeviceNameLabel.setText(null);
-					S_DeviceAgeLabel.setText(null);
-					S_DeviceSexLabel.setText(null);
-					S_DevicePhoneLabel.setText(null);
-					S_DeviceJobLabel.setText(null);
-					S_DeviceDescLabel.setText(null);
-					S_DeviceAddrLabel.setText(null);
-				}
-				else {
-					DeviceDataPackage deviceinfo = DeviceInfoDao.QueryDevice(newValue);
-
-					DeviceBean deviceBean = deviceinfo.getDeviceBean();
-					DevicerBean personBean = deviceinfo.getDevicerBean();
-					
-					if(personBean == null){
-						S_DeviceNameLabel.setText("null");
-						S_DeviceAgeLabel.setText("null");
-						S_DeviceSexLabel.setText("null");
-						S_DevicePhoneLabel.setText("null");
-						S_DeviceJobLabel.setText("null");
-						S_DeviceDescLabel.setText("null");
-					}
-					else {
-						S_DeviceNameLabel.setText((personBean.getName()==null)?"null":personBean.getName().toString());
-						S_DeviceAgeLabel.setText((personBean.getAge()==null)?"null":personBean.getAge().toString());
-						S_DeviceSexLabel.setText((personBean.getSex()==null)?"null":personBean.getSex().toString());
-						S_DevicePhoneLabel.setText((personBean.getPhone()==null)?"null":personBean.getPhone().toString());
-						S_DeviceJobLabel.setText((personBean.getJob()==null)?"null":personBean.getJob().toString());
-						S_DeviceDescLabel.setText((personBean.getDsc()==null)?"null":personBean.getDsc().toString());
-					}
-					
-					if(deviceBean == null){
-						S_DeviceIdLabel.setText("null");
-						S_DeviceAddrLabel.setText("null");
-					}
-					else {
-						S_DeviceIdLabel.setText((deviceBean.getId()==null)?"null":deviceBean.getId().toString());
-						S_DeviceAddrLabel.setText((deviceBean.getDaddr()==null)?"null":deviceBean.getDaddr().toString());
-					}
-				}
+				
+				if((GB_AdminNameTextField.getText() != null)&&(GB_AdminNameTextField.getText().length() > 0)
+						&&(GB_AdminPasswordTextField.getText() != null)&&(GB_AdminPasswordTextField.getText().length() > 0))
+					return false;
+				else
+					return true;
 			}
 		});
+        
+        GB_ModifyManagerButton.disableProperty().bind(new BooleanBinding() {
+        	{
+        		bind(GB_ManagerAccoutTextFiled.textProperty());
+        		bind(GB_ManagerPasswordTextFiled.textProperty());
+        		bind(GB_ManagerNameTextFiled.textProperty());
+        	}
+
+			@Override
+			protected boolean computeValue() {
+				// TODO Auto-generated method stub
+				
+				if((GB_ManagerAccoutTextFiled.getText() != null)&&(GB_ManagerAccoutTextFiled.getText().length() > 0)
+						&&(GB_ManagerPasswordTextFiled.getText() != null)&&(GB_ManagerPasswordTextFiled.getText().length() > 0)
+						&&(GB_ManagerNameTextFiled.getText() != null)&&(GB_ManagerNameTextFiled.getText().length() > 0))
+					return false;
+				else
+					return true;
+			}
+		});
+        GB_DeleteManagerButton.disableProperty().bind(GB_ModifyManagerButton.disabledProperty());
         
         AnchorPane.setTopAnchor(rootpane, 0.0);
         AnchorPane.setBottomAnchor(rootpane, 0.0);
@@ -232,79 +213,137 @@ public class MyInfoPage {
 		return rootpane;
 	}
 	
-	private void UpPageValue(){
+	private void UpPageValue() {
+		UpAdminValue();
+		UpChildManagerValue();
+	}
+	
+	private void UpAdminValue() {
+		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
 		
-		S_Manager = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
+		GB_AdminNameTextField.setText(admin.getName());
+		GB_AdminSexTextField.setText(admin.getSex());
+		GB_AdminAgeTextField.setText(admin.getAge());
+		GB_AdminPhoneTextField.setText(admin.getPhone());
+		GB_AdminJobTextField.setText(admin.getJob());
+		GB_AdminDescTextField.setText(admin.getDsctext());
+		GB_AdminPasswordTextField.setText(admin.getPassword());
 		
-		if(S_Manager == null){
-			GB_MyNameTextField.setText(null);
-			GB_MySexTextField.setText(null);
-			GB_MyAgeTextField.setText(null);
-			GB_MyPhoneTextField.setText(null);
-			GB_MyJobTextField.setText(null);
-			GB_MyDescTextField.setText(null);
-			GB_MyPasswordTextField.setText(null);
-		}
-		else{	
-			//我的信息
-			GB_MyNameTextField.setText((S_Manager.getName() == null)?"null":S_Manager.getName().toString());
-			GB_MySexTextField.setText((S_Manager.getSex() == null)?"null":S_Manager.getSex().toString());
-			GB_MyAgeTextField.setText((S_Manager.getAge() == null)?"null":S_Manager.getAge().toString());
-			GB_MyPhoneTextField.setText((S_Manager.getPhone() == null)?"null":S_Manager.getPhone().toString());
-			GB_MyJobTextField.setText((S_Manager.getJob() == null)?"null":S_Manager.getJob().toString());
-			GB_MyDescTextField.setText((S_Manager.getDsctext() == null)?"null":S_Manager.getDsctext().toString());
-			GB_MyPasswordTextField.setText(S_Manager.getPassword());
-			
-			//子审核人信息
-			
-			if(S_Manager.getFatheraccount() != null){
-				if(GB_ChildPane.getChildren().contains(GB_ChildManagerListVBox))
-					GB_ChildPane.getChildren().remove(GB_ChildManagerListVBox);
-			}
-			else{
-				if(GB_ChildPane.getChildren().contains(GB_ChildManagerListVBox) != true)
-					GB_ChildPane.getChildren().add(GB_ChildManagerListVBox);
-				
-				List<Object[]> managernamelist = ManagerDao.QueryChildManagerNameList(S_Manager.getAccount());
-				
-				List<ManagerListViewItem> items = new ArrayList<>();
-				for (Object[] namelist : managernamelist) {
-					items.add(new ManagerListViewItem(namelist));
-				}
-				
-				GB_ManagerListView.setItems(FXCollections.observableArrayList(items));
-			}
-			
-			//设备列表
-			JSONArray jsonArray = (JSONArray) JSONSerializer.toJSON(S_Manager.getDevicelist());
-			S_DeviceListView.setItems(FXCollections.observableArrayList((List<String>) JSONSerializer.toJava(jsonArray)));
+		GB_ContentPane.getChildren().remove(GB_ManagerListPane);
+		
+		if(admin.getFatheraccount() == null){
+			GB_ContentPane.getChildren().add(GB_ManagerListPane);
 		}
 	}
 	
-	@FXML
-	public void GB_MyModifyAction(){
-
-		S_Manager.setPassword(GB_MyPasswordTextField.getText());
-		S_Manager.setName(GB_MyNameTextField.getText());
-		S_Manager.setAge(GB_MyAgeTextField.getText());
-		S_Manager.setSex(GB_MySexTextField.getText());
-		S_Manager.setPhone(GB_MyPhoneTextField.getText());
-		S_Manager.setJob(GB_MyJobTextField.getText());
-		S_Manager.setDsctext(GB_MyDescTextField.getText());
+	private void UpChildManagerValue() {
+		List<Object[]> managernamelist = ManagerDao.QueryChildManagerNameList(SignedManager.GetInstance().getGB_SignedAccount());
 		
-		if(ManagerDao.ModifyManagerInfo(S_Manager)){
-			//成功
-			UpPageValue();
+		List<ManagerListViewItem> items = new ArrayList<>();
+		for (Object[] namelist : managernamelist) {
+			items.add(new ManagerListViewItem(namelist));
 		}
-		else {
+		
+		GB_ManagerListView.getItems().clear();
+		GB_ManagerListView.setItems(FXCollections.observableArrayList(items));
+	}
+	
+	@FXML
+	public void GB_AdminModifyAction(){
+		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
+		
+		if(CheckRight(rootpane.getScene().getWindow(), admin.getPassword())){
+				
+			admin.setPassword(GB_AdminPasswordTextField.getText());
+			admin.setName(GB_AdminNameTextField.getText());
+			admin.setAge(GB_AdminAgeTextField.getText());
+			admin.setSex(GB_AdminSexTextField.getText());
+			admin.setPhone(GB_AdminPhoneTextField.getText());
+			admin.setJob(GB_AdminJobTextField.getText());
+			admin.setDsctext(GB_AdminDescTextField.getText());
+		
 			//失败
+			if(ManagerDao.ModifyManagerInfo(admin) == false){
+				Alert alert = new Alert(AlertType.ERROR, "修改失败!", ButtonType.OK);
+				alert.initOwner(rootpane.getScene().getWindow());
+				alert.showAndWait();
+			}
 		}
-		
 	}
 	
 	@FXML
-	public void GB_CancleMyModifyAction(){
+	public void GB_RefreshManagerAction(){
+		UpAdminValue();
+	}
+	
+	@FXML
+	public void GB_ModifyManagerAction(){
+		//获取管理员
+		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
 		
-		UpPageValue();
+		if(CheckRight(rootpane.getScene().getWindow(), admin.getPassword())){
+			
+			//获取选中的审核人
+			ManagerBean manager = ManagerDao.QueryReportManager(GB_ManagerListView.getSelectionModel().getSelectedItem().GetAccount(), null);
+			
+			manager.setAccount(GB_ManagerAccoutTextFiled.getText());
+			manager.setPassword(GB_ManagerPasswordTextFiled.getText());
+			manager.setName(GB_ManagerNameTextFiled.getText());
+			manager.setAge(GB_ManagerAgeTextFiled.getText());
+			manager.setSex(GB_ManagerSexTextFiled.getText());
+			manager.setPhone(GB_ManagerPhoneTextFiled.getText());
+			manager.setJob(GB_ManagerJobTextFiled.getText());
+			manager.setDsctext(GB_ManagerDescTextFiled.getText());
+			
+			if(ManagerDao.ModifyManagerInfo(manager) == false){
+				Alert alert = new Alert(AlertType.ERROR, "修改失败!", ButtonType.OK);
+				alert.initOwner(rootpane.getScene().getWindow());
+				alert.showAndWait();
+			}
+			
+			UpChildManagerValue();
+		}
+	}
+
+	
+	@FXML
+	public void GB_DeleteManagerAction(){
+		//获取管理员
+		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
+				
+		if(CheckRight(rootpane.getScene().getWindow(), admin.getPassword())){
+					
+			//获取选中的审核人
+			ManagerBean manager = ManagerDao.QueryReportManager(GB_ManagerListView.getSelectionModel().getSelectedItem().GetAccount(), null);
+					
+			if(ManagerDao.DeleteManager(manager) == false){
+				Alert alert = new Alert(AlertType.ERROR, "删除失败!", ButtonType.OK);
+				alert.initOwner(rootpane.getScene().getWindow());
+				alert.showAndWait();
+			}
+					
+			UpChildManagerValue();
+		}
+	}
+	
+	private boolean CheckRight(Window owner, String promtext) {
+		
+		TextInputDialog inputDialog = new TextInputDialog("input admin password");
+		inputDialog.initOwner(owner);
+		Optional<String> result = inputDialog.showAndWait();
+		
+		if(result.isPresent()){
+			if(result.get().equals(promtext))
+				return true;
+			else {
+				Alert alert = new Alert(AlertType.ERROR, "Access denied!", ButtonType.OK);
+				alert.initOwner(owner);
+				alert.showAndWait();
+				
+				return false;
+			}
+		}
+		
+		return false;
 	}
 }

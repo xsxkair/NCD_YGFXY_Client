@@ -2,7 +2,6 @@ package org.com.xsx.UI.MainScene;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
 
 import org.com.xsx.Dao.ManagerDao;
 import org.com.xsx.Data.SignedManager;
@@ -12,7 +11,6 @@ import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.UI.AboutStage.AboutStage;
 import org.com.xsx.UI.LoginScene.LoginScene;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
-import org.com.xsx.UI.MainScene.Manager.ManagerManagementPage;
 import org.com.xsx.UI.MainScene.Manager.MyInfoPage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
 import org.com.xsx.UI.MainScene.Report.ReportOverViewPage.ReportOverViewPage;
@@ -23,19 +21,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 public class ContainerPane {
 	
@@ -47,11 +41,11 @@ public class ContainerPane {
 	AnchorPane GB_RootPane;
 	
 	@FXML
-	ToggleButton GB_MyWorkSpaceButton;
+	Button GB_MyWorkSpaceButton;
 	@FXML
 	ImageView GB_WorkSpaceIcoView;
 	@FXML
-	Label GB_NewReportNumLabel;
+	Circle GB_NewReport;
 	
 	@FXML
 	Label GB_SignedManagerLable;
@@ -69,7 +63,7 @@ public class ContainerPane {
 	@FXML
 	Menu GB_CheckMenu;
 	@FXML
-	Menu GB_ManagerMenu;
+	Menu GB_MyInfoMenu;
 	@FXML
 	Menu GB_SystemSetMenu;
 	@FXML
@@ -132,10 +126,10 @@ public class ContainerPane {
 					
 					GB_MenuBar.getMenus().clear();
 					if(managerBean.getFatheraccount() != null){
-						GB_MenuBar.getMenus().addAll(GB_ManagerMenu, GB_SystemSetMenu, GB_AboutMenu);
+						GB_MenuBar.getMenus().addAll(GB_MyInfoMenu, GB_SystemSetMenu, GB_AboutMenu);
 					}
 					else {
-						GB_MenuBar.getMenus().addAll(GB_ReportMenu, GB_DeviceMenu, GB_CardMenu, GB_CheckMenu, GB_ManagerMenu, GB_SystemSetMenu, GB_AboutMenu);
+						GB_MenuBar.getMenus().addAll(GB_ReportMenu, GB_DeviceMenu, GB_CardMenu, GB_CheckMenu, GB_MyInfoMenu, GB_SystemSetMenu, GB_AboutMenu);
 					}
 					
 					UIMainPage.GetInstance().setGB_Page(WorkSpacePage.GetInstance().GetPane());
@@ -150,7 +144,8 @@ public class ContainerPane {
 	
 	@FXML
 	public void GB_MyWorkSpaceAction(){
-		
+		GB_NewReport.setVisible(false);
+		UIMainPage.GetInstance().setGB_Page(WorkSpacePage.GetInstance().GetPane());
 	}
 	
 	@FXML
@@ -184,40 +179,9 @@ public class ContainerPane {
 	}
 	
 	@FXML
-	public void ManagerManagementAction(){
-		
-		if(UIMainPage.GetInstance().getGB_Page().get().equals(ManagerManagementPage.GetInstance().GetPane()))
-			return;
-		
-		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
-		
-		//如果有父账号，说明无权限
-		if(admin.getFatheraccount() != null){
-			Alert alert = new Alert(AlertType.ERROR, "禁止操作  Access denied!", ButtonType.OK);
-			alert.initOwner(S_Scene.getWindow());
-			alert.showAndWait();
-		}
-		else {
-			TextInputDialog inputDialog = new TextInputDialog("input admin password");
-			inputDialog.initOwner(S_Scene.getWindow());
-			Optional<String> result = inputDialog.showAndWait();
-			
-			if(result.isPresent()){
-				if(result.get().equals(admin.getPassword()))
-					UIMainPage.GetInstance().setGB_Page(ManagerManagementPage.GetInstance().GetPane());
-				else {
-					Alert alert = new Alert(AlertType.ERROR, "禁止操作  Access denied!", ButtonType.OK);
-					alert.initOwner(S_Scene.getWindow());
-					alert.showAndWait();
-				}
-			}
-		}
-	}
-	
-	@FXML
 	public void ShowMyInfoAction(){
-		UIMainPage.GetInstance().setGB_Page(MyInfoPage.GetInstance().GetPane());
 		
+		UIMainPage.GetInstance().setGB_Page(MyInfoPage.GetInstance().GetPane());
 	}
 	
 	@FXML
@@ -227,7 +191,7 @@ public class ContainerPane {
 	
 	@FXML
 	public void GB_SignedManagerAction(){
-		
+		UIMainPage.GetInstance().setGB_Page(MyInfoPage.GetInstance().GetPane());
 	}
 	
 	@FXML
