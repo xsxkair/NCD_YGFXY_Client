@@ -89,7 +89,10 @@ public class ReportDao {
 		
 		for (Object[] objects : queryresult) {
 			BigInteger num = (BigInteger) objects[1];
-			result.put((String)objects[0], num.intValue());
+			String key = (String) objects[0];
+			if(key == null)
+				key = "Œ¥…Û∫À";
+			result.put(key, num.intValue());
 		}
 		
 		return result;

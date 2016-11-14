@@ -11,6 +11,7 @@ import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.UI.MainScene.ContainerPane;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
 import org.com.xsx.UI.MainScene.Report.ReportOverViewPage.ReportOverViewPage;
+import org.com.xsx.UI.MainScene.WorkSpace.WorkSpacePage;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
@@ -124,6 +125,7 @@ public class LoginScene {
 
 		if(tempuser != null){
 			SignedManager.GetInstance().setGB_SignedAccount(tempuser.getAccount());
+			UIMainPage.GetInstance().setGB_Page(WorkSpacePage.GetInstance().GetPane());
 			UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
 		}
 		else {
@@ -145,6 +147,7 @@ public class LoginScene {
 				
 				if(tempuser != null){
 					SignedManager.GetInstance().setGB_SignedAccount(tempuser.getAccount());
+					UIMainPage.GetInstance().setGB_Page(WorkSpacePage.GetInstance().GetPane());
 					UIScence.GetInstance().getGB_Scene().set(ContainerPane.GetInstance().GetScene());
 				}
 				else {

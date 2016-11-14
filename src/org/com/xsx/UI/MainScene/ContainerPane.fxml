@@ -60,7 +60,7 @@
          </opaqueInsets>
       </MenuBar>
       <AnchorPane fx:id="GB_RootPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
-      <HBox alignment="CENTER" prefHeight="40.0" spacing="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" prefHeight="40.0" spacing="15.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="GB_SignedManagerLable" alignment="CENTER" graphicTextGap="1.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#GB_SignedManagerAction" text="管理员" textAlignment="JUSTIFY" textFill="#bf3256">
                <graphic>
@@ -78,14 +78,6 @@
                </font>
             </Label>
             <Label onMouseClicked="#GB_SignOutAction" text="注销">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Label>
-            <Label onMouseClicked="#GB_QuitAction" text="退出">
                <font>
                   <Font size="14.0" />
                </font>
@@ -111,17 +103,6 @@
                   <Insets right="20.0" />
                </padding>
             </Button>
-            <Circle fx:id="GB_NewReport" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="2.0">
-               <fill>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop color="#dd4343" />
-                        <Stop color="#dd4343" offset="0.299625468164794" />
-                        <Stop color="WHITE" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </fill>
-            </Circle>
          </children>
       </AnchorPane>
    </children>

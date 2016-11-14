@@ -170,6 +170,10 @@ public class WorkSpacePage {
 			public void changed(ObservableValue<? extends Pane> observable, Pane oldValue, Pane newValue) {
 				// TODO Auto-generated method stub
 				if(newValue == rootpane){
+					if(GB_TabPane.getSelectionModel().getSelectedIndex() != 0)
+						GB_TabPane.getSelectionModel().select(0);
+					else
+						SelectTab(0);
 					S_QueryTodayReportService.restart();
 				}
 			}
@@ -181,32 +185,7 @@ public class WorkSpacePage {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				// TODO Auto-generated method stub
 				
-				GB_TabPane1.getChildren().clear();
-				GB_TabPane2.getChildren().clear();
-				
-				if(newValue.intValue() == 0){
-					S_QueryTodayReportFilterData.setReportresult("Œ¥…Û∫À");
-					
-					if(GB_TableView.getColumns().contains(TableColumn8))
-						GB_TableView.getColumns().remove(TableColumn8);
-					
-					GB_TabPane1.getChildren().add(GB_DataPane);
-				}
-				else if(newValue.intValue() == 1){
-					S_QueryTodayReportFilterData.setReportresult("“—…Û∫À");
-					
-					if(GB_TableView.getColumns().contains(TableColumn8) == false)
-						GB_TableView.getColumns().add(TableColumn8);
-					
-					GB_TabPane2.getChildren().add(GB_DataPane);
-				}
-				
-				S_QueryTodayReportFilterData.setFilterisnew(true);
-				
-				if(GB_Pagination.getCurrentPageIndex() != 0)
-					GB_Pagination.setCurrentPageIndex(0);
-				else
-					S_QueryTodayReportService.restart();
+				SelectTab(newValue.intValue());
 			}
 		});
 
@@ -282,6 +261,35 @@ public class WorkSpacePage {
         AnchorPane.setBottomAnchor(rootpane, 0.0);
         AnchorPane.setLeftAnchor(rootpane, 0.0);
         AnchorPane.setRightAnchor(rootpane, 0.0);
+	}
+	
+	private void SelectTab(int index) {
+		GB_TabPane1.getChildren().clear();
+		GB_TabPane2.getChildren().clear();
+		
+		if(index == 0){
+			S_QueryTodayReportFilterData.setReportresult("Œ¥…Û∫À");
+			
+			if(GB_TableView.getColumns().contains(TableColumn8))
+				GB_TableView.getColumns().remove(TableColumn8);
+			
+			GB_TabPane1.getChildren().add(GB_DataPane);
+		}
+		else if(index == 1){
+			S_QueryTodayReportFilterData.setReportresult("“—…Û∫À");
+			
+			if(GB_TableView.getColumns().contains(TableColumn8) == false)
+				GB_TableView.getColumns().add(TableColumn8);
+			
+			GB_TabPane2.getChildren().add(GB_DataPane);
+		}
+		
+		S_QueryTodayReportFilterData.setFilterisnew(true);
+		
+		if(GB_Pagination.getCurrentPageIndex() != 0)
+			GB_Pagination.setCurrentPageIndex(0);
+		else
+			S_QueryTodayReportService.restart();
 	}
 	
 	public AnchorPane GetPane() {

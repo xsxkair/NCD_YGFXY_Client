@@ -44,8 +44,6 @@ public class ContainerPane {
 	Button GB_MyWorkSpaceButton;
 	@FXML
 	ImageView GB_WorkSpaceIcoView;
-	@FXML
-	Circle GB_NewReport;
 	
 	@FXML
 	Label GB_SignedManagerLable;
@@ -131,8 +129,6 @@ public class ContainerPane {
 					else {
 						GB_MenuBar.getMenus().addAll(GB_ReportMenu, GB_DeviceMenu, GB_CardMenu, GB_CheckMenu, GB_MyInfoMenu, GB_SystemSetMenu, GB_AboutMenu);
 					}
-					
-					UIMainPage.GetInstance().setGB_Page(WorkSpacePage.GetInstance().GetPane());
 				}
 			}
 		});
@@ -144,7 +140,6 @@ public class ContainerPane {
 	
 	@FXML
 	public void GB_MyWorkSpaceAction(){
-		GB_NewReport.setVisible(false);
 		UIMainPage.GetInstance().setGB_Page(WorkSpacePage.GetInstance().GetPane());
 	}
 	
@@ -197,11 +192,7 @@ public class ContainerPane {
 	@FXML
 	public void GB_SignOutAction(){
 		SignedManager.GetInstance().setGB_SignedAccount(null);
+		UIMainPage.GetInstance().setGB_Page(null);
 		UIScence.GetInstance().setGB_Scene(LoginScene.GetInstance().getS_Scene());
-	}
-	
-	@FXML
-	public void GB_QuitAction(){
-		System.exit(0);
 	}
 }
