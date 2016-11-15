@@ -91,7 +91,8 @@ public class LoginScene {
 			@Override
 			protected boolean computeValue() {
 				// TODO Auto-generated method stub
-				if((UserNameText.getText() != null)&&(UserNameText.getText().length() > 0)&&((UserPasswordText.getText() != null))&&(UserPasswordText.getText().length() > 0))
+				if((UserNameText.getText() != null)&&(UserNameText.getText().length() > 0)
+					&&(UserPasswordText.getText() != null)&&(UserPasswordText.getText().length() > 0))
 					return false;
 				else
 					return true;
