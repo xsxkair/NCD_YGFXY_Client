@@ -3,6 +3,8 @@ package org.com.xsx.Service;
 import org.com.xsx.Tools.HibernateSessionBean;
 import org.com.xsx.UI.LoginScene.LoginScene;
 import org.com.xsx.UI.MainScene.ContainerPane;
+import org.com.xsx.UI.MainScene.CardPage.CardInOutPage;
+import org.com.xsx.UI.MainScene.CardPage.CardRecordPage;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
 import org.com.xsx.UI.MainScene.DevicePage.DeviceDetailPage.DeviceDetailPage;
 import org.com.xsx.UI.MainScene.Manager.MyInfoPage;
@@ -127,6 +129,14 @@ public class SystemInitService extends Service<Boolean>{
     		updateMessage("10");
     		WorkSpacePage.GetInstance().UI_Init();
     		updateProgress(49, 100);
+    		
+    		updateMessage("11");
+    		CardInOutPage.GetInstance().UI_Init();
+    		updateProgress(53, 100);
+    		
+    		updateMessage("12");
+    		CardRecordPage.GetInstance().UI_Init();
+    		updateProgress(53, 100);
     		
     		updateProgress(100, 100);
     		Thread.sleep(1000); 

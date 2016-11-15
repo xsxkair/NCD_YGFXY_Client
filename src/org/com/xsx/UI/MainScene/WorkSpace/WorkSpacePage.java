@@ -56,12 +56,7 @@ public class WorkSpacePage {
 	
 	@FXML
 	TabPane GB_TabPane;
-	@FXML
-	AnchorPane	GB_TabPane1;
-	@FXML
-	AnchorPane	GB_TabPane2;
-	@FXML
-	AnchorPane GB_DataPane;
+
 	//ΩÒ»’¥˝…Û∫À±®∏Ê
 	@FXML
 	TableView<ReportTableItem> GB_TableView;
@@ -79,8 +74,6 @@ public class WorkSpacePage {
 	TableColumn<ReportTableItem, String> TableColumn6;
 	@FXML
 	TableColumn<ReportTableItem, String> TableColumn7;
-	@FXML
-	TableColumn<ReportTableItem, String> TableColumn8;
 	
 	@FXML
 	Pagination GB_Pagination;
@@ -89,6 +82,34 @@ public class WorkSpacePage {
 	StackPane GB_FreshPane;
 	@FXML
 	ProgressIndicator GB_RefreshBar;
+	
+	//“—…Û∫À±®∏Ê
+	@FXML
+	TableView<ReportTableItem> GB_TableView1;
+	@FXML
+	TableColumn<ReportTableItem, Integer> TableColumn11;
+	@FXML
+	TableColumn<ReportTableItem, String> TableColumn21;
+	@FXML
+	TableColumn<ReportTableItem, java.sql.Timestamp> TableColumn31;
+	@FXML
+	TableColumn<ReportTableItem, String> TableColumn41;
+	@FXML
+	TableColumn<ReportTableItem, String> TableColumn51;
+	@FXML
+	TableColumn<ReportTableItem, String> TableColumn61;
+	@FXML
+	TableColumn<ReportTableItem, String> TableColumn71;
+	@FXML
+	TableColumn<ReportTableItem, String> TableColumn81;
+	
+	@FXML
+	Pagination GB_Pagination1;
+	
+	@FXML
+	StackPane GB_FreshPane1;
+	@FXML
+	ProgressIndicator GB_RefreshBar1;
 	
 	ContextMenu myContextMenu;
 	MenuItem myMenuItem1 = new MenuItem("À¢–¬");
@@ -154,27 +175,53 @@ public class WorkSpacePage {
         
         TableColumn7.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("simpleid"));
         TableColumn7.setCellFactory(new TableColumnModel<ReportTableItem, String>());
-        
-        TableColumn8.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("reportresult"));
-        TableColumn8.setCellFactory(new TableColumnModel<ReportTableItem, String>());
 
         GB_FreshPane.visibleProperty().bind(S_QueryTodayReportService.runningProperty());
         GB_RefreshBar.progressProperty().bind(S_QueryTodayReportService.progressProperty());
         
-        myContextMenu = new ContextMenu(myMenuItem1, myMenuItem2, myMenuItem3, myMenuItem4);
-        //“—…Û∫À
+      //“—…Û∫À
+        TableColumn11.setCellValueFactory(new PropertyValueFactory<ReportTableItem, Integer>("index"));
+        TableColumn11.setCellFactory(new TableColumnModel<ReportTableItem, Integer>());
+        
+        TableColumn21.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("testitem"));
+        TableColumn21.setCellFactory(new TableColumnModel<ReportTableItem, String>());
+        
+        TableColumn31.setCellValueFactory(new PropertyValueFactory<ReportTableItem, java.sql.Timestamp>("testdate"));
+        TableColumn31.setCellFactory(new TableColumnModel<ReportTableItem, java.sql.Timestamp>());
+        
+        TableColumn41.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("testresult"));
+        TableColumn41.setCellFactory(new TableColumnModel<ReportTableItem, String>());
+        
+        TableColumn51.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("tester"));
+        TableColumn51.setCellFactory(new TableColumnModel<ReportTableItem, String>());
+        
+        TableColumn61.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("deviceid"));
+        TableColumn61.setCellFactory(new TableColumnModel<ReportTableItem, String>());
+        
+        TableColumn71.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("simpleid"));
+        TableColumn71.setCellFactory(new TableColumnModel<ReportTableItem, String>());
+        
+        TableColumn81.setCellValueFactory(new PropertyValueFactory<ReportTableItem, String>("reportresult"));
+        TableColumn81.setCellFactory(new TableColumnModel<ReportTableItem, String>());
 
+        GB_FreshPane1.visibleProperty().bind(S_QueryTodayReportService.runningProperty());
+        GB_RefreshBar1.progressProperty().bind(S_QueryTodayReportService.progressProperty());
+        
+        myContextMenu = new ContextMenu(myMenuItem1, myMenuItem2, myMenuItem3, myMenuItem4);
+        
 		UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Pane> observable, Pane oldValue, Pane newValue) {
 				// TODO Auto-generated method stub
 				if(newValue == rootpane){
-					if(GB_TabPane.getSelectionModel().getSelectedIndex() != 0)
-						GB_TabPane.getSelectionModel().select(0);
+	
+					S_QueryTodayReportFilterData.setFilterisnew(true);
+					
+					if(GB_Pagination.getCurrentPageIndex() != 0)
+						GB_Pagination.setCurrentPageIndex(0);
 					else
-						SelectTab(0);
-					S_QueryTodayReportService.restart();
+						S_QueryTodayReportService.restart();
 				}
 			}
 		});
@@ -185,11 +232,31 @@ public class WorkSpacePage {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				// TODO Auto-generated method stub
 				
-				SelectTab(newValue.intValue());
+				if(newValue.intValue() == 0)
+					S_QueryTodayReportFilterData.setReportresult("Œ¥…Û∫À");
+				else if(newValue.intValue() == 1)
+					S_QueryTodayReportFilterData.setReportresult("“—…Û∫À");
+				
+				S_QueryTodayReportFilterData.setFilterisnew(true);
+				
+				if(GB_Pagination.getCurrentPageIndex() != 0)
+					GB_Pagination.setCurrentPageIndex(0);
+				else
+					S_QueryTodayReportService.restart();
 			}
 		});
 
 		GB_Pagination.currentPageIndexProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// TODO Auto-generated method stub
+				S_QueryTodayReportFilterData.setPageindex(newValue.intValue());
+				S_QueryTodayReportService.restart();
+			}
+		});
+		
+		GB_Pagination1.currentPageIndexProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -213,14 +280,28 @@ public class WorkSpacePage {
 
 						int pagesize = S_QueryTodayReportFilterData.getPagesize();
 
-						GB_Pagination.setPageCount((int) ((totalnum.longValue()%pagesize == 0)?(totalnum.longValue()/pagesize):(totalnum.longValue()/pagesize+1)));
+						if(S_QueryTodayReportFilterData.getReportresult().equals("Œ¥…Û∫À")){
+							GB_Pagination.setPageCount((int) ((totalnum.longValue()%pagesize == 0)?(totalnum.longValue()/pagesize):(totalnum.longValue()/pagesize+1)));
+							
+							GB_Pagination.setCurrentPageIndex(0);
+						}
+						else if(S_QueryTodayReportFilterData.getReportresult().equals("“—…Û∫À")){
+							GB_Pagination1.setPageCount((int) ((totalnum.longValue()%pagesize == 0)?(totalnum.longValue()/pagesize):(totalnum.longValue()/pagesize+1)));
+							
+							GB_Pagination1.setCurrentPageIndex(0);
+						}
 						
-						GB_Pagination.setCurrentPageIndex(0);
 					}
 
 					//∏¸–¬ ˝æ›
-					GB_TableView.getItems().clear();
-					GB_TableView.getItems().addAll((ObservableList<ReportTableItem>) newValue[0]);
+					if(S_QueryTodayReportFilterData.getReportresult().equals("Œ¥…Û∫À")){
+						GB_TableView.getItems().clear();
+						GB_TableView.getItems().addAll((ObservableList<ReportTableItem>) newValue[0]);
+					}
+					else if(S_QueryTodayReportFilterData.getReportresult().equals("“—…Û∫À")){
+						GB_TableView1.getItems().clear();
+						GB_TableView1.getItems().addAll((ObservableList<ReportTableItem>) newValue[0]);
+					}
 					
 					S_QueryTodayReportFilterData.setFilterisnew(false);
 				}
@@ -261,35 +342,6 @@ public class WorkSpacePage {
         AnchorPane.setBottomAnchor(rootpane, 0.0);
         AnchorPane.setLeftAnchor(rootpane, 0.0);
         AnchorPane.setRightAnchor(rootpane, 0.0);
-	}
-	
-	private void SelectTab(int index) {
-		GB_TabPane1.getChildren().clear();
-		GB_TabPane2.getChildren().clear();
-		
-		if(index == 0){
-			S_QueryTodayReportFilterData.setReportresult("Œ¥…Û∫À");
-			
-			if(GB_TableView.getColumns().contains(TableColumn8))
-				GB_TableView.getColumns().remove(TableColumn8);
-			
-			GB_TabPane1.getChildren().add(GB_DataPane);
-		}
-		else if(index == 1){
-			S_QueryTodayReportFilterData.setReportresult("“—…Û∫À");
-			
-			if(GB_TableView.getColumns().contains(TableColumn8) == false)
-				GB_TableView.getColumns().add(TableColumn8);
-			
-			GB_TabPane2.getChildren().add(GB_DataPane);
-		}
-		
-		S_QueryTodayReportFilterData.setFilterisnew(true);
-		
-		if(GB_Pagination.getCurrentPageIndex() != 0)
-			GB_Pagination.setCurrentPageIndex(0);
-		else
-			S_QueryTodayReportService.restart();
 	}
 	
 	public AnchorPane GetPane() {

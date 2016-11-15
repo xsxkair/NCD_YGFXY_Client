@@ -127,8 +127,6 @@ public class ReportDetailPage {
 	@FXML
 	private TextArea S_ReportDescTextArea;
 	@FXML
-	private Button S_DeleteReportButton;
-	@FXML
 	private Button S_CommitReportButton;
 	@FXML
 	private Button S_BackButton;
@@ -374,13 +372,13 @@ public class ReportDetailPage {
 	}
 
 	
-	@FXML
+/*	@FXML
 	public void S_DeleteReportAction(){
 		ReportDao.DeleteReport(S_ReportData.get());
 		
 		UIMainPage.GetInstance().setGB_Page(ReportListPage.GetInstance().GetReportPane());
 	}
-	
+	*/
 	@FXML
 	public void S_CommitReportAction(){
 		TestDataBean testDataBean = S_ReportData.get();

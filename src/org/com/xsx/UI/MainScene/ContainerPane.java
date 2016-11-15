@@ -10,6 +10,8 @@ import org.com.xsx.Data.UIScence;
 import org.com.xsx.Domain.ManagerBean;
 import org.com.xsx.UI.AboutStage.AboutStage;
 import org.com.xsx.UI.LoginScene.LoginScene;
+import org.com.xsx.UI.MainScene.CardPage.CardInOutPage;
+import org.com.xsx.UI.MainScene.CardPage.CardRecordPage;
 import org.com.xsx.UI.MainScene.DevicePage.DevicePage;
 import org.com.xsx.UI.MainScene.Manager.MyInfoPage;
 import org.com.xsx.UI.MainScene.Report.ReportListPage.ReportListPage;
@@ -160,17 +162,12 @@ public class ContainerPane {
 	
 	@FXML
 	public void ShowInOutRecordAction(){
-		
+		UIMainPage.GetInstance().setGB_Page(CardRecordPage.GetInstance().GetPane());
 	}
 	
 	@FXML
-	public void InCardAction(){
-		
-	}
-	
-	@FXML
-	public void OutCardAction(){
-		
+	public void GB_CardInOutAction(){
+		UIMainPage.GetInstance().setGB_Page(CardInOutPage.GetInstance().GetPane());
 	}
 	
 	@FXML

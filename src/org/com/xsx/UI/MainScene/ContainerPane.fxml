@@ -30,9 +30,8 @@
             </Menu>
           <Menu fx:id="GB_CardMenu" mnemonicParsing="false" style="-fx-font-size: 14;" text="检测卡管理">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#ShowInOutRecordAction" text="进销记录" />
-                  <MenuItem mnemonicParsing="false" onAction="#InCardAction" text="入库" />
-                  <MenuItem mnemonicParsing="false" onAction="#OutCardAction" text="出库" />
+              <MenuItem mnemonicParsing="false" onAction="#ShowInOutRecordAction" text="库存记录" />
+                  <MenuItem mnemonicParsing="false" onAction="#GB_CardInOutAction" text="试剂卡出入库" />
             </items>
           </Menu>
             <Menu fx:id="GB_CheckMenu" mnemonicParsing="false" style="-fx-font-size: 14;" text="维护保养">

@@ -14,6 +14,7 @@ import org.com.xsx.UI.MainScene.DevicePage.DeviceDetailPage.DeviceDetailPage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker.State;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -40,6 +42,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -76,6 +79,11 @@ public class DevicePage {
 	
 	@FXML
 	ToggleButton DeviceListShowButton;
+	
+	@FXML
+	StackPane GB_FreshPane;
+	@FXML
+	ProgressIndicator GB_RefreshBar;
 	
 	//更新设备状态任务
 	private ReadDeviceInfoService S_ReadDeviceInfoService = new ReadDeviceInfoService();
@@ -126,8 +134,17 @@ public class DevicePage {
         TableColumn6.setCellValueFactory(new PropertyValueFactory<DeviceTableItem, String>("devicestatus"));
         TableColumn6.setCellFactory(new MyColumnCallback<DeviceTableItem, String>());
         
-        S_ReadDeviceInfoService.setPeriod(Duration.minutes(5));
+        S_ReadDeviceInfoService.setPeriod(Duration.minutes(1));
         
+        GB_RefreshBar.progressProperty().bind(S_ReadDeviceInfoService.progressProperty());
+        S_ReadDeviceInfoService.stateProperty().addListener(new ChangeListener<State>() {
+
+			@Override
+			public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+				// TODO Auto-generated method stub
+				GB_FreshPane.setVisible((newValue == State.RUNNING));
+			}
+		});
         DeviceListShowPane.itemsProperty().bind(S_ReadDeviceInfoService.lastValueProperty());
         
         S_ReadDeviceInfoService.lastValueProperty().addListener(new ChangeListener<ObservableList<DeviceTableItem>>() {

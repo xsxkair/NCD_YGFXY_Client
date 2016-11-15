@@ -33,5 +33,6 @@
 		<mapping resource="org/com/xsx/Domain/SoftVersion.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/TestDataBean.hbm.xml"/>
 		<mapping resource="org/com/xsx/Domain/DevicerBean.hbm.xml"/>
+		<mapping resource="org/com/xsx/Domain/CardRecordBean.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
