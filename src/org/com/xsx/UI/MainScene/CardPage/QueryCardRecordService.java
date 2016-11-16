@@ -39,7 +39,7 @@ public class QueryCardRecordService extends Service<Object>{
 				return this.QueryReportCountByItem();
 			
 			else if(QueryType.equals("查询出入库记录"))
-				return this.QueryReportCountByDevice();
+				return this.QueryCardRecord();
 			
 			else 
 				return null;
@@ -57,15 +57,10 @@ public class QueryCardRecordService extends Service<Object>{
 			return data;
 		}
 		
-		private Object QueryReportCountByDevice() {
-			Map<String, Integer> data = ReportDao.QueryReportCountGroupByDevice(new java.sql.Date(System.currentTimeMillis()));
+		private Object QueryCardRecord() {
+			Object[] data = CardRecordDao.QueryCardRecordListByItem((String)parm[0], (Integer)parm[2], 50, (Boolean)parm[3]);
 			
 			return data;
-		}
-		
-		private Object QueryReportCountDetail() {
-			List<Object[]> result = ReportDao.QueryReportSummyChartData((Integer)parm[0], (Integer)parm[1], (List<String>)parm[2], (List<String>)parm[3]);
-			return result;
 		}
 	}
 

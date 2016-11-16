@@ -2,13 +2,15 @@ package org.com.xsx.UI.MainScene.CardPage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.com.xsx.Data.UIMainPage;
 import org.com.xsx.Define.ReportTableItem;
 import org.com.xsx.Domain.CardRecordBean;
-import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
+import org.com.xsx.UI.MainScene.WorkSpace.WorkSpacePage.TableColumnModel;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,6 +37,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseButton;
@@ -102,8 +106,6 @@ public class CardRecordPage {
 	TableColumn<CardRecordBean, String> GB_TableColumn5;
 	@FXML
 	TableColumn<CardRecordBean, String> GB_TableColumn6;
-	@FXML
-	TableColumn<CardRecordBean, String> GB_TableColumn7;
 	
 	@FXML
 	Pagination GB_Pagination;
@@ -123,6 +125,10 @@ public class CardRecordPage {
 	private ObservableList<PieChart.Data> GB_CardSummyChartData;
 	private QueryCardRecordService S_QueryCardSummyService;
 	//查询设备库存
+	private String S_FilterItem = null;
+	private String S_FilterDeviceID = null;
+	private Integer S_FilterPageIndex = 0;
+	private Boolean S_FilterIsGetPageNum = true;
 	private QueryCardRecordService S_QueryCardDeviceService;
 	//查询出入库记录
 	private QueryCardRecordService S_QueryCardRecordService;
@@ -205,6 +211,7 @@ public class CardRecordPage {
 								// TODO Auto-generated method stub
 								if(event.getButton().equals(MouseButton.SECONDARY)){
 									myContextMenu.show((Node) event.getSource(), event.getScreenX(), event.getScreenY());
+									myContextMenu.setUserData(new Object[]{temp.getName(), null});
 								}
 							}
 
@@ -223,6 +230,49 @@ public class CardRecordPage {
         S_QueryCardRecordService = new QueryCardRecordService("查询出入库记录");
         GB_FreshPane2.visibleProperty().bind(S_QueryCardRecordService.runningProperty());
         GB_RefreshBar2.progressProperty().bind(S_QueryCardRecordService.progressProperty());
+        
+        GB_TableColumn1.setCellValueFactory(new PropertyValueFactory<CardRecordBean, java.sql.Timestamp>("dotime"));
+
+        
+        GB_TableColumn2.setCellValueFactory(new PropertyValueFactory<CardRecordBean, String>("item"));
+        
+        GB_TableColumn3.setCellValueFactory(new PropertyValueFactory<CardRecordBean, Integer>("num"));
+        
+        GB_TableColumn4.setCellValueFactory(new PropertyValueFactory<CardRecordBean, String>("handler"));
+        
+        GB_TableColumn5.setCellValueFactory(new PropertyValueFactory<CardRecordBean, String>("name"));
+        
+        GB_TableColumn6.setCellValueFactory(new PropertyValueFactory<CardRecordBean, String>("deviceid"));
+        
+        S_QueryCardRecordService.valueProperty().addListener(new ChangeListener<Object>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+				// TODO Auto-generated method stub
+				
+				if(newValue != null){
+					
+					Object[] data = (Object[]) newValue;
+					//更新页数
+					BigInteger totalnum = (BigInteger) data[1];
+
+					if(totalnum != null){
+
+						GB_Pagination.setPageCount((int) ((totalnum.longValue()%50 == 0)?(totalnum.longValue()/50):(totalnum.longValue()/50+1)));
+							
+						GB_Pagination.setCurrentPageIndex(0);
+					}
+
+					//更新数据
+					GB_CardTableView.getItems().clear();
+					
+					List<CardRecordBean> list = (List<CardRecordBean>) data[0];
+					GB_CardTableView.getItems().addAll(list);
+					
+					S_FilterIsGetPageNum = false;
+				}
+			}
+		});
         
         //右键菜单
         myContextMenu = new ContextMenu(myMenuItem1, myMenuItem2);
@@ -247,6 +297,14 @@ public class CardRecordPage {
         		
         		GB_MainPane.setEffect(new GaussianBlur(5));
         		GB_MainPane.getStyleClass().add("backeffict");
+        		
+        		Object[] userdata = (Object[]) myContextMenu.getUserData();
+        		S_FilterItem = (String) userdata[0];
+        		S_FilterDeviceID = (String) userdata[1];
+        		S_FilterIsGetPageNum = true;
+        		
+        		S_QueryCardRecordService.setParm(new Object[]{S_FilterItem, S_FilterDeviceID, S_FilterPageIndex, S_FilterIsGetPageNum});
+        		S_QueryCardRecordService.restart();
         	}
         });
       		
