@@ -113,7 +113,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </VBox.margin>
                               </GridPane>
-                              <BarChart fx:id="GB_ReportDetailBarChart" prefHeight="500.0" stylesheets="@ReportOverView.css">
+                              <BarChart fx:id="GB_ReportDetailBarChart" animated="false" prefHeight="500.0" stylesheets="@ReportOverView.css">
                                 <xAxis>
                                   <CategoryAxis fx:id="GB_ReportDetailBarChartX" side="BOTTOM" />
                                 </xAxis>

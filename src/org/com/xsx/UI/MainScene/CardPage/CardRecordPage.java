@@ -2,20 +2,50 @@ package org.com.xsx.UI.MainScene.CardPage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
+import java.util.Set;
 
+import org.com.xsx.Data.UIMainPage;
+import org.com.xsx.Define.ReportTableItem;
+import org.com.xsx.Domain.CardRecordBean;
+import org.com.xsx.UI.MainScene.Report.ReportDetailPage.ReportDetailPage;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 
 public class CardRecordPage {
 	
@@ -23,43 +53,79 @@ public class CardRecordPage {
 	
 	private AnchorPane rootpane;
 	
+	//显示图表
+	@FXML
+	AnchorPane GB_MainPane;
 	
-	@FXML
-	FlowPane GB_ItemFlowPane;
-	@FXML
-	FlowPane GB_DeviceFlowPane;
+		//总库存
+		@FXML
+		PieChart GB_CardRepertoryPieChart;
+		//显示加载等待动画
+		@FXML
+		StackPane GB_FreshPane;
+		@FXML
+		ProgressIndicator GB_RefreshBar;
+		
+		//设备库存图
+		@FXML
+		FlowPane GB_ItemFlowPane;
+		@FXML
+		FlowPane GB_DeviceFlowPane;
+		
+		@FXML
+		LineChart<String, Number> GB_CardLineChart;
+		@FXML
+		CategoryAxis GB_CardLineXAxis;
+		@FXML
+		NumberAxis GB_CardLineYAxis;
+		
+		//显示加载等待动画
+		@FXML
+		StackPane GB_FreshPane1;
+		@FXML
+		ProgressIndicator GB_RefreshBar1;
 	
+	//显示具体出入库记录
 	@FXML
-	LineChart<String, Number> GB_CardLineChart;
+	StackPane GB_CardDetailPane;
 	@FXML
-	CategoryAxis GB_CardLineXAxis;
+	TableView<CardRecordBean> GB_CardTableView;
 	@FXML
-	NumberAxis GB_CardLineYAxis;
-	
+	TableColumn<CardRecordBean, java.sql.Timestamp> GB_TableColumn1;
 	@FXML
-	TableView<> GB_CardTableView;
+	TableColumn<CardRecordBean, String> GB_TableColumn2;
 	@FXML
-	TableColumn<S, T> GB_TableColumn1;
+	TableColumn<CardRecordBean, Integer> GB_TableColumn3;
 	@FXML
-	TableColumn<S, T> GB_TableColumn2;
+	TableColumn<CardRecordBean, String> GB_TableColumn4;
 	@FXML
-	TableColumn<S, T> GB_TableColumn3;
+	TableColumn<CardRecordBean, String> GB_TableColumn5;
 	@FXML
-	TableColumn<S, T> GB_TableColumn4;
+	TableColumn<CardRecordBean, String> GB_TableColumn6;
 	@FXML
-	TableColumn<S, T> GB_TableColumn5;
-	@FXML
-	TableColumn<S, T> GB_TableColumn6;
-	@FXML
-	TableColumn<S, T> GB_TableColumn7;
+	TableColumn<CardRecordBean, String> GB_TableColumn7;
 	
 	@FXML
 	Pagination GB_Pagination;
 	
+	//显示加载等待动画
 	@FXML
-	StackPane GB_FreshPane;
+	StackPane GB_FreshPane2;
 	@FXML
-	ProgressIndicator GB_RefreshBar;
+	ProgressIndicator GB_RefreshBar2;
+	
+	//右键菜单
+	ContextMenu myContextMenu;
+	MenuItem myMenuItem1 = new MenuItem("刷新");
+	MenuItem myMenuItem2 = new MenuItem("查看详情");
+
+	//查询总库存
+	private ObservableList<PieChart.Data> GB_CardSummyChartData;
+	private QueryCardRecordService S_QueryCardSummyService;
+	//查询设备库存
+	private QueryCardRecordService S_QueryCardDeviceService;
+	//查询出入库记录
+	private QueryCardRecordService S_QueryCardRecordService;
 	
 	private CardRecordPage() {
 		
@@ -84,6 +150,123 @@ public class CardRecordPage {
 			e.printStackTrace();
 		}
         
+        rootpane.getStylesheets().add(this.getClass().getResource("cardrecordpage.css").toExternalForm());
+        
+        //查询总库存
+        GB_CardSummyChartData = FXCollections.observableArrayList();
+        GB_CardRepertoryPieChart.setData(GB_CardSummyChartData);
+        
+        S_QueryCardSummyService = new QueryCardRecordService("查询总库存");
+        GB_FreshPane.visibleProperty().bind(S_QueryCardSummyService.runningProperty());
+        GB_RefreshBar.progressProperty().bind(S_QueryCardSummyService.progressProperty());
+        
+        S_QueryCardSummyService.valueProperty().addListener(new ChangeListener<Object>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+				// TODO Auto-generated method stub
+				if(newValue == null){
+					GB_CardSummyChartData.clear();
+				}
+				else{
+					Map<String, Integer> data = (Map<String, Integer>) newValue;
+
+					Set<String> keyset = data.keySet();
+					for (String string : keyset) {
+						Data temp = new Data(string, data.get(string));
+						GB_CardSummyChartData.add(temp);
+						
+						HBox tempbox = new HBox();
+						tempbox.setAlignment(Pos.CENTER);
+	
+						Label label2 = new Label(string);
+						label2.getStyleClass().add("textstyle1");
+						
+						Label label5 = new Label(" : 库存  ");
+						label5.setFont(new Font("System", 16));
+						
+						Label label4 = new Label((int)(temp.getPieValue())+"");
+						label4.getStyleClass().add("textstyle2");
+						
+						Label label1 = new Label(" 人份 ");
+						label1.setFont(new Font("System", 16));
+						
+						tempbox.getChildren().addAll(label2, label5, label4, label1);
+						tempbox.setSpacing(5);
+						
+						Tooltip tooltip = new Tooltip();
+						tooltip.setGraphic(tempbox);
+				        Tooltip.install(temp.getNode(), tooltip);
+				        
+				        temp.getNode().setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+							@Override
+							public void handle(MouseEvent event) {
+								// TODO Auto-generated method stub
+								if(event.getButton().equals(MouseButton.SECONDARY)){
+									myContextMenu.show((Node) event.getSource(), event.getScreenX(), event.getScreenY());
+								}
+							}
+
+						});
+					}
+				}
+			}
+		});
+        
+        //设备库存
+        S_QueryCardDeviceService = new QueryCardRecordService("查询设备库存");
+        GB_FreshPane1.visibleProperty().bind(S_QueryCardDeviceService.runningProperty());
+        GB_RefreshBar1.progressProperty().bind(S_QueryCardDeviceService.progressProperty());
+        
+        //详细出入库记录
+        S_QueryCardRecordService = new QueryCardRecordService("查询出入库记录");
+        GB_FreshPane2.visibleProperty().bind(S_QueryCardRecordService.runningProperty());
+        GB_RefreshBar2.progressProperty().bind(S_QueryCardRecordService.progressProperty());
+        
+        //右键菜单
+        myContextMenu = new ContextMenu(myMenuItem1, myMenuItem2);
+        
+      //刷新
+        myMenuItem1.setOnAction(new EventHandler<ActionEvent>() {
+
+        	@Override
+        	public void handle(ActionEvent event) {
+      				// TODO Auto-generated method stub
+        		S_QueryCardSummyService.restart();
+        	}
+        });
+      		
+        //查看报告
+        myMenuItem2.setOnAction(new EventHandler<ActionEvent>() {
+
+        	@Override
+        	public void handle(ActionEvent event) {
+      				// TODO Auto-generated method stub
+        		GB_CardDetailPane.setVisible(true);
+        		
+        		GB_MainPane.setEffect(new GaussianBlur(5));
+        		GB_MainPane.getStyleClass().add("backeffict");
+        	}
+        });
+      		
+        UIMainPage.GetInstance().getGB_Page().addListener(new ChangeListener<Pane>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Pane> observable, Pane oldValue, Pane newValue) {
+				// TODO Auto-generated method stub
+				if(rootpane.equals(newValue)){
+					
+					GB_CardDetailPane.setVisible(false);
+					
+					GB_MainPane.setEffect(null);
+					GB_MainPane.getStyleClass().remove("backeffict");
+					
+					S_QueryCardSummyService.restart();
+				}
+			}
+		});
+        
         AnchorPane.setTopAnchor(rootpane, 0.0);
         AnchorPane.setBottomAnchor(rootpane, 0.0);
         AnchorPane.setLeftAnchor(rootpane, 0.0);
@@ -95,7 +278,10 @@ public class CardRecordPage {
 	}
 	
 	@FXML
-	public void GB_QueryAction(){
+	public void GB_CloseDetailPaneAction(){
+		GB_CardDetailPane.setVisible(false);
 		
+		GB_MainPane.setEffect(null);
+		GB_MainPane.getStyleClass().remove("backeffict");
 	}
 }

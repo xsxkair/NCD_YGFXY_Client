@@ -16,7 +16,6 @@ import org.com.xsx.Domain.ManagerBean;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -27,7 +26,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -135,6 +133,7 @@ public class CardInOutPage {
 			{
 				bind(GB_OutItemNameTextField.textProperty());
 				bind(GB_OutItemNumTextField.textProperty());
+				bind(GB_OutPersonNameTextField.textProperty());
 				bind(GB_OutDeviceIDComboBox.valueProperty());
 			}
 			@Override
@@ -186,6 +185,9 @@ public class CardInOutPage {
 			cardRecordBean.setNum(num);
 			
 			CardRecordDao.InOutBound(cardRecordBean, admin);
+			
+			GB_InItemNameTextField.setText(null);
+			GB_InItemNumTextField.setText(null);
 		}
 	}
 	
@@ -207,6 +209,11 @@ public class CardInOutPage {
 			cardRecordBean.setDeviceid(GB_OutDeviceIDComboBox.getValue());
 					
 			CardRecordDao.InOutBound(cardRecordBean, admin);
+			
+			GB_OutItemNameTextField.setText(null);
+			GB_OutItemNumTextField.setText(null);
+			GB_OutPersonNameTextField.setText(null);
+			GB_OutDeviceIDComboBox.setValue(null);
 		}
 	}
 	

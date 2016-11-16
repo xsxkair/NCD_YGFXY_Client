@@ -5,6 +5,7 @@ public class CardRecordBean {
 	private String item;					//项目
 	private Integer num;					//数目，入库为正，出库为负
 	private java.sql.Timestamp dotime;		//出入库时间
+	private String admin_a;					//当前操作人的父账号（一般一个地方的所有设备只有一个管理员账号）
 	private String handler;					//操作人
 	private String name;					//出库领料人
 	private String deviceid;				//出库时使用，表明哪个设备领取
@@ -32,6 +33,12 @@ public class CardRecordBean {
 	}
 	public void setDotime(java.sql.Timestamp dotime) {
 		this.dotime = dotime;
+	}
+	public String getAdmin_a() {
+		return admin_a;
+	}
+	public void setAdmin_a(String admin_a) {
+		this.admin_a = admin_a;
 	}
 	public String getHandler() {
 		return handler;

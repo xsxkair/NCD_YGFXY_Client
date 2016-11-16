@@ -126,7 +126,7 @@ public class ContainerPane {
 					
 					GB_MenuBar.getMenus().clear();
 					if(managerBean.getFatheraccount() != null){
-						GB_MenuBar.getMenus().addAll(GB_MyInfoMenu, GB_SystemSetMenu, GB_AboutMenu);
+						GB_MenuBar.getMenus().addAll(GB_CardMenu, GB_CheckMenu, GB_MyInfoMenu, GB_SystemSetMenu, GB_AboutMenu);
 					}
 					else {
 						GB_MenuBar.getMenus().addAll(GB_ReportMenu, GB_DeviceMenu, GB_CardMenu, GB_CheckMenu, GB_MyInfoMenu, GB_SystemSetMenu, GB_AboutMenu);

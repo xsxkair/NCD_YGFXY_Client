@@ -17,6 +17,9 @@
         <property name="dotime" type="java.sql.Timestamp">
             <column name="DOTIME" />
         </property>
+        <property name="admin_a" type="java.lang.String">
+            <column name="ADMIN_A" length="15"/>
+        </property>
         <property name="handler" type="java.lang.String">
             <column name="HANDLER" length="10"/>
         </property>

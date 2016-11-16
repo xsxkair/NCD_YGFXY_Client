@@ -135,7 +135,7 @@ public class SystemInitService extends Service<Boolean>{
     		updateProgress(53, 100);
     		
     		updateMessage("12");
-    		//CardRecordPage.GetInstance().UI_Init();
+    		CardRecordPage.GetInstance().UI_Init();
     		updateProgress(53, 100);
     		
     		updateProgress(100, 100);
