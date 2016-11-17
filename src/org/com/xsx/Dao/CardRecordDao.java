@@ -9,6 +9,7 @@ import java.util.Map;
 import org.com.xsx.Data.SignedManager;
 import org.com.xsx.Domain.CardRecordBean;
 import org.com.xsx.Domain.ManagerBean;
+import org.com.xsx.Domain.TestDataBean;
 import org.com.xsx.Tools.HibernateDao;
 import org.hibernate.hql.internal.ast.HqlASTFactory;
 
@@ -84,7 +85,7 @@ public class CardRecordDao {
 		
 		hql1.append("SELECT c.* "+hql.toString()+" limit "+firstindex+","+size);
 		
-		List<CardRecordBean> queryresult = HibernateDao.GetInstance().querysql(hql1.toString(), null);
+		List<CardRecordBean> queryresult = HibernateDao.GetInstance().querysql(hql1.toString(), new Object[][]{{"c", CardRecordBean.class}});
 		
 		if(isgetnum){
 			hql2.append("SELECT COUNT(c.ID) "+hql.toString());
@@ -93,6 +94,48 @@ public class CardRecordDao {
 
 		return new Object[]{queryresult, num};
 	}
+	
+	public static List<String> QueryOutBoundItemList(){
+		//获取当前医院管理员账号
+		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
+				
+		StringBuffer hql = new StringBuffer();
+				
+		hql.append("SELECT ITEM FROM CARDRECORDBEAN c WHERE NUM<0 AND ADMIN_A='");
+
+		if(admin.getFatheraccount() == null)
+			hql.append(admin.getAccount());
+		else 
+			hql.append(admin.getFatheraccount());
+				
+		hql.append("' GROUP BY ITEM");
+				
+		List<String> queryresult = HibernateDao.GetInstance().querysql(hql.toString(), null);
+
+		return queryresult;
+	}
+	
+	public static List<String> QueryOutBoundDeviceList(){
+		//获取当前医院管理员账号
+		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
+				
+		StringBuffer hql = new StringBuffer();
+				
+		hql.append("SELECT DEVICEID FROM CARDRECORDBEAN c WHERE NUM<0 AND ADMIN_A='");
+
+		if(admin.getFatheraccount() == null)
+			hql.append(admin.getAccount());
+		else 
+			hql.append(admin.getFatheraccount());
+				
+		hql.append("' GROUP BY DEVICEID");
+				
+		List<String> queryresult = HibernateDao.GetInstance().querysql(hql.toString(), null);
+
+		return queryresult;
+	}
+	
+	//public static List<E>
 /*	
 	//查询某台设备的的某一个品种的出入库记录
 	public static List<CardRecordBean> QueryCardRecordList(String item, String deviceid) {

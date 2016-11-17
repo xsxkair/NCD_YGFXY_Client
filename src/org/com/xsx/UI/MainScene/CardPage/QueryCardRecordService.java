@@ -36,7 +36,7 @@ public class QueryCardRecordService extends Service<Object>{
 				return this.QueryCardSummyNum();
 			
 			else if(QueryType.equals("查询设备库存"))
-				return this.QueryReportCountByItem();
+				return this.QueryCardDeviceRepertory();
 			
 			else if(QueryType.equals("查询出入库记录"))
 				return this.QueryCardRecord();
@@ -51,10 +51,9 @@ public class QueryCardRecordService extends Service<Object>{
 			return data;
 		}
 		
-		private Object QueryReportCountByItem() {
-			Map<String, Integer> data = ReportDao.QueryReportCountGroupByItem(new java.sql.Date(System.currentTimeMillis()));
-			
-			return data;
+		private Object QueryCardDeviceRepertory() {
+			System.out.println("xsx");
+			return null;
 		}
 		
 		private Object QueryCardRecord() {
