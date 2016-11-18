@@ -1,11 +1,13 @@
 .chart-pie:hover {
     -fx-border-color: red;
     -fx-border-width: 2px;
+    -fx-cursor:HAND;
 }
 
 .chart-bar:hover {
     -fx-border-color: red;
     -fx-border-width: 2px;
+    -fx-cursor:HAND;
 }
 
 .textstyle1{

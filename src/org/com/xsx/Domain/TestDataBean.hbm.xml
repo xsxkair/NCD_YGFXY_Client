@@ -86,6 +86,9 @@
         <property name="a_v" type="java.lang.Float">
             <column name="A_V" />
         </property>
+        <property name="t_re" type="java.lang.String">
+            <column name="T_RE" length="50"/>
+        </property>
         <property name="result" type="java.lang.String">
             <column name="RESULT" />
         </property>

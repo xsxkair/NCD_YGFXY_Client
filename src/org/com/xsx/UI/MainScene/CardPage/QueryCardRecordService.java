@@ -52,12 +52,11 @@ public class QueryCardRecordService extends Service<Object>{
 		}
 		
 		private Object QueryCardDeviceRepertory() {
-			System.out.println("xsx");
-			return null;
+			return CardRecordDao.QueryDeviceRepertory((String)parm[0]);
 		}
 		
 		private Object QueryCardRecord() {
-			Object[] data = CardRecordDao.QueryCardRecordListByItem((String)parm[0], (Integer)parm[2], 50, (Boolean)parm[3]);
+			Object[] data = CardRecordDao.QueryCardRecordList((String)parm[0], (String)parm[1], (Integer)parm[2], 50, (Boolean)parm[3]);
 			
 			return data;
 		}

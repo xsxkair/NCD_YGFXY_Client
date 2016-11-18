@@ -21,10 +21,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -69,7 +71,6 @@ public class CardRecordPage {
 		//右键菜单
 		ContextMenu myContextMenu;
 		MenuItem myMenuItem1 = new MenuItem("刷新");
-		MenuItem myMenuItem2 = new MenuItem("查看详情");
 		
 		//显示加载等待动画
 		@FXML
@@ -82,22 +83,18 @@ public class CardRecordPage {
 		VBox GB_DeviceVBox;
 
 		@FXML
-		FlowPane GB_ItemFlowPane;
-		ToggleGroup GB_ItemToggleGroup = new ToggleGroup();
-		@FXML
 		FlowPane GB_DeviceFlowPane;
 		ToggleGroup GB_DeviceToggleGroup = new ToggleGroup();
 		
 		@FXML
-		LineChart<String, Number> GB_CardLineChart;
+		BarChart<String, Number> GB_CardDeviceChart;
 		@FXML
-		CategoryAxis GB_CardLineXAxis;
+		CategoryAxis GB_CardXAxis;
 		@FXML
-		NumberAxis GB_CardLineYAxis;
+		NumberAxis GB_CardYAxis;
 		//右键菜单
 		ContextMenu myContextMenu1;
 		MenuItem myMenuItem11 = new MenuItem("刷新");
-		MenuItem myMenuItem21 = new MenuItem("查看详情");
 		
 		//显示加载等待动画
 		@FXML
@@ -136,7 +133,6 @@ public class CardRecordPage {
 	private ObservableList<PieChart.Data> GB_CardSummyChartData;
 	private QueryCardRecordService S_QueryCardSummyService;
 	//查询设备库存
-	private String S_FilterItem0 = null;
 	private String S_FilterDeviceID0 = null;
 	private QueryCardRecordService S_QueryCardDeviceService;
 	//查询出入库记录
@@ -176,7 +172,7 @@ public class CardRecordPage {
         GB_CardRepertoryPieChart.setData(GB_CardSummyChartData);
         
         //右键菜单
-        myContextMenu = new ContextMenu(myMenuItem1, myMenuItem2);
+        myContextMenu = new ContextMenu(myMenuItem1);
         //刷新
         myMenuItem1.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -184,25 +180,6 @@ public class CardRecordPage {
         	public void handle(ActionEvent event) {
       				// TODO Auto-generated method stub
         		S_QueryCardSummyService.restart();
-        	}
-        });
-      		
-        //查看报告
-        myMenuItem2.setOnAction(new EventHandler<ActionEvent>() {
-
-        	@Override
-        	public void handle(ActionEvent event) {
-      				// TODO Auto-generated method stub
-        		GB_CardDetailPane.setVisible(true);
-        		
-        		GB_MainPane.setEffect(new GaussianBlur(5));
-        		
-        		S_FilterItem = (String) myContextMenu.getUserData();
-        		S_FilterIsGetPageNum = true;
-        		S_FilterDeviceID = null;
-        		
-        		S_QueryCardRecordService.setParm(new Object[]{S_FilterItem, S_FilterDeviceID, S_FilterPageIndex, S_FilterIsGetPageNum});
-        		S_QueryCardRecordService.restart();
         	}
         });
         
@@ -255,7 +232,18 @@ public class CardRecordPage {
 								// TODO Auto-generated method stub
 								if(event.getButton().equals(MouseButton.SECONDARY)){
 									myContextMenu.show((Node) event.getSource(), event.getScreenX(), event.getScreenY());
-									myContextMenu.setUserData(temp.getName());
+								}
+								else if (event.getButton().equals(MouseButton.PRIMARY)) {
+									GB_CardDetailPane.setVisible(true);
+					        		
+					        		GB_MainPane.setEffect(new GaussianBlur(10));
+					        		
+					        		S_FilterItem = temp.getName();
+					        		S_FilterIsGetPageNum = true;
+					        		S_FilterDeviceID = null;
+					        		
+					        		S_QueryCardRecordService.setParm(new Object[]{S_FilterItem, S_FilterDeviceID, S_FilterPageIndex, S_FilterIsGetPageNum});
+					        		S_QueryCardRecordService.restart();
 								}
 							}
 
@@ -271,7 +259,7 @@ public class CardRecordPage {
         GB_RefreshBar1.progressProperty().bind(S_QueryCardDeviceService.progressProperty());
         
         //右键菜单
-        myContextMenu1 = new ContextMenu(myMenuItem11, myMenuItem21);
+        myContextMenu1 = new ContextMenu(myMenuItem11);
         //刷新
         myMenuItem11.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -279,26 +267,6 @@ public class CardRecordPage {
         	public void handle(ActionEvent event) {
       				// TODO Auto-generated method stub
         		FreshFilterData();
-        	}
-        });
-      		
-        //查看报告
-        myMenuItem21.setOnAction(new EventHandler<ActionEvent>() {
-
-        	@Override
-        	public void handle(ActionEvent event) {
-      				// TODO Auto-generated method stub
- /*       		GB_CardDetailPane.setVisible(true);
-        		
-        		GB_MainPane.setEffect(new GaussianBlur(5));
-        		
-        		Object[] userdata = (Object[]) myContextMenu.getUserData();
-        		S_FilterItem = (String) userdata[0];
-        		S_FilterDeviceID = (String) userdata[1];
-        		S_FilterIsGetPageNum = true;
-        		
-        		S_QueryCardRecordService.setParm(new Object[]{S_FilterItem, S_FilterDeviceID, S_FilterPageIndex, S_FilterIsGetPageNum});
-        		S_QueryCardRecordService.restart();*/
         	}
         });
         
@@ -309,32 +277,21 @@ public class CardRecordPage {
 				// TODO Auto-generated method stub
 				if(event.getButton().equals(MouseButton.SECONDARY)){
 					myContextMenu1.show((Node) event.getSource(), event.getScreenX(), event.getScreenY());
-					myContextMenu1.setUserData(new Object[]{((ToggleButton)GB_ItemToggleGroup.getSelectedToggle()).getText(),
-							((ToggleButton)GB_DeviceToggleGroup.getSelectedToggle()).getText()});
 				}
 			}
 		});
         
-        GB_ItemToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-				// TODO Auto-generated method stub
-				S_FilterItem0 = ((ToggleButton)newValue).getText();
-
-				S_QueryCardDeviceService.setParm(new Object[]{S_FilterItem0, S_FilterDeviceID0});
-				S_QueryCardDeviceService.restart();
-			}
-		});
         GB_DeviceToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
 				// TODO Auto-generated method stub
-				S_FilterDeviceID0 = ((ToggleButton)newValue).getText();
-
-				S_QueryCardDeviceService.setParm(new Object[]{S_FilterItem0,  S_FilterDeviceID0});
-				S_QueryCardDeviceService.restart();
+				
+				if(newValue != null){
+					S_FilterDeviceID0 = ((ToggleButton)newValue).getText();
+					S_QueryCardDeviceService.setParm(new Object[]{S_FilterDeviceID0});
+					S_QueryCardDeviceService.restart();
+				}
 			}
 		});
         
@@ -343,7 +300,75 @@ public class CardRecordPage {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				// TODO Auto-generated method stub
+				GB_CardDeviceChart.getData().clear();
 				
+				if(newValue != null){
+					
+					XYChart.Series<String,Number> series = new XYChart.Series<String, Number>();
+					series.setName(S_FilterDeviceID0);
+				        
+					GB_CardDeviceChart.getData().add(series);
+				        
+					Map<String, Integer> datas = (Map<String, Integer>) newValue;
+					
+					for (String key : datas.keySet()) {
+						XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(key, datas.get(key));
+						series.getData().add(data);
+						
+						//添加右键菜单
+						data.getNode().setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+							@Override
+							public void handle(MouseEvent event) {
+								// TODO Auto-generated method stub
+								if(event.getButton().equals(MouseButton.SECONDARY)){
+									myContextMenu.show((Node) event.getSource(), event.getScreenX(), event.getScreenY());
+								}
+								else if (event.getButton().equals(MouseButton.PRIMARY)) {
+									GB_CardDetailPane.setVisible(true);
+					        		
+					        		GB_MainPane.setEffect(new GaussianBlur(10));
+					        		
+					        		S_FilterItem = data.getXValue();
+					        		S_FilterIsGetPageNum = true;
+					        		S_FilterDeviceID = S_FilterDeviceID0;
+					        		
+					        		S_QueryCardRecordService.setParm(new Object[]{S_FilterItem, S_FilterDeviceID, S_FilterPageIndex, S_FilterIsGetPageNum});
+					        		S_QueryCardRecordService.restart();
+								}
+							}
+
+						});
+						
+						//添加提示
+						HBox tempbox = new HBox();
+						tempbox.setAlignment(Pos.CENTER);
+	
+						Label label1 = new Label(S_FilterDeviceID0);
+						label1.getStyleClass().add("textstyle1");
+						
+						Label label2 = new Label(" 当前库存的  ");
+						label2.setFont(new Font("System", 16));
+						
+						Label label3 = new Label(data.getXValue());
+						label3.getStyleClass().add("textstyle1");
+						
+						Label label4 = new Label("试剂卡为");
+						
+						Label label5 = new Label(data.getYValue().intValue()+"");
+						label5.getStyleClass().add("textstyle2");
+						
+						Label label6 = new Label(" 人份 ");
+						label6.setFont(new Font("System", 16));
+						
+						tempbox.getChildren().addAll(label1, label2, label3, label4, label5, label6);
+						tempbox.setSpacing(5);
+						
+						Tooltip tooltip = new Tooltip();
+						tooltip.setGraphic(tempbox);
+				        Tooltip.install(data.getNode(), tooltip);
+					}
+				}
 			}
 		});
         
@@ -439,15 +464,7 @@ public class CardRecordPage {
 	}
 	
 	private void FreshFilterData() {
-		List<String> items = CardRecordDao.QueryOutBoundItemList();
 		List<String> devices = CardRecordDao.QueryOutBoundDeviceList();
-		
-		GB_ItemFlowPane.getChildren().clear();
-		for (String string : items) {
-			RadioButton rb = new RadioButton(string);
-			rb.setToggleGroup(GB_ItemToggleGroup);
-			GB_ItemFlowPane.getChildren().add(rb);
-		}
 		
 		GB_DeviceFlowPane.getChildren().clear();
 		for (String string : devices) {
@@ -457,7 +474,6 @@ public class CardRecordPage {
 		}
 		
 		GB_DeviceToggleGroup.selectToggle((Toggle) GB_DeviceFlowPane.getChildren().get(0));
-		GB_ItemToggleGroup.selectToggle((Toggle) GB_ItemFlowPane.getChildren().get(0));
 	}
 	
 	@FXML

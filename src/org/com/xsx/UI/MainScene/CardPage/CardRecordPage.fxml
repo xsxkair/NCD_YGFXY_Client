@@ -62,28 +62,25 @@
                               </HBox>
                               <GridPane>
                                  <children>
-                                    <Label text="项目" />
-                                    <FlowPane fx:id="GB_ItemFlowPane" hgap="10.0" vgap="5.0" GridPane.columnIndex="1" />
-                                    <Label text="设备" GridPane.rowIndex="1" />
-                                    <FlowPane fx:id="GB_DeviceFlowPane" hgap="10.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="设备" />
+                                    <FlowPane fx:id="GB_DeviceFlowPane" hgap="10.0" vgap="5.0" GridPane.columnIndex="1" />
                                  </children>
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <LineChart fx:id="GB_CardLineChart">
+                              <BarChart fx:id="GB_CardDeviceChart" animated="false" verticalGridLinesVisible="false">
                                 <xAxis>
-                                  <CategoryAxis fx:id="GB_CardLineXAxis" side="BOTTOM" />
+                                  <CategoryAxis fx:id="GB_CardXAxis" side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis fx:id="GB_CardLineYAxis" side="LEFT" />
+                                  <NumberAxis fx:id="GB_CardYAxis" side="LEFT" />
                                 </yAxis>
-                              </LineChart>
+                              </BarChart>
                            </children>
                         </VBox>
                         <StackPane fx:id="GB_FreshPane1" prefHeight="150.0" prefWidth="200.0">

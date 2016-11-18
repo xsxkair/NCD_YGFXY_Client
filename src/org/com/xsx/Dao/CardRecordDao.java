@@ -61,7 +61,7 @@ public class CardRecordDao {
 	}
 	
 	//查询某个品种的出入库记录
-	public static Object[] QueryCardRecordListByItem(String item, Integer firstindex, Integer size, Boolean isgetnum){
+	public static Object[] QueryCardRecordList(String item, String deviceid, Integer firstindex, Integer size, Boolean isgetnum){
 		BigInteger num = null;
 		
 		//获取当前医院管理员账号
@@ -74,14 +74,17 @@ public class CardRecordDao {
 		
 		hql.append("FROM CARDRECORDBEAN c WHERE ITEM='");
 		hql.append(item);
+		
 		hql.append("' AND ADMIN_A='");
-
 		if(admin.getFatheraccount() == null)
 			hql.append(admin.getAccount());
 		else 
 			hql.append(admin.getFatheraccount());
-		
 		hql.append("'");
+		
+		if(deviceid != null){
+			hql.append(" AND DEVICEID='" + deviceid + "'");
+		}
 		
 		hql1.append("SELECT c.* "+hql.toString()+" limit "+firstindex+","+size);
 		
@@ -95,6 +98,8 @@ public class CardRecordDao {
 		return new Object[]{queryresult, num};
 	}
 	
+	
+	//获取所有出库的项目名称
 	public static List<String> QueryOutBoundItemList(){
 		//获取当前医院管理员账号
 		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
@@ -115,6 +120,7 @@ public class CardRecordDao {
 		return queryresult;
 	}
 	
+	//获取所有出库的设备id
 	public static List<String> QueryOutBoundDeviceList(){
 		//获取当前医院管理员账号
 		ManagerBean admin = ManagerDao.QueryReportManager(SignedManager.GetInstance().getGB_SignedAccount(), null);
@@ -135,7 +141,30 @@ public class CardRecordDao {
 		return queryresult;
 	}
 	
-	//public static List<E>
+	//获取一个设备的所有项目的库存量
+	public static Map<String, Integer> QueryDeviceRepertory(String deviceid){
+		Map<String, Integer> result = new HashMap<>();
+		
+		StringBuffer hql = new StringBuffer();
+		
+		hql.append("SELECT B.ITEM, B.SUMNUM-IFNULL(A.USEDNUM,0) FROM"
+				+" (SELECT ABS(SUM(NUM)) AS SUMNUM, ITEM FROM CARDRECORDBEAN WHERE num<0 AND DEVICEID='"
+				+deviceid
+				+"' GROUP BY ITEM) B"
+				+" LEFT JOIN"
+				+"(SELECT COUNT(CID) as  USEDNUM, CITEM FROM TESTDATABEAN WHERE DID='"
+				+deviceid
+				+"' GROUP BY CITEM ) A ON B.ITEM=A.CITEM ");
+	
+		List<Object[]> queryresult = HibernateDao.GetInstance().querysql(hql.toString(), null);
+		
+		for (Object[] objects : queryresult) {
+			BigDecimal num = (BigDecimal) objects[1];
+			result.put((String)objects[0], num.intValue());
+		}
+		
+		return result;
+	}
 /*	
 	//查询某台设备的的某一个品种的出入库记录
 	public static List<CardRecordBean> QueryCardRecordList(String item, String deviceid) {

@@ -30,6 +30,7 @@ public class TestDataBean {
 	private Float a_p;						//校准参数
 	private Float b_v;						//原始结果
 	private Float a_v;						//校准后结果
+	private String t_re;					//设备报告的测试结果说明
 	private String result;					//报告结果
 	private String r_desc;					//报告说明
 	
@@ -194,6 +195,12 @@ public class TestDataBean {
 	}
 	public void setA_v(Float a_v) {
 		this.a_v = a_v;
+	}
+	public String getT_re() {
+		return t_re;
+	}
+	public void setT_re(String t_re) {
+		this.t_re = t_re;
 	}
 	public String getResult() {
 		return result;
