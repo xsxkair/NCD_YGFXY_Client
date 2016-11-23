@@ -8,6 +8,7 @@ public class DevicerBean {
 	private String phone;				//联系方式
 	private String job;					//职务
 	private String dsc;					//备注
+	private String did;					//归属的设备号
 	
 	public Integer getId() {
 		return id;
@@ -50,5 +51,11 @@ public class DevicerBean {
 	}
 	public void setDsc(String dsc) {
 		this.dsc = dsc;
+	}
+	public String getDid() {
+		return did;
+	}
+	public void setDid(String did) {
+		this.did = did;
 	}
 }

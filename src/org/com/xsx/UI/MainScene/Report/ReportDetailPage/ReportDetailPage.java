@@ -214,7 +214,6 @@ public class ReportDetailPage {
 					TestDataBean testDataBean = null;
 					CardBean cardBean = null;
 					DeviceBean deviceBean = null;
-					DevicerBean devicer = null;
 					PersonBean sampleperson = null;
 					DevicerBean tester = null;
 					ManagerBean managerBean = null;
@@ -226,20 +225,17 @@ public class ReportDetailPage {
 					tester = DeviceInfoDao.ReadDevicerByID(newValue.getT_id());
 					managerBean = ManagerDao.QueryReportManager(newValue.getM_account(), null);
 					sampleperson = PersonDao.QueryPerson(newValue.getS_id());
-					devicer = DeviceInfoDao.ReadDevicerByID(deviceBean.getP_id());
 					
 					
 					//更新设备信息
 					S_DeviceidLabel.setText((testDataBean.getDid() == null)?"null":testDataBean.getDid().toString());
 					
-					if(devicer != null){
-						S_UserNameLabel.setText((devicer.getName() == null)?"null":devicer.getName().toString());
-						S_UserAgeLabel.setText((devicer.getAge() == null)?"null":devicer.getAge().toString());
-						S_UserSexLabel.setText((devicer.getSex() == null)?"null":devicer.getSex().toString());
-						S_UserJobLabel.setText((devicer.getJob() == null)?"null":devicer.getJob().toString());
-						S_UserPhoneLabel.setText((devicer.getPhone() == null)?"null":devicer.getPhone().toString());
-						S_UserDescLabel.setText((devicer.getDsc() == null)?"null":devicer.getDsc().toString());
-					}
+					S_UserNameLabel.setText((deviceBean.getName() == null)?"null":deviceBean.getName().toString());
+					S_UserAgeLabel.setText((deviceBean.getAge() == null)?"null":deviceBean.getAge().toString());
+					S_UserSexLabel.setText((deviceBean.getSex() == null)?"null":deviceBean.getSex().toString());
+					S_UserJobLabel.setText((deviceBean.getJob() == null)?"null":deviceBean.getJob().toString());
+					S_UserPhoneLabel.setText((deviceBean.getPhone() == null)?"null":deviceBean.getPhone().toString());
+					S_UserDescLabel.setText((deviceBean.getDsc() == null)?"null":deviceBean.getDsc().toString());
 					
 					if(deviceBean != null)
 						S_DeviceLocationLabel.setText((deviceBean.getDaddr() == null)?"null":deviceBean.getDaddr().toString());

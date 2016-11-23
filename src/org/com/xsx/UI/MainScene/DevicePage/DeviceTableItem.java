@@ -20,11 +20,9 @@ public class DeviceTableItem {
 	private DeviceThumnPane devicethumn;
 	
 	private DeviceBean devicebean;					//设备信息
-	private DevicerBean deviceperson;				//设备责任人信息
 	
-	public DeviceTableItem(DeviceDataPackage deviceinfo){
-		this.setDevicebean(deviceinfo.getDeviceBean());
-		this.setDeviceperson(deviceinfo.getDevicerBean());
+	public DeviceTableItem(DeviceBean deviceBean){
+		this.setDevicebean(deviceBean);
 	}
 	
 	public Image getDeviceico() {
@@ -107,24 +105,10 @@ public class DeviceTableItem {
 		
 		this.setDeviceid(devicebean.getId());
 		this.setDeviceaddr(devicebean.getDaddr());
+		this.setDevicemanagername(devicebean.getName());
+		this.setDevicemanagerphone(devicebean.getPhone());
 		
 		this.setDevicethumn(new DeviceThumnPane(this.getDeviceico(), this.getDeviceid()));
 	}
 
-	public DevicerBean getDeviceperson() {
-		return deviceperson;
-	}
-
-	public void setDeviceperson(DevicerBean deviceperson) {
-		this.deviceperson = deviceperson;
-		
-		if(deviceperson != null){
-			this.setDevicemanagername(deviceperson.getName());
-			this.setDevicemanagerphone(deviceperson.getPhone());
-		}
-		else{
-			this.setDevicemanagername(null);
-			this.setDevicemanagerphone(null);
-		}
-	}
 }

@@ -201,15 +201,12 @@ public class DeviceDetailPage {
 		if(datas.getDeviceBean() != null){
 			GB_DeviceIDLabel.setText(datas.getDeviceBean().getId());
 			GB_DevicerAddrLabel.setText(datas.getDeviceBean().getDaddr());
-		}
-		
-		if(datas.getDevicerBean() != null){
-			GB_DevicerNameLabel.setText((datas.getDevicerBean().getName() == null)?"-":datas.getDevicerBean().getName());
-			GB_DevicerAgeLabel.setText((datas.getDevicerBean().getAge() == null)?"-":datas.getDevicerBean().getAge());
-			GB_DevicerSexLabel.setText((datas.getDevicerBean().getSex() == null)?"-":datas.getDevicerBean().getSex());
-			GB_DevicerPhoneLabel.setText((datas.getDevicerBean().getPhone() == null)?"-":datas.getDevicerBean().getPhone());
-			GB_DevicerJobLabel.setText((datas.getDevicerBean().getJob() == null)?"-":datas.getDevicerBean().getJob());
-			GB_DevicerDescLabel.setText((datas.getDevicerBean().getDsc() == null)?"-":datas.getDevicerBean().getDsc());
+			GB_DevicerNameLabel.setText((datas.getDeviceBean().getName() == null)?"-":datas.getDeviceBean().getName());
+			GB_DevicerAgeLabel.setText((datas.getDeviceBean().getAge() == null)?"-":datas.getDeviceBean().getAge());
+			GB_DevicerSexLabel.setText((datas.getDeviceBean().getSex() == null)?"-":datas.getDeviceBean().getSex());
+			GB_DevicerPhoneLabel.setText((datas.getDeviceBean().getPhone() == null)?"-":datas.getDeviceBean().getPhone());
+			GB_DevicerJobLabel.setText((datas.getDeviceBean().getJob() == null)?"-":datas.getDeviceBean().getJob());
+			GB_DevicerDescLabel.setText((datas.getDeviceBean().getDsc() == null)?"-":datas.getDeviceBean().getDsc());
 		}
 		
 		if(datas.getDevicerlist() != null){

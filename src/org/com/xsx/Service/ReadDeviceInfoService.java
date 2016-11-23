@@ -35,9 +35,9 @@ public class ReadDeviceInfoService extends ScheduledService<ObservableList<Devic
 		private ObservableList<DeviceTableItem> ReadDeviceInfoFun(){
 			ObservableList<DeviceTableItem> deviceTableItems = FXCollections.observableArrayList();
 			
-			List<DeviceDataPackage> devices = DeviceInfoDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
+			List<DeviceBean> devices = DeviceInfoDao.QueryDeviceList(SignedManager.GetInstance().getGB_SignedAccount());
 
-			for (DeviceDataPackage deviceinfo : devices) {
+			for (DeviceBean deviceinfo : devices) {
 				
 				DeviceTableItem temp = new DeviceTableItem(deviceinfo);
 

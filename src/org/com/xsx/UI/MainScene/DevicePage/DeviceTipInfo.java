@@ -23,7 +23,6 @@ public class DeviceTipInfo extends VBox{
 	private void uiinit(DeviceTableItem deviceinfo){
 		
 		DeviceBean deviceBean = deviceinfo.getDevicebean();
-		DevicerBean devicerBean = deviceinfo.getDeviceperson();
 		
 		this.setAlignment(Pos.CENTER);
 		
@@ -51,44 +50,24 @@ public class DeviceTipInfo extends VBox{
 		vBox1.setSpacing(5);
 		StringBuffer userinfo = new StringBuffer();
 		
-		if(devicerBean != null){
-			userinfo.append(((devicerBean.getName() == null)?"无":devicerBean.getName())+"  ");
-			userinfo.append(((devicerBean.getSex() == null)?"无":devicerBean.getName())+"  ");
-			userinfo.append(((devicerBean.getAge() == null)?"无":devicerBean.getAge())+"  ");
-		}
-		else {
-			userinfo.append("无");
-		}
+		userinfo.append(((deviceBean.getName() == null)?"无":deviceBean.getName())+"  ");
+		userinfo.append(((deviceBean.getSex() == null)?"无":deviceBean.getName())+"  ");
+		userinfo.append(((deviceBean.getAge() == null)?"无":deviceBean.getAge())+"  ");
+
 		Label label3 = new Label(userinfo.toString());
 		label3.setFont(new Font("System", 14));
 		
 		Label label6 = new Label();
 		label6.setFont(new Font("System", 14));
-		if(devicerBean != null){
-			label6.setText(((devicerBean.getJob() == null)?"无":devicerBean.getJob()));
-		}
-		else {
-			label6.setText("无");
-		}
+		label6.setText(((deviceBean.getJob() == null)?"无":deviceBean.getJob()));
 		
 		Label label7 = new Label();
 		label7.setFont(new Font("System", 14));
-		if(devicerBean != null){
-			label7.setText(((devicerBean.getPhone() == null)?"无":devicerBean.getPhone()));
-		}
-		else {
-			label7.setText("无");
-		}
+		label7.setText(((deviceBean.getPhone() == null)?"无":deviceBean.getPhone()));
 		
 		Label label8 = new Label();
 		label8.setFont(new Font("System", 14));
-		
-		if(devicerBean != null){
-			label8.setText(((devicerBean.getDsc() == null)?"无":devicerBean.getDsc()));
-		}
-		else {
-			label8.setText("无");
-		}
+		label8.setText(((deviceBean.getDsc() == null)?"无":deviceBean.getDsc()));
 	
 		vBox1.getChildren().addAll(label3, label6, label7, label8);
 		

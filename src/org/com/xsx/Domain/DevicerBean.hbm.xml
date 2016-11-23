@@ -26,5 +26,8 @@
         <property name="dsc" type="java.lang.String">
             <column name="DSC" />
         </property>
+        <property name="did" type="java.lang.String">
+            <column name="DID" length="30"/>
+        </property>
     </class>
 </hibernate-mapping>

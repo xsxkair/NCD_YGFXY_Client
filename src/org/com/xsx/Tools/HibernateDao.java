@@ -301,7 +301,7 @@ public class HibernateDao{
         return object;  
     }
     
-    public int HqlAction(String hql, Object[] param) {
+  /*  public int HqlAction(String hql, Object[] param) {
     	int num = 0;
     	Session session=null;
     	Transaction tran=null;
@@ -341,5 +341,5 @@ public class HibernateDao{
              }  
          }  
        return num;  
-	}
+	}*/
 } 

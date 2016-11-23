@@ -18,51 +18,29 @@ import net.sf.json.JSONSerializer;
 
 public class DeviceInfoDao {
 	
-	public static List<DeviceDataPackage> QueryDeviceList(String account){
-		
-		List<DeviceDataPackage> result = new ArrayList<>();
-		
+	public static List<DeviceBean> QueryDeviceList(String account){
+
 		List<String> deviceidlist = ManagerDao.QueryDeviceList(account);
 		
-        StringBuffer hql = new StringBuffer("select m,p from DeviceBean as m left join DevicerBean as p on p.id=m.p_id WHERE m.id IN (:parm0) ");
+        StringBuffer hql = new StringBuffer("select m from DeviceBean as m WHERE m.id IN (:parm0) ");
         
-        List<Object[]> devicelist = HibernateDao.GetInstance().query(hql.toString(), new Object[]{ deviceidlist}, null, null);
+        List<DeviceBean> devicelist = HibernateDao.GetInstance().query(hql.toString(), new Object[]{ deviceidlist}, null, null);
        
-        for (Object[] objects : devicelist) {
-        	result.add(new DeviceDataPackage((DeviceBean)objects[0], (DevicerBean)objects[1], null));
-		}
-       
-		return result;
+		return devicelist;
 	}
 	
 	public static DeviceDataPackage QueryDevice(String deviceid){
 		
-        StringBuffer hql = new StringBuffer("select m,p from DeviceBean m left join DevicerBean p on m.p_id=p.id WHERE m.id=:parm0 ");
+        StringBuffer hql = new StringBuffer("select m from DeviceBean m WHERE m.id=:parm0 ");
         
-        Object[] hqldata = (Object[]) HibernateDao.GetInstance().queryOne(hql.toString(), new Object[]{deviceid});
+        DeviceBean deviceBean = (DeviceBean) HibernateDao.GetInstance().queryOne(hql.toString(), new Object[]{deviceid});
 
-        DeviceDataPackage result = new DeviceDataPackage((DeviceBean)hqldata[0], (DevicerBean)hqldata[1], null);
-
-        if(result.getDeviceBean() != null){
-        	try {
-        		JSONArray jsonArray = (JSONArray) JSONSerializer.toJSON(result.getDeviceBean().getP_list());
-          		List<Integer> devicelist = (List<Integer>) JSONSerializer.toJava(jsonArray);
-          		
-          		//for (Integer integer : devicelist) {
-				//	System.out.println(integer);
-				//}
-          		
-          		hql.setLength(0);
-          		hql.append("select p from DevicerBean p WHERE p.id in (:parm0)");
-          		
-          		List<DevicerBean> devicerlist = HibernateDao.GetInstance().query(hql.toString(), new Object[]{devicelist}, null, null);
-          		result.setDevicerlist(devicerlist);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-        }
+        hql.setLength(0);
+        hql.append("select p from DevicerBean p WHERE p.did=(:parm0)");
+        List<DevicerBean> devicerlist = HibernateDao.GetInstance().query(hql.toString(), new Object[]{deviceBean.getId()}, null, null);
         
-      		
+        DeviceDataPackage result = new DeviceDataPackage(deviceBean, devicerlist);
+        
 		return result;
 	}
 	

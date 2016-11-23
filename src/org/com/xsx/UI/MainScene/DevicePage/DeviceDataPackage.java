@@ -7,12 +7,10 @@ import org.com.xsx.Domain.DevicerBean;
 
 public class DeviceDataPackage {
 	private DeviceBean deviceBean;
-	private DevicerBean devicerBean;
 	private List<DevicerBean> devicerlist;
 	
-	public DeviceDataPackage(DeviceBean deviceBean, DevicerBean devicerBean, List<DevicerBean> devicerlist) {
+	public DeviceDataPackage(DeviceBean deviceBean, List<DevicerBean> devicerlist) {
 		this.deviceBean = deviceBean;
-		this.devicerBean = devicerBean;
 		this.devicerlist = devicerlist;
 	}
 
@@ -22,14 +20,6 @@ public class DeviceDataPackage {
 
 	public void setDeviceBean(DeviceBean deviceBean) {
 		this.deviceBean = deviceBean;
-	}
-
-	public DevicerBean getDevicerBean() {
-		return devicerBean;
-	}
-
-	public void setDevicerBean(DevicerBean devicerBean) {
-		this.devicerBean = devicerBean;
 	}
 
 	public List<DevicerBean> getDevicerlist() {
